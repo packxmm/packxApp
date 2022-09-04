@@ -1,9 +1,3 @@
-# I made version 2
-
-This project is deprecated and has been moved to version 2.
-
-[ReactNative-Expo-Firebase-Boilerplate-v2](https://github.com/kiyohken2000/ReactNative-Expo-Firebase-Boilerplate-v2)
-
 # React Native Expo with Firebase
 
 - [Expo link](https://expo.io/@votepurchase/reactnative-expo-firebase-boilerplate)
@@ -68,8 +62,6 @@ yarn install
 - Click on the second tab where it said "Sign-In method"
 - Enable all the Sign-in method you would like to enable. For now, we will enable the "Email/Password" option.
 
-<img src='https://github.com/kiyohken2000/reactnative-expo-firebase-boilerplate/blob/master/__DELELE_ME__/img3.png' width='80%'>
-
 **Step 3: Configure Firebase Console Firestore**
 
 - We will then click the "Cloud Firestore" on the left to create a database.
@@ -77,23 +69,17 @@ yarn install
 - Select the "Cloud Firestore location", click "Enable"
 - Create the "users" and "tokens" collections. An empty document is fine.
 
-<img src='https://github.com/kiyohken2000/reactnative-expo-firebase-boilerplate/blob/master/__DELELE_ME__/img4.png' width='80%'>
-
 **Step 4: Create a folder in Cloud Storage**
 
 - Next. Click Storage on the left.
 - Create an empty "avatar" folder.
 - Upload the image file "icon.png" of your choice. This is the default icon for app users.
 
-<img src='https://github.com/kiyohken2000/reactnative-expo-firebase-boilerplate/blob/master/__DELELE_ME__/img5.png' width='80%'>
-
 **Step 5: Copy the API Key**
 
 - On the Project Overview, click on the "Web" icon since we are building on Expo.
 - Then give it a name, click "Register app".
 - It will show you the Firebase configuration, copy the SDK keys, we will use it in the next step.
-
-<img src='https://github.com/kiyohken2000/reactnative-expo-firebase-boilerplate/blob/master/__DELELE_ME__/img2.png' width='80%'>
 
 **Step 6: Connect Firebase**
 
