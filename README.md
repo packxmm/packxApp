@@ -8,10 +8,6 @@ This project is deprecated and has been moved to version 2.
 
 - [Expo link](https://expo.io/@votepurchase/reactnative-expo-firebase-boilerplate)
 
-## Screens
-
-<img src='https://github.com/kiyohken2000/reactnative-expo-firebase-boilerplate/blob/master/__DELELE_ME__/img1.jpg' width='80%'>
-
 ## Infrastructure
 
 - React Native 
