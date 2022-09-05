@@ -56,24 +56,25 @@ export default function Registration({navigation}) {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <KeyboardAwareScrollView
-        style={{ flex: 1, width: '100%' }}
-        keyboardShouldPersistTaps="always">
-        <Image
-          style={styles.logo}
-          source={require('../../../assets/icon.png')}
-        />
+        style={{ flex: 1, width: '100%'}}
+        keyboardShouldPersistTaps="always"> 
+        <View style={styles.logoBox}>
+          <Image source={require('../../../assets/images/Facility.png')} style={{ width: 209,resizeMode: 'center', height: 138}}/>
+        </View> 
+        <Text style={styles.inputLabel}>Full Name</Text>
         <TextInput
           style={scheme === 'dark' ? styles.darkinput : styles.input}
-          placeholder='Your Name'
+          placeholder='Please Fill Your Name'
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setFullName(text)}
           value={fullName}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+        <Text style={styles.inputLabel}>Email</Text>
         <TextInput
           style={scheme === 'dark' ? styles.darkinput : styles.input}
-          placeholder='E-mail'
+          placeholder='Your email thina@abc.com '
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setEmail(text)}
           value={email}
@@ -81,6 +82,7 @@ export default function Registration({navigation}) {
           autoCapitalize="none"
           keyboardType={'email-address'}
         />
+        <Text style={styles.inputLabel}>Set Password</Text>
         <TextInput
           style={scheme === 'dark' ? styles.darkinput : styles.input}
           placeholderTextColor="#aaaaaa"
@@ -91,6 +93,7 @@ export default function Registration({navigation}) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+        <Text style={styles.inputLabel}>Confirm Password</Text>
         <TextInput
           style={scheme === 'dark' ? styles.darkinput : styles.input}
           placeholderTextColor="#aaaaaa"
@@ -104,7 +107,7 @@ export default function Registration({navigation}) {
         <TouchableOpacity
           style={styles.button}
           onPress={() => onRegisterPress()}>
-          <Text style={styles.buttonTitle}>Agree and Create account</Text>
+          <Text style={styles.buttonTitle}>Create account</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={scheme === 'dark' ? styles.darkfooterText : styles.footerText}>Already got an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text></Text>

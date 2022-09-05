@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "reactnative-expo-firebase-boilerplate",
-    "slug": "reactnative-expo-firebase-boilerplate",
+    "name": "packxApp",
+    "slug": "packxApp",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -12,7 +12,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo-sm.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/PackXLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

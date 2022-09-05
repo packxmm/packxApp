@@ -3,60 +3,51 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: "10%"
   },
-  title: {
-
-  },
-  logo: {
-    flex: 1,
-    height: 180,
-    width: 180,
+  logoBox : { 
     alignSelf: "center",
-    margin: 30,
-    borderRadius: 20
+    marginTop: 30
   },
   input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16
-  },
-  darkinput: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: '#303030',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-    color: 'white'
+    backgroundColor: "#FFFFFF",
+    shadowColor: 'rgba(0,0,0,0.25)',
+    shadowOffset: {width: 1, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    borderRadius: 10,
+    width: "100%",
+    height: 36,
+    padding: 10,
+    marginBottom: "5%",
+    fontFamily: 'Ubuntu',
   },
   button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
+    backgroundColor: '#169393', 
+    marginRight: "20%",
+    width: "100%",
     marginTop: 20,
-    height: 48,
+    height: 40,
     borderRadius: 5,
     alignItems: "center",
     justifyContent: 'center'
   },
   buttonTitle: {
     color: 'white',
-    fontSize: 16,
-    fontWeight: "bold"
+    fontSize: 20,
+    fontFamily: 'UbuntuBold',
+    textTransform: 'uppercase'
+  },
+  inputLabel: {
+    marginBottom: "3%",
+    color: "#7C7C7C",
+    fontFamily: 'Ubuntu',
   },
   footerView: {
     flex: 1,
-    alignItems: "center",
+    width: "100%",
+    alignItems: 'center',
     marginTop: 20
   },
   footerText: {
@@ -68,8 +59,8 @@ export default StyleSheet.create({
     color: 'white',
   },
   footerLink: {
-    color: "#788eec",
-    fontWeight: "bold",
+    color: "#169393",
+    fontFamily: 'UbuntuBold',
     fontSize: 16
   }
 })

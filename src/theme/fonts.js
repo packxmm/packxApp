@@ -31,5 +31,18 @@ export const fontsAll = [
   {
     openSans_bold_italic: require('../../assets/fonts/OpenSans-BoldItalic.ttf'),
   },
+  {
+    UbuntuLight: require('../../assets/fonts/Ubuntu-Light.ttf'), 
+  },
+  {
+    Ubuntu: require('../../assets/fonts/Ubuntu-Regular.ttf'),
+  },
+  {
+    UbuntuMedium: require('../../assets/fonts/Ubuntu-Medium.ttf'),
+  },
+  {
+    UbuntuBold: require('../../assets/fonts/Ubuntu-Bold.ttf'),
+  }
+
 ]
 export const fontAssets = fontsAll.map((x) => Font.loadAsync(x))

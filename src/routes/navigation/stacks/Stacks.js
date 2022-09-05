@@ -2,6 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import Login from '../../../scenes/login'
 import Registration from '../../../scenes/registration'
+import Intro from '../../../scenes/intro/intro'
 import Home from '../../../scenes/home'
 import Profile from '../../../scenes/profile'
 import Detail from '../../../scenes/details'
@@ -19,15 +20,10 @@ const Stack = createStackNavigator()
 export const LoginNavigator = (props) => {
   const navigationProps = props.navigationProps
   return (
-    <Stack.Navigator headerMode="screen" screenOptions={navigationProps}>
-      <Stack.Screen
-        name="Login"
-        component={Login}
-      />
-      <Stack.Screen
-        name="Registration"
-        component={Registration}
-      />
+    <Stack.Navigator headerMode="screen" screenOptions={navigationProps}> 
+      <Stack.Screen name="Intro" component={Intro} options={{headerShown: false}}/>
+      <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+      <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }
