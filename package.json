@@ -49,6 +49,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-native-svg-transformer": "^0.14.3",
+    "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.1",
     "react-redux": "^7.1.1",

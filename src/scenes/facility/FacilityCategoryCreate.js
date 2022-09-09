@@ -1,4 +1,5 @@
-import React , { useState, useEffect } from 'react';
+import React , { useState } from 'react';
+import uuid from 'react-native-uuid';
 import { firebase } from '../../firebase/config'
 import { Dropdown } from 'react-native-element-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -104,16 +105,21 @@ function FacilityCategoryForm(props){
     },...proLists]);
   }
  
-  function goToOrder(){   
+  function goToOrder(){ 
+    const generateUuid = uuid.v4();
+    const getUuid = generateUuid.replaceAll('-', '');
+    console.log("getUuid " + getUuid)
     setSpinner(true)
     const data = { 
+      tripId : getUuid,
+      facilityId : userData.id,
       tripInfo : tripInformation.otherParam,
       categoryLists : categoryLists,
-      prohibitedLists : prohibitedLists 
+      prohibitedLists : prohibitedLists
     } 
     const usersRef = firebase.firestore().collection('trips')
     usersRef
-      .doc(userData.id)
+      .doc(getUuid)
       .set(data)
       .then(() => {
         props.navigation.navigate('PROFILE', {trips: data})

@@ -31,10 +31,10 @@ const HomeTabs = (props) => {
               iconName = 'person-outline';
             }
             color = focused ? '#085252' : colors.gray;
-            return <>
+            return <View  style={{ marginTop: 15, alignItems: "center" }}>
             <Ionicons name={iconName} size={size} color={color} style={{ paddingTop: 5 }}/>
             <Text style={{fontFamily: "UbuntuMedium",fontSize: 12, color: color, paddingTop: 5 }} color={color}>{route.name} </Text>
-            </>;
+            </View>;
           }, 
           tabBarItemStyle:{
             height: 62,
