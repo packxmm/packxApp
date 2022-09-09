@@ -10,6 +10,8 @@ export default function Registration({navigation}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [address, setAddress] = useState('')
+  const [phoneNo, setPhoneNo] = useState('')
   const [spinner, setSpinner] = useState(false)
   const scheme = useColorScheme()
 
@@ -32,7 +34,9 @@ export default function Registration({navigation}) {
           id: uid,
           email,
           fullName,
-          avatar: 'https://firebasestorage.googleapis.com/v0/b/reactnative-expo-boilerplate.appspot.com/o/icon.png?alt=media&token=7f2812b7-e1d9-48e3-9720-e79d6650cea5',
+          avatar: 'https://firebasestorage.googleapis.com/v0/b/packx-e600f.appspot.com/o/profileImage%2FphotoFrame.png?alt=media&token=4e8a2851-abbf-4e9e-9ce7-5fc861a95004',
+          phone: phoneNo,
+          address: address,
         };
         const usersRef = firebase.firestore().collection('users')
         usersRef
@@ -101,6 +105,26 @@ export default function Registration({navigation}) {
           placeholder='Confirm Password'
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+        <Text style={styles.inputLabel}> Facility Address</Text>
+        <TextInput
+          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          placeholderTextColor="#aaaaaa"
+          placeholder='Your Address'
+          onChangeText={(text) => setAddress(text)}
+          value={address}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+        <Text style={styles.inputLabel}> Phone Number </Text>
+        <TextInput
+          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          placeholderTextColor="#aaaaaa"
+          placeholder='Your Phone Number +65XXXXXXXX '
+          onChangeText={(text) => setPhoneNo(text)}
+          value={phoneNo}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />

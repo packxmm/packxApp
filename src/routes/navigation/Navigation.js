@@ -2,12 +2,11 @@ import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react'
 import { firebase } from '../../firebase/config'
 import { colors } from 'theme'
+import {Text, TouchableOpacity, Image, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import * as Notifications from 'expo-notifications'
-import { useColorScheme } from 'react-native'
-import { DefaultTheme, DarkTheme } from '@react-navigation/native'
-// import DrawerNavigator from './drawer'
-import { LoginNavigator } from './stacks'
+import { DefaultTheme, DarkTheme } from '@react-navigation/native' 
+import { FacilityNavigator, HomeNavigator, LoginNavigator } from './stacks'
 import TabNavigator from './tabs'
 import {decode, encode} from 'base-64'
 if (!global.btoa) { global.btoa = encode }
@@ -27,11 +26,7 @@ export default function App() {
   const scheme = useColorScheme()
 
   const navigationProps = {
-    headerTintColor: 'white',
-    headerStyle: { 
-      backgroundColor: scheme === 'dark' ? colors.dark : colors.darkPurple
-    },
-    headerTitleStyle: { fontSize: 18 },
+    headerTintColor: 'white'
   }
 
   useEffect(() => {
@@ -74,9 +69,9 @@ export default function App() {
   return(
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       { user ? (
-        <TabNavigator user={user} navigationProps={navigationProps}/>
+          <TabNavigator user={user} navigationProps={navigationProps}/>
         ) : (
-        <LoginNavigator navigationProps={navigationProps}/>
+          <LoginNavigator navigationProps={navigationProps}/>
       )}
     </NavigationContainer>
   )

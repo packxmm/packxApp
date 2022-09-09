@@ -4,13 +4,13 @@ import "firebase/firestore"
 import "firebase/storage"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAZwBnrty-mv0YOcyQQROxVwCumS2lpTu8",
-  authDomain: "reactnative-expo-boilerplate.firebaseapp.com",
-  projectId: "reactnative-expo-boilerplate",
-  storageBucket: "reactnative-expo-boilerplate.appspot.com",
-  messagingSenderId: "800782233378",
-  appId: "1:800782233378:web:79d50721f6d0ce10cc7f7b",
-  measurementId: "G-2JV5SBQ1ZP"
+  apiKey: "AIzaSyA_VyuZQeY4wrfhN_K2OwYNLew9-cOxVtg",
+  authDomain: "packx-e600f.firebaseapp.com",
+  projectId: "packx-e600f",
+  storageBucket: "packx-e600f.appspot.com",
+  messagingSenderId: "733915356363",
+  appId: "1:733915356363:web:1b61f505a3e59988014f4e",
+  measurementId: "G-GWM7HCQNQY"
 };
 
 if (!firebase.apps.length) {

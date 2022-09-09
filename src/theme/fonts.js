@@ -9,6 +9,12 @@ export const fonts = {
     bold: 'openSans_bold',
     boldItalic: 'openSans_bold_italic',
   },
+  Ubuntu: {
+    regular: 'Ubuntu',
+    light: 'UbuntuLight',
+    semiBold: 'UbuntuMedium',
+    bold: 'UbuntuBold'
+  }
 }
 
 // fonts preloading
