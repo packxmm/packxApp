@@ -24,8 +24,8 @@ function FacilityCreateScreen(props){
   const [locPickUp, setLocPickUp] = useState("");
   const [seclocPickUp, setSecLocPickUp] = useState("");
   const [facilityInfo, setFacilityInfo] = useState("");
-  const [dropOffDate, setdropOffDate] = useState(new Date());
-  const [pickUpDate, setpickUpDate] = useState(new Date());
+  const [dropOffDate, setdropOffDate] = useState(new Date().getDate());
+  const [pickUpDate, setpickUpDate] = useState(new Date().getDate());
  
   const goToNext =  () => {  
     props.navigation.navigate('CreateCategory', { 

@@ -7,7 +7,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from 'theme'; 
 import Home from '../../../scenes/home' 
 // stack navigators
-import { FacilityNavigator, ProfileNavigator } from '../stacks' 
+import { TripsNavigator, FacilityNavigator, ProfileNavigator } from '../stacks' 
+import Order from '../../../scenes/order';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
@@ -62,11 +63,14 @@ const HomeTabs = (props) => {
          <Tab.Screen name="HOME" 
           children={()=> <Home {...props} extraData={user} navigationProps={navigationProps}/>}
           options={{headerShown: false, title:  ''}} /> 
-        <Tab.Screen
+          <Tab.Screen
+            name="ORDER"
+            children={()=> <Order extraData={user} navigationProps={navigationProps}/>}
+            options={{headerShown: false, title:  ''}}  /> 
+          <Tab.Screen
           name="PROFILE"
           children={()=> <ProfileNavigator user={user} navigationProps={navigationProps}/>}
-          options={{headerShown: false, title:  ''}}
-        /> 
+          options={{headerShown: false, title:  ''}}  /> 
       </Tab.Navigator>
   ); 
 }

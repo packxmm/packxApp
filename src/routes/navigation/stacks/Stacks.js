@@ -9,7 +9,7 @@ import FacilityCreate from '../../../scenes/facility/FacilityCreate'
 import FacilityCategoryCreate from '../../../scenes/facility/FacilityCategoryCreate';
 import Profile from '../../../scenes/profile'
 import Detail from '../../../scenes/details'
-import TabNavigator from '../tabs';
+import Order from '../../../scenes/order/Order'; 
 
 // ------------------------------------
 // Constants
@@ -62,6 +62,20 @@ export const HomeNavigator = (props) => {
   )
 }
 
+export const TripsNavigator = (props) => {
+  const user = props.user
+  const navigationProps = props.navigationProps
+  return (
+    <Stack.Navigator headerMode="screen" screenOptions={navigationProps}>
+      <Stack.Screen name="Order" options={{headerShown: false}}>
+        {props => <Order {...props} extraData={user}/>}
+      </Stack.Screen>
+      <Stack.Screen name="Detail" options={{headerShown: false}}>
+        {props => <Detail {...props} extraData={user}/>}
+      </Stack.Screen>
+    </Stack.Navigator>
+  )
+}
 export const ProfileNavigator = (props) => {
   const user = props.user
   const navigationProps = props.navigationProps
@@ -72,7 +86,8 @@ export const ProfileNavigator = (props) => {
       </Stack.Screen>
       <Stack.Screen name="Detail" options={{headerShown: false}}>
         {props => <Detail {...props} extraData={user}/>}
-      </Stack.Screen>
+      </Stack.Screen> 
+      <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }

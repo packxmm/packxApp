@@ -18,8 +18,11 @@ export default function Profile(props) {
   }
 
   const signOut = () => {
-    firebase.auth().signOut()
-    Restart()
+    setSpinner(true); 
+    firebase.auth().signOut().then(function() {
+      setSpinner(false); 
+      Restart();
+    });
   }
 
   const showDialog = () => {

@@ -115,14 +115,15 @@ function FacilityCategoryForm(props){
       facilityId : userData.id,
       tripInfo : tripInformation.otherParam,
       categoryLists : categoryLists,
-      prohibitedLists : prohibitedLists
+      prohibitedLists : prohibitedLists,
+      trackingStatus : "Reserved"
     } 
     const usersRef = firebase.firestore().collection('trips')
     usersRef
       .doc(getUuid)
       .set(data)
       .then(() => {
-        props.navigation.navigate('PROFILE', {trips: data})
+        props.navigation.navigate('ORDER', {trips: data})
       })
       .catch((error) => {
         setSpinner(false)
