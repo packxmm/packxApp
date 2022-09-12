@@ -19,56 +19,10 @@ export default function Registration({route, navigation}) {
   const [spinner, setSpinner] = useState(false)
   const scheme = useColorScheme()
 
-  console.log(userType)
-  
+
   const onFooterLinkPress = () => {
     navigation.navigate('Login')
   }
-
-  const ImageChoiceAndUpload = async () => {
-    try {
-      if (Constants.platform.ios) {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
-        if (status !== 'granted') {
-          alert("Permission is required for use.");
-          return;
-        }
-      }
-      const result = await ImagePicker.launchImageLibraryAsync();
-        if (!result.cancelled) {
-          const actions = [];
-          actions.push({ resize: { width: 300 } });
-          const manipulatorResult = await ImageManipulator.manipulateAsync(
-            result.uri,
-            actions,
-            {
-              compress: 0.4,
-            },
-          );
-          const localUri = await fetch(manipulatorResult.uri);
-          const localBlob = await localUri.blob();
-          const filename = userData.id + new Date().getTime()
-          const storageRef = firebase.storage().ref().child(`avatar/${userData.id}/` + filename);
-          const putTask = storageRef.put(localBlob);
-          putTask.on('state_changed', (snapshot) => {
-            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setProgress(parseInt(progress) + '%')
-          }, (error) => {
-            console.log(error);
-            alert("Upload failed.");
-          }, () => {
-            putTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-              setProgress('')
-              setAvatar(downloadURL)
-            })
-          })
-        }
-    } catch (e) {
-        console.log('error',e.message);
-        alert("The size may be too much.");
-    }
-  }
-
 
   const onRegisterPress = () => {
     if (password !== confirmPassword) {
@@ -85,10 +39,10 @@ export default function Registration({route, navigation}) {
           id: uid,
           email,
           fullName,
-          avatar: avatar,
+          avatar: "https://firebasestorage.googleapis.com/v0/b/packx-e600f.appspot.com/o/profileImage%2FphotoFrame.png?alt=media&token=4e8a2851-abbf-4e9e-9ce7-5fc861a95004",
           phone: phoneNo,
           address: address,
-          type : userType
+          type: route.params.userType
         };
         const usersRef = firebase.firestore().collection('users')
         usersRef
@@ -118,12 +72,9 @@ export default function Registration({route, navigation}) {
             <View style={styles.logoBox}>
               <Image source={require('../../../assets/images/Facility.png')} style={{ width: 209,resizeMode: 'center', height: 138}}/>
             </View> 
-          ) : ( 
-            <View style={{ flex: 2 , justifyContent: 'center' , alignItems: 'center'  }}>
-              <Image source={require('../../../assets/images/photoFrame.png')} style={{ width: 85,resizeMode: 'center', height: 89, marginBottom: '2%'}}/>
-              <TouchableOpacity onPress={ImageChoiceAndUpload}>
-                <Image source={require('../../../assets/images/uploadBtn.png')} style={{ width: 83,resizeMode: 'center', height: 30, marginVertical: "5%"}}/>
-              </TouchableOpacity> 
+          ) : (  
+            <View style={styles.logoBox}>
+              <Image source={require('../../../assets/images/User.png')} style={{ width: 209,resizeMode: 'center', height: 138}}/>
             </View> 
         )}
         <Text style={styles.inputLabel}>Full Name</Text>

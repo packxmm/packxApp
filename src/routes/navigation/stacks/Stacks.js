@@ -10,6 +10,7 @@ import Detail from '../../../scenes/details'
 import TripDetails from '../../../scenes/tripdetails'; 
 import Trips from '../../../scenes/trips';
 import TripInfo from '../../../scenes/tripinfo/TripInfo';
+import Home from '../../../scenes/home';
 
 // ------------------------------------
 // Constants
@@ -28,6 +29,7 @@ export const LoginNavigator = (props) => {
       <Stack.Screen name="Intro" component={Intro} options={{headerShown: false}}/>
       <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
       <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
+      <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }
