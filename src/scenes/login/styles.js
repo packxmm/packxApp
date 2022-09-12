@@ -6,9 +6,14 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: "10%"
   },
+  logo : { 
+    alignSelf: "center",
+    marginTop: "30%",
+    marginBottom: "20%"
+  },
   logoBox : { 
     alignSelf: "center",
-    marginTop: 30
+    marginBottom: "10%"
   },
   input: {
     backgroundColor: "#FFFFFF",
@@ -18,9 +23,9 @@ export default StyleSheet.create({
     shadowRadius: 3,
     borderRadius: 10,
     width: "100%",
-    height: 36,
+    height: 38,
     padding: 10,
-    marginBottom: "5%",
+    marginBottom: "8%",
     fontFamily: 'Ubuntu',
   },
   button: {
@@ -48,7 +53,7 @@ export default StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 10
   },
   footerText: {
     fontSize: 16,

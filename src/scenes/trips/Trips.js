@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { Text, View, TouchableOpacity, StatusBar, ScrollView, useColorScheme ,SafeAreaView, Image} from 'react-native';
-import styles from './styles';
-import { firebase } from '../../firebase/config'
-import { Avatar } from 'react-native-elements'
-import Dialog from "react-native-dialog"
-import Spinner from 'react-native-loading-spinner-overlay'
-import { Restart } from '../../components/reload/reload'
+import styles from './styles';  
+import { firebase } from '../../firebase/config' 
+import Spinner from 'react-native-loading-spinner-overlay' 
 
-export default function Order(props) {
+export default function Trips(props) {
   const userData = props.extraData  
-  const scheme = useColorScheme() 
-  const [tripData, setTripData] = useState([])
-  const [visible, setVisible] = useState(false)
+  const [tripData, setTripData] = useState([]) 
   const [spinner, setSpinner] = useState(false)
 
   firebase.firestore()
@@ -26,21 +21,23 @@ export default function Order(props) {
       setTripData(dataArr);
     }).catch((error) => {
         console.log("Error getting document:", error);
-    });
-  console.log(tripData)
-  console.log(tripData.length)
+    });  
+    const gotoDetails =  (data) => {  
+      props.navigation.navigate('OrderDetails', { data });
+      props.route.params = "anything you want here";
+    }
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />  
       <ScrollView>
         <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.mainText}> ORDER </Text>
+          <Text style={styles.mainText}> Your Trips </Text>
           <Text style={styles.text}> TRIP LIST  </Text>
         </View>
         <View style={styles.itemLists}>
           {tripData.map((item, index) => (
-            <TouchableOpacity style={styles.item} key={index}> 
+            <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripDetails', { tripInfo: item })}> 
               <View style={styles.tripHeader}> 
                 <Text style={styles.title}>TRIP NUMBER - <Text style={styles.numberText}>{item.tripId.slice(0,8)} | </Text></Text>
                 <Text style={styles.title}>Tracking : {item.trackingStatus}</Text>

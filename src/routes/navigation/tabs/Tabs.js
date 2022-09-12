@@ -8,15 +8,14 @@ import { colors } from 'theme';
 import Home from '../../../scenes/home' 
 // stack navigators
 import { TripsNavigator, FacilityNavigator, ProfileNavigator } from '../stacks' 
-import Order from '../../../scenes/order';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
 
 const HomeTabs = (props) => {
-  console.log(props)
-  const user = props.user
-  const navigationProps = props.navigationProps
+  // console.log(props)
+  const navigationProps = props.navigationProps;
+  const user = props.user;
   return (
       <Tab.Navigator
         screenOptions={({ route , navigation}) => ({
@@ -24,7 +23,7 @@ const HomeTabs = (props) => {
             let iconName;
             if (route.name === 'HOME') {
               iconName = 'home-outline';
-            } else if (route.name === 'ORDER') {
+            } else if (route.name === 'TRIPS') {
               iconName = 'cube-outline';
             } else if (route.name === 'INBOX') {
               iconName = 'albums-outline';
@@ -61,33 +60,36 @@ const HomeTabs = (props) => {
         })}
       >
          <Tab.Screen name="HOME" 
-          children={()=> <Home {...props} extraData={user} navigationProps={navigationProps}/>}
+          children={()=> <Home {...props} extraData={user}  navigationProps={navigationProps}/>}
           options={{headerShown: false, title:  ''}} /> 
           <Tab.Screen
-            name="ORDER"
-            children={()=> <Order extraData={user} navigationProps={navigationProps}/>}
+            name="TRIPS"
+            children={()=> <TripsNavigator user={user}  navigationProps={navigationProps}/>}
             options={{headerShown: false, title:  ''}}  /> 
           <Tab.Screen
           name="PROFILE"
-          children={()=> <ProfileNavigator user={user} navigationProps={navigationProps}/>}
+          children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}
           options={{headerShown: false, title:  ''}}  /> 
       </Tab.Navigator>
   ); 
 }
  
 const TabNavigator = (props) => {
-  console.log(props)
-  const user = props.user
-  const navigationProps = props.navigationProps
+  console.log(props) 
+  const navigationProps = props.navigationProps;
+  const user = props.user 
   return ( 
     <NavigationContainer independent={true}>
       <Stack.Navigator>   
-        <Stack.Screen name="Home" options={{headerShown: false}}>
-            {props => <HomeTabs {...props} user={user}/>}
+        <Stack.Screen name="Home" options={{headerShown: false}} navigationProps={navigationProps}>
+            {props => <HomeTabs {...props} user={user} />}
           </Stack.Screen> 
-          <Stack.Screen name="CreateFacility"  options={{headerShown: false}}>
-            {props => <FacilityNavigator {...props} user={user}/>}
+          <Stack.Screen name="CreateFacility"  options={{headerShown: false}} navigationProps={navigationProps}>
+            {props => <FacilityNavigator {...props} user={user} />}
           </Stack.Screen> 
+          {/* <Stack.Screen name="OrderDetails" options={{headerShown: false}}>
+            {props => <TripsNavigator {...props} user={user} />}
+          </Stack.Screen>  */}
       </Stack.Navigator>
     </NavigationContainer>
   )

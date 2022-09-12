@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TouchableOpacity, Text } from 'react-native'
+import { TouchableOpacity, Text, View} from 'react-native'
 
 const styles = {
   root: {
@@ -8,30 +8,39 @@ const styles = {
     paddingHorizontal: 16,
     borderRadius: 5,
   },
-  text: {
-    textAlign: 'center',
-    fontSize: 16,
+  button: {
+    backgroundColor: '#169393', 
+    marginRight: "20%",
+    width: "100%",
+    marginBottom: 20,
+    height: 45,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: 'center',
+    flexDirection: "row",
   },
+  buttonTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'UbuntuBold',
+    textTransform: 'uppercase'
+  }
 }
 
 const Button = ({
   title,
-  width,
-  height,
-  color,
-  backgroundColor,
   onPress,
-  children,
-  textStyle,
-  style,
+  children
 }) => {
-  const btnStyle = [styles.root, { width, height, backgroundColor }, style]
-  const txtStyle = [styles.text, { color }, textStyle]
+  const btnStyle = [styles.root, styles.button]
+  const txtStyle = [styles.text, styles.buttonTitle]
   return (
-    <TouchableOpacity onPress={onPress} style={btnStyle}>
-      {title && <Text style={txtStyle}>{title}</Text>}
-      {children}
-    </TouchableOpacity>
+    <View style={styles.root}>
+      <TouchableOpacity onPress={onPress} style={btnStyle}>
+        {children}
+        {title && <Text style={txtStyle}>{title}</Text>}
+      </TouchableOpacity>
+    </View>
   )
 }
 

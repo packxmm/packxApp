@@ -1,7 +1,9 @@
 import React , { useState } from 'react'; 
 import DatePicker from 'react-native-datepicker';
-import { View, Text, TextInput, TouchableOpacity, StatusBar, Image,ScrollView, SafeAreaView , useColorScheme } from 'react-native';
-import styles from './styles'
+import { View, Text, useColorScheme, TouchableOpacity, Image , ScrollView, TextInput, StatusBar, SafeAreaView} from 'react-native';
+import styles from './styles' 
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Button from '../../components/Button'
 
 function FacilityCreateScreen(props){ 
 
@@ -152,11 +154,9 @@ function FacilityCreateScreen(props){
   numberOfLines={3}/>
             </View>
         </SafeAreaView>
-        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center'}}> 
-          <TouchableOpacity onPress={goToNext} >
-              <Image source={require('../../../assets/images/nextBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45}}/>
-            </TouchableOpacity>
-        </View>
+        <Button title={"Next"} onPress={goToNext}>
+          <FontAwesome5 style={{color: "#fff", marginRight: 10 }}  name='arrow-circle-right' size={25} />
+        </Button>
       </View>
     </ScrollView>
   );

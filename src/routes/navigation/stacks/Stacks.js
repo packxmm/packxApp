@@ -1,15 +1,15 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack' ; 
-import { NavigationContainer } from '@react-navigation/native' 
+import { createStackNavigator } from '@react-navigation/stack'; 
 import Login from '../../../scenes/login'
 import Registration from '../../../scenes/registration'
-import Intro from '../../../scenes/intro/intro'
-import Home from '../../../scenes/home' 
+import Intro from '../../../scenes/intro/intro' 
 import FacilityCreate from '../../../scenes/facility/FacilityCreate'
 import FacilityCategoryCreate from '../../../scenes/facility/FacilityCategoryCreate';
 import Profile from '../../../scenes/profile'
 import Detail from '../../../scenes/details'
-import Order from '../../../scenes/order/Order'; 
+import TripDetails from '../../../scenes/tripdetails'; 
+import Trips from '../../../scenes/trips';
+import TripInfo from '../../../scenes/tripinfo/TripInfo';
 
 // ------------------------------------
 // Constants
@@ -37,42 +37,30 @@ export const FacilityNavigator= (props) => {
   const navigationProps = props.navigationProps;
   return (
     <Stack.Navigator headerMode="screen" screenOptions={navigationProps}> 
-      <Stack.Screen name="CreateFacility">
-        {props => <FacilityCreate {...props} extraData={user}/>}
+      <Stack.Screen name="CreateFacility" options={{title: ''}}>
+        {props => <FacilityCreate {...props} extraData={user} navigationProps={navigationProps}/>}
       </Stack.Screen>
-      <Stack.Screen name="CreateCategory">
-        {props => <FacilityCategoryCreate {...props} extraData={user}/>}
+      <Stack.Screen name="CreateCategory" options={{title: ''}}>
+        {props => <FacilityCategoryCreate {...props} extraData={user}  navigationProps={navigationProps}/>}
       </Stack.Screen>
     </Stack.Navigator>
   );
 }
 
-export const HomeNavigator = (props) => {
-  const user = props.user
-  const navigationProps = props.navigationProps;
-  return ( 
-    <Stack.Navigator headerMode="screen" screenOptions={navigationProps}>
-        <Stack.Screen name="Home" options={{headerShown: false}}>
-          {props => <Home {...props} extraData={user}/>}
-        </Stack.Screen>
-      <Stack.Screen name="CreateFacility"  options={{headerShown: false}}>
-        {props => <FacilityNavigator {...props} extraData={user}/>}
-      </Stack.Screen>
-  </Stack.Navigator>
-  )
-}
-
 export const TripsNavigator = (props) => {
-  const user = props.user
+  const user = props.user 
   const navigationProps = props.navigationProps
   return (
     <Stack.Navigator headerMode="screen" screenOptions={navigationProps}>
-      <Stack.Screen name="Order" options={{headerShown: false}}>
-        {props => <Order {...props} extraData={user}/>}
-      </Stack.Screen>
-      <Stack.Screen name="Detail" options={{headerShown: false}}>
-        {props => <Detail {...props} extraData={user}/>}
-      </Stack.Screen>
+    <Stack.Screen name="Trips" options={{headerShown: false}}>
+      {props => <Trips {...props} extraData={user}/>}
+    </Stack.Screen> 
+      <Stack.Screen name="TripDetails" options={{title: ''}}>
+        {props => <TripDetails {...props} extraData={user}/>}
+      </Stack.Screen> 
+      <Stack.Screen name="TripInfo" options={{title: ''}}>
+        {props => <TripInfo {...props} extraData={user}/>}
+      </Stack.Screen> 
     </Stack.Navigator>
   )
 }
