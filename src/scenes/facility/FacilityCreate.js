@@ -18,7 +18,7 @@ function FacilityCreateScreen(props){
     });
   }, [props.navigation]);
 
-  const scheme = useColorScheme();
+  const scheme = useColorScheme("dark");
   const [dropOffVal, setDropOffCity] = useState("");
   const [desVal, setDesCity] = useState("");
   const [locDropOff, setLocDropOff] = useState("");
@@ -47,7 +47,7 @@ function FacilityCreateScreen(props){
 
   return (
     <ScrollView>
-      <StatusBar barStyle= { scheme.dark ? "light-content" : "dark-content" }/>
+    <StatusBar barStyle="dark-content" />  
       <View style={[styles.container , {marginTop: StatusBar.currentHeight}]}>
         <View style={styles.header}>
           <Text style={styles.text}> Create New Trip </Text>

@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View, Linking, StatusBar, useColorScheme } from 'react-native'
+import { CheckBox } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay'
 
-export default function Registration({navigation}) {
+export default function Registration({route, navigation}) {
+  const { userType } = route.params.userType
+  const [avatar, setAvatar] = useState('')
+  const [gender, setGender] = useState('')
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -15,9 +19,56 @@ export default function Registration({navigation}) {
   const [spinner, setSpinner] = useState(false)
   const scheme = useColorScheme()
 
+  console.log(userType)
+  
   const onFooterLinkPress = () => {
     navigation.navigate('Login')
   }
+
+  const ImageChoiceAndUpload = async () => {
+    try {
+      if (Constants.platform.ios) {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+        if (status !== 'granted') {
+          alert("Permission is required for use.");
+          return;
+        }
+      }
+      const result = await ImagePicker.launchImageLibraryAsync();
+        if (!result.cancelled) {
+          const actions = [];
+          actions.push({ resize: { width: 300 } });
+          const manipulatorResult = await ImageManipulator.manipulateAsync(
+            result.uri,
+            actions,
+            {
+              compress: 0.4,
+            },
+          );
+          const localUri = await fetch(manipulatorResult.uri);
+          const localBlob = await localUri.blob();
+          const filename = userData.id + new Date().getTime()
+          const storageRef = firebase.storage().ref().child(`avatar/${userData.id}/` + filename);
+          const putTask = storageRef.put(localBlob);
+          putTask.on('state_changed', (snapshot) => {
+            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgress(parseInt(progress) + '%')
+          }, (error) => {
+            console.log(error);
+            alert("Upload failed.");
+          }, () => {
+            putTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+              setProgress('')
+              setAvatar(downloadURL)
+            })
+          })
+        }
+    } catch (e) {
+        console.log('error',e.message);
+        alert("The size may be too much.");
+    }
+  }
+
 
   const onRegisterPress = () => {
     if (password !== confirmPassword) {
@@ -34,9 +85,10 @@ export default function Registration({navigation}) {
           id: uid,
           email,
           fullName,
-          avatar: 'https://firebasestorage.googleapis.com/v0/b/packx-e600f.appspot.com/o/profileImage%2FphotoFrame.png?alt=media&token=4e8a2851-abbf-4e9e-9ce7-5fc861a95004',
+          avatar: avatar,
           phone: phoneNo,
           address: address,
+          type : userType
         };
         const usersRef = firebase.firestore().collection('users')
         usersRef
@@ -62,9 +114,18 @@ export default function Registration({navigation}) {
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always"> 
-        <View style={styles.logoBox}>
-          <Image source={require('../../../assets/images/Facility.png')} style={{ width: 209,resizeMode: 'center', height: 138}}/>
-        </View> 
+         { userType === "facility" ? (
+            <View style={styles.logoBox}>
+              <Image source={require('../../../assets/images/Facility.png')} style={{ width: 209,resizeMode: 'center', height: 138}}/>
+            </View> 
+          ) : ( 
+            <View style={{ flex: 2 , justifyContent: 'center' , alignItems: 'center'  }}>
+              <Image source={require('../../../assets/images/photoFrame.png')} style={{ width: 85,resizeMode: 'center', height: 89, marginBottom: '2%'}}/>
+              <TouchableOpacity onPress={ImageChoiceAndUpload}>
+                <Image source={require('../../../assets/images/uploadBtn.png')} style={{ width: 83,resizeMode: 'center', height: 30, marginVertical: "5%"}}/>
+              </TouchableOpacity> 
+            </View> 
+        )}
         <Text style={styles.inputLabel}>Full Name</Text>
         <TextInput
           style={scheme === 'dark' ? styles.darkinput : styles.input}
@@ -74,7 +135,22 @@ export default function Registration({navigation}) {
           value={fullName}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
+        /> 
+        {/* <Text style={styles.inputLabel}>Gender</Text>
+        <CheckBox
+          title='Male'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={false}
+          onPress={() => setGender("male")}
+          containerStyle={{backgroundColor : "none"}}
         />
+        <CheckBox
+          title='Female'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={() =>setGender("female")}
+        /> */}
         <Text style={styles.inputLabel}>Email</Text>
         <TextInput
           style={scheme === 'dark' ? styles.darkinput : styles.input}
@@ -108,7 +184,7 @@ export default function Registration({navigation}) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <Text style={styles.inputLabel}> Facility Address</Text>
+        <Text style={styles.inputLabel}> Address</Text>
         <TextInput
           style={scheme === 'dark' ? styles.darkinput : styles.input}
           placeholderTextColor="#aaaaaa"

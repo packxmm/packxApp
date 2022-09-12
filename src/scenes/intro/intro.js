@@ -4,6 +4,10 @@ import styles from './styles';
 import Slider from './slider'
 
 export default function intro({navigation}) { 
+  const goToRegistration = () => {
+    navigation.navigate('Registration', {userType : "user"})
+  }
+
   return (
     <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
     <StatusBar barStyle="light-content" /> 
@@ -14,10 +18,10 @@ export default function intro({navigation}) {
         <Slider />
       </View>
       <View style={styles.socialBtn}>
-            <TouchableOpacity onPress={() => navigation.navigate('User')}>
+            <TouchableOpacity onPress={goToRegistration}>
               <Image source={require('../../../assets/images/gbutton.png')} style={{ width: 130,resizeMode: 'center', height: 44, marginRight: "5%"}}/>
               </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('User')} >
+          <TouchableOpacity onPress={goToRegistration} >
             <Image source={require('../../../assets/images/fbutton.png')} style={{ width: 130,resizeMode: 'center', height: 44}}/>
           </TouchableOpacity>
       </View>

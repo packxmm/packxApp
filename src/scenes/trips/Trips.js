@@ -22,13 +22,10 @@ export default function Trips(props) {
     }).catch((error) => {
         console.log("Error getting document:", error);
     });  
-    const gotoDetails =  (data) => {  
-      props.navigation.navigate('OrderDetails', { data });
-      props.route.params = "anything you want here";
-    }
+    
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />  
+      <StatusBar barStyle="dark-content" />  
       <ScrollView>
         <SafeAreaView style={styles.container}>
         <View style={styles.header}>

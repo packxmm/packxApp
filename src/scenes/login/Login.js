@@ -13,7 +13,7 @@ export default function Login({navigation}) {
   const scheme = useColorScheme();
   
   const onFooterLinkPress = () => {
-    navigation.navigate('Registration')
+    navigation.navigate('Registration', {userType : "facility"})
   }
 
   const onLoginPress = () => {

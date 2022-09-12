@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, StatusBar, TextInput, TouchableOpacity, useColorScheme } from 'react-native'
+import { StyleSheet, View, Text,TextInput, Image, TouchableOpacity, ScrollView, useColorScheme, StatusBar} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as ImagePicker from 'expo-image-picker'
 import * as ImageManipulator from 'expo-image-manipulator'
-import Constants from 'expo-constants'
+import Constants from 'expo-constants' 
+import Button from '../../components/Button'
 
 export default function Detail({ route, navigation }) {
   const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phoneNo, setPhone] = useState('')
   const [progress, setProgress] = useState('')
   const [avatar, setAvatar] = useState('')
   const userData = route.params.userData
@@ -18,6 +21,8 @@ export default function Detail({ route, navigation }) {
   useEffect(() => {
     setAvatar(userData.avatar)
     setFullName(userData.fullName)
+    setEmail(userData.email)
+    setPhone(userData.phone)
   },[])
 
   const ImageChoiceAndUpload = async () => {
@@ -70,6 +75,7 @@ export default function Detail({ route, navigation }) {
       email: userData.email,
       fullName: fullName,
       avatar: avatar,
+      phone: phoneNo,
     }
     const userRef = firebase.firestore().collection('users').doc(userData.id)
     userRef.update(data)
@@ -79,34 +85,51 @@ export default function Detail({ route, navigation }) {
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
-        style={{ flex: 1, width: '100%' }}
+        style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always">
-        <StatusBar barStyle="light-content" />
-          <View style={styles.avatar}>
+        <StatusBar barStyle="dark-content" />
+          <View style={{ flex: 3 , justifyContent: 'center' , alignItems: 'center'  }}>
             <Avatar
-              size="xlarge"
+              containerStyle={{borderColor: "#ffffff", borderWidth: 5}}
+              size="large"
               rounded
               title="NI"
-              onPress={ImageChoiceAndUpload}
               source={{ uri: avatar }}
-            />
+            /> 
+            <TouchableOpacity onPress={ImageChoiceAndUpload}>
+              <Image source={require('../../../assets/images/uploadBtn.png')} style={{ width: 83,resizeMode: 'center', height: 30, marginVertical: "5%"}}/>
+            </TouchableOpacity> 
+            <Text>{progress}</Text> 
+          </View> 
+          <View style={{flex: 8}}>
+            <ScrollView>
+              <Text style={styles.inputLabel}>First Name</Text>
+              <TextInput style={styles.input}  
+              placeholder={fullName}
+              onChangeText={(text) => setFullName(text)}
+              value={fullName}
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"/>
+              <Text style={styles.inputLabel}>Email</Text>
+              <TextInput style={styles.input}  
+              placeholder={email} 
+              placeholderTextColor={"#333"}
+              onChangeText={(text) => setEmail(text)}
+              editable={false}/>
+              <Text style={styles.inputLabel}>Phone Number</Text>
+              <TextInput style={styles.input}  placeholder={phoneNo} 
+              onChangeText={(text) => setPhone(text)}
+              value={phoneNo}
+              />
+              <Text style={styles.inputLabel}>Gender</Text>
+              <TextInput style={styles.input}  placeholder="Gender"/>
+              <Text style={styles.inputLabel}>Birth Date</Text>
+              <TextInput style={styles.input}  placeholder="Birth Date"/>
+              <Text style={styles.inputLabel}>Government ID </Text>
+              <TextInput style={styles.input}  placeholder="+957xxxxxxxx"/>
+            </ScrollView> 
           </View>
-          <Text style={scheme === 'dark' ? styles.darkprogress : styles.progress}>{progress}</Text>
-          <Text style={scheme === 'dark' ? styles.darkfield : styles.field}>Name:</Text>
-          <TextInput
-            style={scheme === 'dark' ? styles.darkinput : styles.input}
-            placeholder={fullName}
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setFullName(text)}
-            value={fullName}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-          />
-          <Text style={scheme === 'dark' ? styles.darkfield : styles.field}>Mail:</Text>
-          <Text style={scheme === 'dark' ? styles.darktitle : styles.title}>{userData.email}</Text>
-          <TouchableOpacity style={styles.button} onPress={profileUpdate}>
-            <Text style={styles.buttonText}>Update</Text>
-          </TouchableOpacity>
+          <Button title={"Save"} onPress={profileUpdate} />
       </KeyboardAwareScrollView>
     </View>
   )

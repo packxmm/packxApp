@@ -1,88 +1,25 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center'
-  },
-  field: {
-    fontSize: 15,
-    textAlign: 'center',
-  },
-  darktitle: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-    color: 'white',
-  },
-  darkfield: {
-    fontSize: 15,
-    textAlign: 'center',
-    color: 'white',
-  },
-  avatar: {
-    margin: 30,
-    alignSelf: "center",
-  },
-  progress: {
-    alignSelf: 'center',
-  },
-  darkprogress: {
-    alignSelf: 'center',
-    color: 'white',
-  },
+  container:{
+      flex: 1, 
+      justifyContent: 'flex-start',
+      paddingHorizontal: "10%", 
+      marginTop: "15%" 
+  }, 
   input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16
+    width: "100%",
+    padding: "3%",
+    fontSize: 14,
+    borderBottomColor: "#D7DEDD",
+    borderBottomWidth: 1,
+    marginTop:  "3%",
+    marginVertical:  "8%",
+    backgroundColor: "#ffffff",
+    fontFamily: 'Ubuntu',
   },
-  darkinput: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: '#303030',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-    color: 'white'
-  },
-  button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: 'center'
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16
-  },
-  footerView: {
-    flex: 1,
-    alignItems: "center",
-    marginBottom: 20,
-    marginTop: 20
-  },
-  footerLink: {
-    color: "#788eec",
-    fontWeight: "bold",
-    fontSize: 16
-  },
+  inputLabel: {
+      fontSize: 13,  
+      fontFamily: 'Ubuntu',
+  }
 })
