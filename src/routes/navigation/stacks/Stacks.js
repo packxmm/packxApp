@@ -11,6 +11,7 @@ import TripDetails from '../../../scenes/tripdetails';
 import Trips from '../../../scenes/trips';
 import TripInfo from '../../../scenes/tripinfo/TripInfo';
 import Home from '../../../scenes/home';
+import UserHome from '../../../scenes/home/UserHome';
 
 // ------------------------------------
 // Constants
@@ -54,9 +55,15 @@ export const TripsNavigator = (props) => {
   const navigationProps = props.navigationProps
   return (
     <Stack.Navigator headerMode="screen" screenOptions={navigationProps}>
-    <Stack.Screen name="Trips" options={{headerShown: false}}>
-      {props => <Trips {...props} extraData={user}/>}
-    </Stack.Screen> 
+      { user.type === "facility" ? (
+          <Stack.Screen name="Trips" options={{headerShown: false}}>
+            {props => <Trips {...props} extraData={user}/>}
+          </Stack.Screen> 
+        ) : (
+          <Stack.Screen name="Home" options={{headerShown: false}}>
+            {props => <UserHome {...props} extraData={user}/>}
+          </Stack.Screen> 
+      )}
       <Stack.Screen name="TripDetails" options={{title: ''}}>
         {props => <TripDetails {...props} extraData={user}/>}
       </Stack.Screen> 
@@ -77,7 +84,6 @@ export const ProfileNavigator = (props) => {
       <Stack.Screen name="Detail" options={{headerShown: false}}>
         {props => <Detail {...props} extraData={user}/>}
       </Stack.Screen> 
-      <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }

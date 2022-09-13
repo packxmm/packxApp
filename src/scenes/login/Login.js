@@ -6,14 +6,15 @@ import Button from '../../components/Button'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay'
 
-export default function Login({navigation}) {
+export default function Login({route, navigation}) { 
+  const userType = route.params.userType
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [spinner, setSpinner] = useState(false)
   const scheme = useColorScheme();
   
   const onFooterLinkPress = () => {
-    navigation.navigate('Registration', {userType : "facility"})
+    navigation.navigate('Registration', {userType : userType})
   }
 
   const onLoginPress = () => {
@@ -50,10 +51,16 @@ export default function Login({navigation}) {
       <StatusBar barStyle="light-content" />  
       <View style={styles.logo}>
         <Image source={require('../../../assets/images/PackXLogo.png')} style={{ width: 167,resizeMode: 'center', height: 103}}/>
-      </View>
-      <View  style={styles.logoBox}>
-        <Image source={require('../../../assets/images/FacilitySignIn.png')} style={{ width: 250,resizeMode: 'center', height: 176}}/>
-      </View>
+      </View> 
+      { userType === "facility" ? (
+          <View  style={styles.logoBox}>
+            <Image source={require('../../../assets/images/FacilitySignIn.png')} style={{ width: 250,resizeMode: 'center', height: 176}}/>
+          </View>
+          ) : (  
+            <View style={styles.logoBox}>
+              <Image source={require('../../../assets/images/UserSignIn.png')} style={{ width: 209,resizeMode: 'center', height: 176}}/>
+            </View> 
+        )}
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '90%' }}
         keyboardShouldPersistTaps="always"> 

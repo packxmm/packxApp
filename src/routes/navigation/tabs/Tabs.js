@@ -8,14 +8,15 @@ import { colors } from 'theme';
 import Home from '../../../scenes/home' 
 // stack navigators
 import { TripsNavigator, FacilityNavigator, ProfileNavigator } from '../stacks' 
+import UserHome from '../../../scenes/home/UserHome';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
 
 const HomeTabs = (props) => {
-  // console.log(props)
   const navigationProps = props.navigationProps;
   const user = props.user;
+  console.log(props.route)
   return (
       <Tab.Navigator
         screenOptions={({ route , navigation}) => ({
@@ -23,7 +24,7 @@ const HomeTabs = (props) => {
             let iconName;
             if (route.name === 'HOME') {
               iconName = 'home-outline';
-            } else if (route.name === 'TRIPS') {
+            } else if (route.name === 'TRIPS' || route.name === 'PACKAGE') {
               iconName = 'cube-outline';
             } else if (route.name === 'INBOX') {
               iconName = 'albums-outline';
@@ -59,13 +60,27 @@ const HomeTabs = (props) => {
           )
         })}
       >
-         <Tab.Screen name="HOME" 
-          children={()=> <Home {...props} extraData={user}  navigationProps={navigationProps}/>}
-          options={{headerShown: false, title:  ''}} /> 
-          <Tab.Screen
-            name="TRIPS"
-            children={()=> <TripsNavigator user={user}  navigationProps={navigationProps}/>}
-            options={{headerShown: false, title:  ''}}  /> 
+          { user.type === "facility" ? (
+              <>
+                <Tab.Screen name="HOME" 
+                  children={()=> <Home {...props} extraData={user}  navigationProps={navigationProps}/>}
+                  options={{headerShown: false, title:  ''}} />  
+                <Tab.Screen
+                  name="TRIPS"
+                  children={()=> <TripsNavigator user={user}  navigationProps={navigationProps}/>}
+                  options={{headerShown: false, title:  ''}}  /> 
+              </>
+            ) : ( 
+              <>
+                <Tab.Screen name="HOME" 
+                  children={()=> <TripsNavigator user={user}  navigationProps={navigationProps}/>}
+                  options={{headerShown: false, title:  ''}} />  
+                <Tab.Screen
+                    name="PACKAGE"
+                    children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}
+                    options={{headerShown: false, title:  ''}}  /> 
+              </>
+          )}
           <Tab.Screen
           name="PROFILE"
           children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}
@@ -87,9 +102,6 @@ const TabNavigator = (props) => {
           <Stack.Screen name="CreateFacility"  options={{headerShown: false}} navigationProps={navigationProps}>
             {props => <FacilityNavigator {...props} user={user} />}
           </Stack.Screen> 
-          {/* <Stack.Screen name="OrderDetails" options={{headerShown: false}}>
-            {props => <TripsNavigator {...props} user={user} />}
-          </Stack.Screen>  */}
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -69,11 +69,11 @@ export default function App() {
       <></>
     )
   }
-
+  
   return(
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       { user ? (
-          <TabNavigator user={user} navigationProps={navigationProps}/>
+            <TabNavigator user={user} navigationProps={navigationProps}/>
         ) : (
           <LoginNavigator  navigationProps={navigationProps}/>
       )}

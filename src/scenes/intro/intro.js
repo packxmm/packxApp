@@ -4,8 +4,8 @@ import styles from './styles';
 import Slider from './slider'
 
 export default function intro({navigation}) { 
-  const goToRegistration = () => {
-    navigation.navigate('Registration', {userType : "user"})
+  const goToLogin = () => {
+    navigation.navigate('Login', {userType : "user"})
   }
 
   return (
@@ -18,15 +18,15 @@ export default function intro({navigation}) {
         <Slider />
       </View>
       <View style={styles.socialBtn}>
-            <TouchableOpacity onPress={goToRegistration}>
+            <TouchableOpacity onPress={goToLogin}>
               <Image source={require('../../../assets/images/gbutton.png')} style={{ width: 130,resizeMode: 'center', height: 44, marginRight: "5%"}}/>
               </TouchableOpacity>
-          <TouchableOpacity onPress={goToRegistration} >
+          <TouchableOpacity onPress={goToLogin} >
             <Image source={require('../../../assets/images/fbutton.png')} style={{ width: 130,resizeMode: 'center', height: 44}}/>
           </TouchableOpacity>
       </View>
       <View style={{ flex: 2, flexDirection: "row", justifyContent: 'center', paddingTop: "3%"}}> 
-        <Pressable onPress={() => navigation.navigate('Login')}>
+        <Pressable onPress={() => navigation.navigate('Login', {userType : "facility"})}>
           <Text style={{color: "#1A77F2"}}>Sign In </Text>
         </Pressable><Text>as Facility</Text>
       </View>

@@ -13,17 +13,19 @@ export default function Profile(props) {
   const userData = props.extraData
   const scheme = useColorScheme()
   const [spinner, setSpinner] = useState(false)
-
+  console.log(props.route)
   const goDetail = () => {
     props.navigation.navigate('Detail', { userData: userData })
   }
 
   const signOut = () => {
+    console.log("sign out")
     setSpinner(true); 
-    firebase.auth().signOut().then(function() {
-      setSpinner(false); 
+    firebase.auth().signOut(); 
+    setTimeout(function(){
+      setSpinner(false)
       Restart();
-    });
+    }, 1000)
   }
 
   const showDialog = () => {
@@ -95,9 +97,9 @@ export default function Profile(props) {
             <Text style={styles.accountText}>Transaction History</Text> 
             <Icon style={styles.righticon} name='chevron-forward' size={16} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountLabel}>
+          <TouchableOpacity style={styles.accountLabel} onPress={signOut}>
             <Feather style={styles.icon} name='settings' size={16} />
-            <Text style={styles.accountText} onPress={signOut} >Sign Out</Text>
+            <Text style={styles.accountText} >Sign Out</Text>
             <Icon style={styles.righticon} name='chevron-forward' size={16} />
           </TouchableOpacity>
       </View> 

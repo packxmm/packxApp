@@ -5,6 +5,8 @@ import styles from './styles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { firebase } from '../../firebase/config'
+import { Avatar } from 'react-native-elements'
 
 export default function TripInfo({ route, navigation }) { 
   const [isModalVisible, setModalVisible] = useState(false); 
@@ -13,7 +15,9 @@ export default function TripInfo({ route, navigation }) {
   const [qty, setQty] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const tripData = route.params.tripInfo;  
-  console.log(tripData)
+  const userData = route.params.user;  
+  const [facilityInfo, setfacilityInfo] = useState({});
+  console.log(tripData.facilityId)
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,7 +45,21 @@ export default function TripInfo({ route, navigation }) {
       qty : qty
     },...itemList]);
   }
+  firebase.firestore()
+    .collection('users')
+    .doc(tripData.facilityId)
+    .get().then((doc) => {
+      if (doc.exists) {
+          const data = doc.data();
+          setfacilityInfo(data)
+      } else {
+          console.log("No such document!");
+      }
+  }).catch((error) => {
+      console.log("Error getting document:", error);
+  }); 
 
+  console.log(facilityInfo)
   return ( 
     <ScrollView style={styles.container}> 
         <View style={styles.tripList}> 
@@ -75,11 +93,16 @@ export default function TripInfo({ route, navigation }) {
           </View>
         </View>   
         <View style={styles.item}> 
-            <View style={{flex: 1, alignContent: "center"}}> 
-                <Image source={require('../../../assets/images/profile.png')} style={{ width: 52,resizeMode: 'center', height: 53 }}/>
+            <View style={{flex: 1, alignContent: "center"}}>  
+                <Avatar
+                  size="large"
+                  rounded
+                  title="NI"
+                  source={{ uri: facilityInfo.avatar }}
+                />  
             </View> 
-            <View style={{flex: 3, alignItems: 'flex-start'}}>
-                <Text style={styles.title}>ABC CARGO</Text>  
+            <View style={{flex: 2, alignItems: 'flex-start'}}>
+                <Text style={styles.title}>{facilityInfo.fullName}</Text>  
                 <Text style={styles.tripname}>TOMMY</Text>  
             </View>
             <View style={{flex: 1 ,flexDirection: "column" }}>
@@ -121,52 +144,53 @@ export default function TripInfo({ route, navigation }) {
                   </View>
                  ))}
           </View>
-        </View> 
-          {/* For User Trip Reserve */}
-          {/* <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}> 
-              <TouchableOpacity onPress={showModal}>
-                <Image source={require('../../../assets/images/reserveBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45 , marginBottom: "3%"}}/>
-              </TouchableOpacity> 
-              <Modal isVisible={isModalVisible} wipeDirection={['up', 'left', 'right', 'down']} style={styles.view} > 
-                <View style={styles.modalView}>
-                    <Text style={styles.title}>Reserve your package </Text> 
-                    <Text style={styles.subtitle}>Package Summary</Text> 
-                    <View style={{ flex: 2, flexDirection: "column" }}>  
-                        <View style={styles.itemHeader} > 
-                          <Text style={styles.itemTitle}>Item Description</Text>
-                          <Text style={styles.itemTitle}>Qty</Text>
-                        </View>   
-                        {itemList.length != 0  &&
-                          <ScrollView>
-                          {itemList.map((data, index ) => (
-                            <View style={styles.itemRow} key={index}>
-                              <Text style={styles.deslabel}> {data.item}</Text>  
-                              <Text style={styles.deslabel}> {data.qty} x </Text>  
-                            </View>
-                          ))}
-                          </ScrollView>
-                        }
-                        <View style={styles.itemRow} > 
-                          <TextInput style={styles.itemInputLg} placeholder="Input Your Item Here ...." onChangeText={setItem}/>
-                          <TextInput style={styles.itemInputXs} placeholder="Qty" onChangeText={setQty}/>
-                        </View>    
-                        <TouchableOpacity onPress={addList} style={{ flexDirection: "row", justifyContent: 'center' }}> 
-                          <FontAwesome5 style={styles.addicon} name="plus-circle" size={23} />
-                          <Text style={styles.addlabel}> Add </Text> 
-                        </TouchableOpacity>   
-                    </View> 
-                    <View style={{ flex: 1, flexDirection: "column" }}>
-                        <Text style={styles.inputLabel}>Receiver Name</Text>
-                        <TextInput style={styles.input}  placeholder="Receiver Name"/>
-                        <Text style={styles.inputLabel}>Receiver Contact</Text>
-                        <TextInput style={styles.input}  placeholder="Receiver Contact"/>
-                      <TouchableOpacity onPress={hideModal} style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>
-                        <Image source={require('../../../assets/images/confirmBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45 , marginBottom: "3%"}}/>
-                      </TouchableOpacity>  
-                    </View>
-                </View>
-              </Modal>
-          </View> */}
+        </View>  
+          { userData.type === "user" && (
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}> 
+                <TouchableOpacity onPress={showModal}>
+                  <Image source={require('../../../assets/images/reserveBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45 , marginBottom: "3%"}}/>
+                </TouchableOpacity> 
+                <Modal isVisible={isModalVisible} wipeDirection={['up', 'left', 'right', 'down']} style={styles.view} > 
+                  <View style={styles.modalView}>
+                      <Text style={styles.title}>Reserve your package </Text> 
+                      <Text style={styles.subtitle}>Package Summary</Text> 
+                      <View style={{ flex: 2, flexDirection: "column" }}>  
+                          <View style={styles.itemHeader} > 
+                            <Text style={styles.itemTitle}>Item Description</Text>
+                            <Text style={styles.itemTitle}>Qty</Text>
+                          </View>   
+                          {itemList.length != 0  &&
+                            <ScrollView>
+                            {itemList.map((data, index ) => (
+                              <View style={styles.itemRow} key={index}>
+                                <Text style={styles.deslabel}> {data.item}</Text>  
+                                <Text style={styles.deslabel}> {data.qty} x </Text>  
+                              </View>
+                            ))}
+                            </ScrollView>
+                          }
+                          <View style={styles.itemRow} > 
+                            <TextInput style={styles.itemInputLg} placeholder="Input Your Item Here ...." onChangeText={setItem}/>
+                            <TextInput style={styles.itemInputXs} placeholder="Qty" onChangeText={setQty}/>
+                          </View>    
+                          <TouchableOpacity onPress={addList} style={{ flexDirection: "row", justifyContent: 'center' }}> 
+                            <FontAwesome5 style={styles.addicon} name="plus-circle" size={23} />
+                            <Text style={styles.addlabel}> Add </Text> 
+                          </TouchableOpacity>   
+                      </View> 
+                      <View style={{ flex: 1, flexDirection: "column" }}>
+                          <Text style={styles.inputLabel}>Receiver Name</Text>
+                          <TextInput style={styles.input}  placeholder="Receiver Name"/>
+                          <Text style={styles.inputLabel}>Receiver Contact</Text>
+                          <TextInput style={styles.input}  placeholder="Receiver Contact"/>
+                        <TouchableOpacity onPress={hideModal} style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>
+                          <Image source={require('../../../assets/images/confirmBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45 , marginBottom: "3%"}}/>
+                        </TouchableOpacity>  
+                      </View>
+                  </View>
+                </Modal>
+            </View>
+          )}
           <Spinner
             visible={spinner}
             textStyle={{ color: "#fff" }}
