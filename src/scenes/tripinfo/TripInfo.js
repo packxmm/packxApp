@@ -38,11 +38,11 @@ export default function TripInfo({ route, navigation }) {
   } 
 
   function hideModal(){   
-    console.log(userData)
+    console.log(userData);
     setModalVisible(false);    
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', ''); 
-    
+    const getUuid = generateUuid.replaceAll('-', '');  
+    setSpinner(true);
     const data = { 
       tripId : tripData.tripId,
       userId : userData.id,
@@ -55,7 +55,8 @@ export default function TripInfo({ route, navigation }) {
     usersRef
       .doc(getUuid)
       .set(data)
-      .then(() => { 
+      .then(() => {  
+        setSpinner(false);
         navigation.navigate('Reserved');
       })
       .catch((error) => {

@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { View,SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, TextInput, useColorScheme} from 'react-native'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View,SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, TextInput, useColorScheme } from 'react-native'; 
 import styles from './userHomeStyles'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay'
 
 export default function UserHome(props) {
-  const userData = props.extraData 
+  const userData = props.user 
   const [tripData, setTripData] = useState([]) 
-  const scheme = useColorScheme()
-  const [spinner, setSpinner] = useState(true)
-  
+  const scheme = useColorScheme();
+  const [spinner, setSpinner] = useState(true);
+
   useEffect(() => {  
     firebase.firestore()
     .collection('trips') 
@@ -22,11 +23,21 @@ export default function UserHome(props) {
         dataArr.push(data);   
       })  
       setTripData(dataArr); 
+      storeData(dataArr)
       setSpinner(false);
     }).catch((error) => {
         console.log("Error getting document:", error);
     });  
   }, []);
+
+  const storeData = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem('trips', jsonValue)
+    } catch (error) {
+      console.log("Error Message:", error);
+    }
+  }
   
   return (
     <View style={{ flex: 1 }}>

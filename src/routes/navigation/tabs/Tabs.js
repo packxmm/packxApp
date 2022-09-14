@@ -7,8 +7,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from 'theme'; 
 import Home from '../../../scenes/home' 
 // stack navigators
-import { TripsNavigator, FacilityNavigator, ProfileNavigator } from '../stacks' 
+import { TripsNavigator, PackageNavigator,  FacilityNavigator, ProfileNavigator } from '../stacks' 
 import UserHome from '../../../scenes/home/UserHome';
+import TripInfo from '../../../scenes/tripinfo/TripInfo';
+import TripReserved from '../../../scenes/tripreserved';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
@@ -73,14 +75,18 @@ const HomeTabs = (props) => {
             ) : ( 
               <>
                 <Tab.Screen name="HOME" 
-                  children={()=> <TripsNavigator user={user}  navigationProps={navigationProps}/>}
+                  children={()=> <UserHome  {...props} user={user}  navigationProps={navigationProps}/>}
                   options={{headerShown: false, title:  ''}} />  
                 <Tab.Screen
                     name="PACKAGE"
-                    children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}
+                    children={()=> <PackageNavigator user={user}  navigationProps={navigationProps}/>}
                     options={{headerShown: false, title:  ''}}  /> 
               </>
           )}
+          <Tab.Screen
+          name="INBOX"
+          children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}
+          options={{headerShown: false, title:  ''}}  /> 
           <Tab.Screen
           name="PROFILE"
           children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}
@@ -102,6 +108,12 @@ const TabNavigator = (props) => {
           <Stack.Screen name="CreateFacility"  options={{headerShown: false}} navigationProps={navigationProps}>
             {props => <FacilityNavigator {...props} user={user} />}
           </Stack.Screen> 
+          <Stack.Screen name="TripInfo" options={{title: ''}} navigationProps={navigationProps}>
+            {props => <TripInfo {...props} user={user}/>}
+          </Stack.Screen>  
+          <Stack.Screen name="Reserved" options={{headerShown: false}}>
+            {props => <TripReserved {...props} extraData={user}/>}
+          </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   )

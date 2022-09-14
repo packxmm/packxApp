@@ -9,10 +9,8 @@ import Profile from '../../../scenes/profile'
 import Detail from '../../../scenes/details'
 import TripDetails from '../../../scenes/tripdetails'; 
 import Trips from '../../../scenes/trips';
-import TripInfo from '../../../scenes/tripinfo/TripInfo';
-import Home from '../../../scenes/home';
-import UserHome from '../../../scenes/home/UserHome';
-import TripReserved from '../../../scenes/tripreserved';
+import Home from '../../../scenes/home'; 
+import PackageLists from '../../../scenes/package';
 
 // ------------------------------------
 // Constants
@@ -56,27 +54,30 @@ export const TripsNavigator = (props) => {
   const navigationProps = props.navigationProps
   return (
     <Stack.Navigator headerMode="screen" screenOptions={navigationProps}>
-      { user.type === "facility" ? (
+      { user.type === "facility" && (
           <Stack.Screen name="Trips" options={{headerShown: false}}>
             {props => <Trips {...props} extraData={user}/>}
-          </Stack.Screen> 
-        ) : (
-          <Stack.Screen name="Home" options={{headerShown: false}}>
-            {props => <UserHome {...props} extraData={user}/>}
           </Stack.Screen> 
       )}
       <Stack.Screen name="TripDetails" options={{title: ''}}>
         {props => <TripDetails {...props} extraData={user}/>}
       </Stack.Screen> 
-      <Stack.Screen name="TripInfo" options={{title: ''}}>
-        {props => <TripInfo {...props} extraData={user}/>}
-      </Stack.Screen>  
-      <Stack.Screen name="Reserved" options={{headerShown: false}}>
-        {props => <TripReserved {...props} extraData={user}/>}
+    </Stack.Navigator>
+  )
+}
+
+export const PackageNavigator = (props) => {
+  const user = props.user
+  const navigationProps = props.navigationProps
+  return (
+    <Stack.Navigator headerMode="screen" screenOptions={navigationProps}>
+      <Stack.Screen name="Package" options={{headerShown: false}}>
+        {props => <PackageLists {...props} extraData={user}/>}
       </Stack.Screen>
     </Stack.Navigator>
   )
 }
+
 export const ProfileNavigator = (props) => {
   const user = props.user
   const navigationProps = props.navigationProps
