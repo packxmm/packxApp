@@ -1,5 +1,6 @@
 import React, {  useState } from 'react';
-import Modal from "react-native-modal";
+import Modal from "react-native-modal"; 
+import uuid from 'react-native-uuid';
 import { View, Text, TouchableOpacity, Image , ScrollView, TextInput} from 'react-native';
 import styles from './styles';
 import Spinner from 'react-native-loading-spinner-overlay' 
@@ -7,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
+import Button from '../../components/Button'
 
 export default function TripInfo({ route, navigation }) { 
   const [isModalVisible, setModalVisible] = useState(false); 
@@ -16,8 +18,9 @@ export default function TripInfo({ route, navigation }) {
   const [spinner, setSpinner] = useState(false);
   const tripData = route.params.tripInfo;  
   const userData = route.params.user;  
+  const [recName, setReceiverName] = useState('')
+  const [recContact, setReceiverContact] = useState('')
   const [facilityInfo, setfacilityInfo] = useState({});
-  console.log(tripData.facilityId)
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -35,8 +38,30 @@ export default function TripInfo({ route, navigation }) {
   } 
 
   function hideModal(){   
-    setModalVisible(false);
-    navigation.navigate('Reserved');
+    console.log(userData)
+    setModalVisible(false);    
+    const generateUuid = uuid.v4();
+    const getUuid = generateUuid.replaceAll('-', ''); 
+    
+    const data = { 
+      tripId : tripData.tripId,
+      userId : userData.id,
+      recName : recName,
+      recContact : recContact,
+      items : itemList, 
+      trackingStatus : "reserved"
+    } 
+    const usersRef = firebase.firestore().collection('package')
+    usersRef
+      .doc(getUuid)
+      .set(data)
+      .then(() => { 
+        navigation.navigate('Reserved');
+      })
+      .catch((error) => {
+        setSpinner(false)
+        alert(error)
+      });
   } 
 
   function addList(){
@@ -58,8 +83,6 @@ export default function TripInfo({ route, navigation }) {
   }).catch((error) => {
       console.log("Error getting document:", error);
   }); 
-
-  console.log(facilityInfo)
   return ( 
     <ScrollView style={styles.container}> 
         <View style={styles.tripList}> 
@@ -102,8 +125,9 @@ export default function TripInfo({ route, navigation }) {
                 />  
             </View> 
             <View style={{flex: 2, alignItems: 'flex-start'}}>
-                <Text style={styles.title}>{facilityInfo.fullName}</Text>  
-                <Text style={styles.tripname}>TOMMY</Text>  
+                <Text style={styles.title}>{facilityInfo.facilityName}</Text>  
+                <Text style={styles.tripname}>{facilityInfo.fullName}</Text>  
+                <Text>{facilityInfo.email}</Text>  
             </View>
             <View style={{flex: 1 ,flexDirection: "column" }}>
                 <View style={styles.itemCount}>
@@ -146,10 +170,8 @@ export default function TripInfo({ route, navigation }) {
           </View>
         </View>  
           { userData.type === "user" && (
-            <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}> 
-                <TouchableOpacity onPress={showModal}>
-                  <Image source={require('../../../assets/images/reserveBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45 , marginBottom: "3%"}}/>
-                </TouchableOpacity> 
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>  
+                <Button title={"Reserve"} onPress={showModal} />
                 <Modal isVisible={isModalVisible} wipeDirection={['up', 'left', 'right', 'down']} style={styles.view} > 
                   <View style={styles.modalView}>
                       <Text style={styles.title}>Reserve your package </Text> 
@@ -180,9 +202,23 @@ export default function TripInfo({ route, navigation }) {
                       </View> 
                       <View style={{ flex: 1, flexDirection: "column" }}>
                           <Text style={styles.inputLabel}>Receiver Name</Text>
-                          <TextInput style={styles.input}  placeholder="Receiver Name"/>
+                          <TextInput style={styles.input}  
+                            placeholder="Receiver Name"
+                            placeholderTextColor="#aaaaaa"
+                            onChangeText={(text) => setReceiverName(text)}
+                            value={recName}
+                            underlineColorAndroid="transparent"
+                            autoCapitalize="none"
+                          />
                           <Text style={styles.inputLabel}>Receiver Contact</Text>
-                          <TextInput style={styles.input}  placeholder="Receiver Contact"/>
+                          <TextInput style={styles.input} 
+                            placeholder="Receiver Contact"
+                            placeholderTextColor="#aaaaaa"
+                            onChangeText={(text) => setReceiverContact(text)}
+                            value={recContact}
+                            underlineColorAndroid="transparent"
+                            autoCapitalize="none"
+                          />
                         <TouchableOpacity onPress={hideModal} style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>
                           <Image source={require('../../../assets/images/confirmBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45 , marginBottom: "3%"}}/>
                         </TouchableOpacity>  

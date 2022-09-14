@@ -12,6 +12,7 @@ import Trips from '../../../scenes/trips';
 import TripInfo from '../../../scenes/tripinfo/TripInfo';
 import Home from '../../../scenes/home';
 import UserHome from '../../../scenes/home/UserHome';
+import TripReserved from '../../../scenes/tripreserved';
 
 // ------------------------------------
 // Constants
@@ -69,7 +70,10 @@ export const TripsNavigator = (props) => {
       </Stack.Screen> 
       <Stack.Screen name="TripInfo" options={{title: ''}}>
         {props => <TripInfo {...props} extraData={user}/>}
-      </Stack.Screen> 
+      </Stack.Screen>  
+      <Stack.Screen name="Reserved" options={{headerShown: false}}>
+        {props => <TripReserved {...props} extraData={user}/>}
+      </Stack.Screen>
     </Stack.Navigator>
   )
 }
