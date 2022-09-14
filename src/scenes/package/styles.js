@@ -52,7 +52,9 @@ export default StyleSheet.create({
     justifyContent: 'space-between', 
     borderBottomColor: '#E5F1F2',
     borderBottomWidth: 2,
+    paddingBottom: "2%",
     marginBottom: "2%",
+    height: 40
   },
   tripList: {
     display: "flex",
@@ -82,7 +84,8 @@ export default StyleSheet.create({
     borderRadius: 15,  
     paddingEnd: "3%", 
     marginBottom: "2%", 
-    paddingLeft: "2%" 
+    paddingLeft: "2%",
+    height: 20
   },
   statusText: {
     fontSize: 12,

@@ -11,6 +11,7 @@ import { TripsNavigator, PackageNavigator,  FacilityNavigator, ProfileNavigator 
 import UserHome from '../../../scenes/home/UserHome';
 import TripInfo from '../../../scenes/tripinfo/TripInfo';
 import TripReserved from '../../../scenes/tripreserved';
+import PackageDetails from '../../../scenes/package/PackageDetails';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
@@ -113,6 +114,9 @@ const TabNavigator = (props) => {
           </Stack.Screen>  
           <Stack.Screen name="Reserved" options={{headerShown: false}}>
             {props => <TripReserved {...props} extraData={user}/>}
+          </Stack.Screen> 
+          <Stack.Screen name="PackageDetails"  options={{title: ''}}>
+            {props => <PackageDetails {...props} extraData={user}/>}
           </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
