@@ -88,7 +88,7 @@ export default function TripInfo({ route, navigation }) {
   return ( 
     <ScrollView style={styles.container}> 
         <View style={styles.tripList}> 
-          <Text style={styles.mainText}>TRIP - {tripData.tripId}</Text> 
+          <Text style={styles.mainText}>TRIP - {tripData.tripId.slice(0,8)}</Text> 
           <View style={{flex: 4, flexDirection: 'row' }}> 
             <View style={{flex: 3, marginBottom: "2%", flexDirection: 'column'  }}>
               <View style={{flex: 1 }}>

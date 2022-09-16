@@ -66,21 +66,21 @@ const HomeTabs = (props) => {
           { user.type === "facility" ? (
               <>
                 <Tab.Screen name="HOME" 
-                  children={()=> <Home {...props} extraData={user}  navigationProps={navigationProps}/>}
+                  children={()=> <Home {...props} extraData={user} navigationProps={navigationProps}/>}
                   options={{headerShown: false, title:  ''}} />  
                 <Tab.Screen
                   name="TRIPS"
-                  children={()=> <TripsNavigator user={user}  navigationProps={navigationProps}/>}
+                  children={()=> <TripsNavigator user={user} navigationProps={navigationProps}/>}
                   options={{headerShown: false, title:  ''}}  /> 
               </>
             ) : ( 
               <>
                 <Tab.Screen name="HOME" 
-                  children={()=> <UserHome  {...props} user={user}  navigationProps={navigationProps}/>}
+                  children={()=> <UserHome  {...props} user={user} navigationProps={navigationProps}/>}
                   options={{headerShown: false, title:  ''}} />  
                 <Tab.Screen
                     name="PACKAGE"
-                    children={()=> <PackageNavigator user={user}  navigationProps={navigationProps}/>}
+                    children={()=> <PackageNavigator user={user} navigationProps={navigationProps}/>}
                     options={{headerShown: false, title:  ''}}  /> 
               </>
           )}
@@ -97,7 +97,6 @@ const HomeTabs = (props) => {
 }
  
 const TabNavigator = (props) => {
-  console.log(props) 
   const navigationProps = props.navigationProps;
   const user = props.user 
   return ( 
@@ -112,10 +111,10 @@ const TabNavigator = (props) => {
           <Stack.Screen name="TripInfo" options={{title: ''}} navigationProps={navigationProps}>
             {props => <TripInfo {...props} user={user}/>}
           </Stack.Screen>  
-          <Stack.Screen name="Reserved" options={{headerShown: false}}>
+          <Stack.Screen name="Reserved" options={{headerShown: false}} navigationProps={navigationProps}>
             {props => <TripReserved {...props} extraData={user}/>}
           </Stack.Screen> 
-          <Stack.Screen name="PackageDetails"  options={{title: ''}}>
+          <Stack.Screen name="PackageDetails"  options={{title: ''}} navigationProps={navigationProps}>
             {props => <PackageDetails {...props} extraData={user}/>}
           </Stack.Screen>
       </Stack.Navigator>

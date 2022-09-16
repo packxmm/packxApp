@@ -7,7 +7,6 @@ import Spinner from 'react-native-loading-spinner-overlay'
 export default function Trips(props) {
   const userData = props.extraData  
   const [tripData, setTripData] = useState([]) 
-  const [spinner, setSpinner] = useState(false)
 
   firebase.firestore()
     .collection('trips') 
@@ -34,7 +33,7 @@ export default function Trips(props) {
         </View>
         <View style={styles.itemLists}>
           {tripData.map((item, index) => (
-            <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripDetails', { tripInfo: item })}> 
+            <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripDetails', { tripInfo: item, user: userData })}> 
               <View style={styles.tripHeader}> 
                 <Text style={styles.title}>TRIP NUMBER - <Text style={styles.numberText}>{item.tripId.slice(0,8)} | </Text></Text>
                 <Text style={styles.title}>Tracking : {item.trackingStatus}</Text>
@@ -53,7 +52,7 @@ export default function Trips(props) {
                   <Text style={styles.dateText}>{item.tripInfo.pickUpDate}</Text>
                 </View>
                 <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}>
-                  <Text style={styles.title}>{item.categoryLists.length}</Text>
+                  <Text style={styles.title}>{item.packageLists.length}</Text>
                   <Image source={require('../../../assets/images/Supplier.png')} style={{ width: 28,resizeMode: 'center', height: 20 }}/>
                 </View>
               </View> 
@@ -62,11 +61,11 @@ export default function Trips(props) {
         </View> 
         </SafeAreaView>
       </ScrollView>
-      <Spinner
+      {/* <Spinner
         visible={spinner}
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
-      />
+      /> */}
     </View>
   )
 }
