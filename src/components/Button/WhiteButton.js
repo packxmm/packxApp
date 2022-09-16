@@ -9,25 +9,26 @@ const styles = {
     borderRadius: 5,
   },
   button: {
-    backgroundColor: '#169393', 
     marginRight: "20%",
     width: "100%",
-    // marginBottom: 20,
+    marginBottom: 40,
     height: 45,
     borderRadius: 5,
+    borderColor: '#169393', 
+    borderWidth: 1, 
     alignItems: "center",
     justifyContent: 'center',
     flexDirection: "row",
   },
   buttonTitle: {
-    color: 'white',
+    color: '#169393',
     fontSize: 20,
     fontFamily: 'UbuntuBold',
     textTransform: 'uppercase'
   }
 }
 
-const Button = ({
+const WhiteButton = ({
   title,
   onPress,
   children
@@ -44,7 +45,7 @@ const Button = ({
   )
 }
 
-Button.propTypes = {
+WhiteButton.propTypes = {
   title: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
@@ -56,7 +57,7 @@ Button.propTypes = {
   style: PropTypes.shape({}),
 }
 
-Button.defaultProps = {
+WhiteButton.defaultProps = {
   title: null,
   width: 'auto',
   height: 'auto',
@@ -68,4 +69,4 @@ Button.defaultProps = {
   style: {},
 }
 
-export default Button
+export default WhiteButton

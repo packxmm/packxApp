@@ -7,8 +7,6 @@ import FacilityCreate from '../../../scenes/facility/FacilityCreate'
 import FacilityCategoryCreate from '../../../scenes/facility/FacilityCategoryCreate';
 import Profile from '../../../scenes/profile'
 import Detail from '../../../scenes/details'
-import TripDetails from '../../../scenes/tripdetails'; 
-import Trips from '../../../scenes/trips';
 import Home from '../../../scenes/home'; 
 import PackageLists from '../../../scenes/package';
 
@@ -58,10 +56,7 @@ export const TripsNavigator = (props) => {
           <Stack.Screen name="Trips" options={{headerShown: false}}>
             {props => <Trips {...props} extraData={user}/>}
           </Stack.Screen> 
-      )}
-      <Stack.Screen name="TripDetails" options={{title: ''}}>
-        {props => <TripDetails {...props} extraData={user}/>}
-      </Stack.Screen> 
+      )} 
     </Stack.Navigator>
   )
 }

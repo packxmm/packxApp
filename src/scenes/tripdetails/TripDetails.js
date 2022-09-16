@@ -20,7 +20,7 @@ export default function TripDetails({ route, navigation }) {
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
           <Image source={require('../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28}}/>
-          <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back</Text>
+          <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back To Trip Lists</Text>
         </TouchableOpacity>
       )
     });
@@ -104,10 +104,9 @@ export default function TripDetails({ route, navigation }) {
     </View>
     <ScrollView>
     {packageInfo.map((item, index) => (
-      // <TouchableOpacity style={styles.item} key={index} onPress={() => navigation.navigate('OrderBooked', { otherParam: item})}>
-      <TouchableOpacity style={styles.item} key={index}>
+        <>
           {allUser.filter((data) => data.id === item.userId).map((user, usrindex) => (
-            <>
+            <TouchableOpacity style={styles.item} key={index} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item })}>
               <View style={{flex: 1, alignContent: "center"}} key={usrindex}>  
                   <Avatar
                     size="large"
@@ -126,13 +125,13 @@ export default function TripDetails({ route, navigation }) {
                   <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27, marginBottom: 10 }}/> 
                 </View> 
                 <View style={styles.itemCount}>
-                  <Text style={styles.text}>Unpaid</Text>
+                  <Text style={styles.text}>{item.status}</Text>
                   <Image source={require('../../../assets/images/cashImg.png')} style={{ width: 28,resizeMode: 'center', height: 20}}/> 
                 </View> 
               </View>
-            </>
+            </TouchableOpacity>
           ))} 
-      </TouchableOpacity>
+        </>
      ))} 
      </ScrollView>
       <Button title={"Ship"}>

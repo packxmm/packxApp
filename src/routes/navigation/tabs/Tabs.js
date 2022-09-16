@@ -9,9 +9,12 @@ import Home from '../../../scenes/home'
 // stack navigators
 import { TripsNavigator, PackageNavigator,  FacilityNavigator, ProfileNavigator } from '../stacks' 
 import UserHome from '../../../scenes/home/UserHome';
+import TripDetails from '../../../scenes/tripdetails'; 
 import TripInfo from '../../../scenes/tripinfo/TripInfo';
 import TripReserved from '../../../scenes/tripreserved';
+import Trips from '../../../scenes/trips';
 import PackageDetails from '../../../scenes/package/PackageDetails';
+import TripBooking from '../../../scenes/booked';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
@@ -70,7 +73,7 @@ const HomeTabs = (props) => {
                   options={{headerShown: false, title:  ''}} />  
                 <Tab.Screen
                   name="TRIPS"
-                  children={()=> <TripsNavigator user={user} navigationProps={navigationProps}/>}
+                  children={()=> <Trips {...props} extraData={user} navigationProps={navigationProps}/>}
                   options={{headerShown: false, title:  ''}}  /> 
               </>
             ) : ( 
@@ -111,11 +114,17 @@ const TabNavigator = (props) => {
           <Stack.Screen name="TripInfo" options={{title: ''}} navigationProps={navigationProps}>
             {props => <TripInfo {...props} user={user}/>}
           </Stack.Screen>  
+          <Stack.Screen name="TripDetails" options={{title: ''}}>
+            {props => <TripDetails {...props} extraData={user}/>}
+          </Stack.Screen>
           <Stack.Screen name="Reserved" options={{headerShown: false}} navigationProps={navigationProps}>
             {props => <TripReserved {...props} extraData={user}/>}
           </Stack.Screen> 
           <Stack.Screen name="PackageDetails"  options={{title: ''}} navigationProps={navigationProps}>
             {props => <PackageDetails {...props} extraData={user}/>}
+          </Stack.Screen>
+          <Stack.Screen name="Booked"  options={{title: ''}} navigationProps={navigationProps}>
+            {props => <TripBooking {...props} extraData={user}/>}
           </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
