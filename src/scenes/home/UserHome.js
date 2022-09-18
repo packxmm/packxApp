@@ -2,16 +2,21 @@ import React, { useEffect, useState } from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View,SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, TextInput, useColorScheme } from 'react-native'; 
+import { View,SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, TextInput, useColorScheme, RefreshControl } from 'react-native'; 
 import styles from './userHomeStyles'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay'
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 export default function UserHome(props) {
   const userData = props.user 
   const [tripData, setTripData] = useState([]) 
   const scheme = useColorScheme();
   const [spinner, setSpinner] = useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {  
     firebase.firestore()
@@ -38,11 +43,17 @@ export default function UserHome(props) {
       console.log("Error Message:", error);
     }
   }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle= { scheme === "dark" ? "light-content" : "dark-content" }/>
       <ScrollView>
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <SafeAreaView style={styles.container}> 
         <View style={styles.searchBar}> 
           <Image source={require('../../../assets/images/sm-logoWhite.png')} style={{ width: 40,resizeMode: 'center', height: 38}}/> 

@@ -38,11 +38,10 @@ export default function TripInfo({ route, navigation }) {
   } 
 
   function hideModal(){   
-    console.log(userData);
-    setModalVisible(false);    
+    setSpinner(true);
+    // setModalVisible(false);   
     const generateUuid = uuid.v4();
     const getUuid = generateUuid.replaceAll('-', '');  
-    setSpinner(true);
     const data = { 
       id: getUuid,
       tripId : tripData.tripId,
@@ -63,7 +62,15 @@ export default function TripInfo({ route, navigation }) {
       .catch((error) => {
         setSpinner(false)
         alert(error)
-      });
+      }); 
+    
+      let getPackages = tripData.packageLists;
+      getPackages.push(getUuid);
+      const addPackages = { 
+        packageLists : getPackages
+      } 
+      const updateTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
+      updateTrip.update(addPackages);
   } 
 
   function addList(){

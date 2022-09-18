@@ -7,7 +7,7 @@ import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 export default function Registration({route, navigation}) {
-  const { userType } = route.params.userType
+  const userType = route.params.userType;
   const [avatar, setAvatar] = useState('')
   const [gender, setGender] = useState('')
   const [fullName, setFullName] = useState('')
@@ -18,10 +18,10 @@ export default function Registration({route, navigation}) {
   const [phoneNo, setPhoneNo] = useState('')
   const [spinner, setSpinner] = useState(false)
   const scheme = useColorScheme()
-
+  console.log(userType)
 
   const onFooterLinkPress = () => {
-    navigation.navigate('Login')
+    navigation.navigate('Login', { userType : userType})
   }
 
   const onRegisterPress = () => {

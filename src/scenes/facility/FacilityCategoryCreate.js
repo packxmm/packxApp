@@ -119,7 +119,8 @@ function FacilityCategoryForm(props){
       tripInfo : tripInformation.otherParam,
       categoryLists : categoryLists,
       prohibitedLists : prohibitedLists,
-      trackingStatus : "Reserved"
+      trackingStatus : "Reserved",
+      packageLists: []
     } 
     const usersRef = firebase.firestore().collection('trips')
     usersRef
