@@ -46,7 +46,24 @@ export default function UserHome(props) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    try {
+      firebase.firestore()
+        .collection('trips') 
+        .get().then((querySnapshot) => {
+          const dataArr = [];
+          querySnapshot.forEach(doc => { 
+            const data = doc.data();
+            dataArr.push(data);   
+          })  
+          setTripData(dataArr); 
+          storeData(dataArr)
+          setRefreshing(false);
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });  
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
   
   return (
