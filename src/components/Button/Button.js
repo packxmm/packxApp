@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TouchableOpacity, Text, View} from 'react-native'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const styles = {
   root: {
@@ -37,7 +38,7 @@ const Button = ({
   return (
     <View style={styles.root}>
       <TouchableOpacity onPress={onPress} style={btnStyle}>
-        {children}
+        {children && <FontAwesome5 style={{color: "#fff", marginRight: 10 }}  name={children} size={20}/>}
         {title && <Text style={txtStyle}>{title}</Text>}
       </TouchableOpacity>
     </View>

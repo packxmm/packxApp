@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TouchableOpacity, Text, View} from 'react-native'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const styles = {
   root: {
@@ -38,7 +39,7 @@ const WhiteButton = ({
   return (
     <View style={styles.root}>
       <TouchableOpacity onPress={onPress} style={btnStyle}>
-        {children}
+        {children && <FontAwesome style={{color: "#169393", marginRight: 10 }} name={children} size={20} />}
         {title && <Text style={txtStyle}>{title}</Text>}
       </TouchableOpacity>
     </View>

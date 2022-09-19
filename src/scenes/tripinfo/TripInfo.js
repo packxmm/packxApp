@@ -1,7 +1,7 @@
 import React, {  useState } from 'react';
 import Modal from "react-native-modal"; 
 import uuid from 'react-native-uuid';
-import { View, Text, TouchableOpacity, Image , ScrollView, TextInput} from 'react-native';
+import { View, Text, TouchableOpacity, Image , ScrollView, TextInput} from 'react-native'; 
 import styles from './styles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -9,6 +9,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
+import WhiteButton from '../../components/Button/WhiteButton'
 
 export default function TripInfo({ route, navigation }) { 
   const [isModalVisible, setModalVisible] = useState(false); 
@@ -38,8 +39,11 @@ export default function TripInfo({ route, navigation }) {
   } 
 
   function hideModal(){   
-    setSpinner(true);
-    // setModalVisible(false);   
+    setModalVisible(false);   
+  } 
+
+  function confirmData(){  
+    setModalVisible(false); 
     const generateUuid = uuid.v4();
     const getUuid = generateUuid.replaceAll('-', '');  
     const data = { 
@@ -49,18 +53,17 @@ export default function TripInfo({ route, navigation }) {
       recName : recName,
       recContact : recContact,
       items : itemList, 
-      trackingStatus : "reserved"
+      trackingStatus : "reserved",
+      status: "Unpaid"
     } 
     const usersRef = firebase.firestore().collection('package')
     usersRef
       .doc(getUuid)
       .set(data)
       .then(() => {  
-        setSpinner(false);
         navigation.navigate('Reserved');
       })
       .catch((error) => {
-        setSpinner(false)
         alert(error)
       }); 
     
@@ -181,7 +184,7 @@ export default function TripInfo({ route, navigation }) {
           { userData.type === "user" && (
             <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>  
                 <Button title={"Reserve"} onPress={showModal} />
-                <Modal isVisible={isModalVisible} wipeDirection={['up', 'left', 'right', 'down']} style={styles.view} > 
+                <Modal isVisible={isModalVisible} transparent={true} animationType="fade" style={styles.view} > 
                   <View style={styles.modalView}>
                       <Text style={styles.title}>Reserve your package </Text> 
                       <Text style={styles.subtitle}>Package Summary</Text> 
@@ -209,7 +212,7 @@ export default function TripInfo({ route, navigation }) {
                             <Text style={styles.addlabel}> Add </Text> 
                           </TouchableOpacity>   
                       </View> 
-                      <View style={{ flex: 1, flexDirection: "column" }}>
+                      <View style={{ flex: 2, flexDirection: "column" }}>
                           <Text style={styles.inputLabel}>Receiver Name</Text>
                           <TextInput style={styles.input}  
                             placeholder="Receiver Name"
@@ -228,9 +231,8 @@ export default function TripInfo({ route, navigation }) {
                             underlineColorAndroid="transparent"
                             autoCapitalize="none"
                           />
-                        <TouchableOpacity onPress={hideModal} style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>
-                          <Image source={require('../../../assets/images/confirmBtn.png')} style={{ width: 316,resizeMode: 'center', height: 45 , marginBottom: "3%"}}/>
-                        </TouchableOpacity>  
+                        <Button title={"Confirm"} onPress={confirmData} children={'check'} /> 
+                        <WhiteButton title={"Cancel"} onPress={hideModal} children={'remove'}/>
                       </View>
                   </View>
                 </Modal>

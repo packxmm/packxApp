@@ -7,10 +7,6 @@ import styles from './userHomeStyles'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay'
 
-const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
-
 export default function UserHome(props) {
   const userData = props.user 
   const [tripData, setTripData] = useState([]) 

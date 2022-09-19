@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from 'theme'; 
 import Home from '../../../scenes/home' 
 // stack navigators
-import { TripsNavigator, PackageNavigator,  FacilityNavigator, ProfileNavigator } from '../stacks' 
+import { PackageNavigator,  FacilityNavigator, ProfileNavigator } from '../stacks' 
 import UserHome from '../../../scenes/home/UserHome';
 import TripDetails from '../../../scenes/tripdetails'; 
 import TripInfo from '../../../scenes/tripinfo/TripInfo';

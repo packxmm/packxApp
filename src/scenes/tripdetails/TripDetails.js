@@ -13,6 +13,7 @@ export default function TripDetails({ route, navigation }) {
   const userData = route.params.user;   
   const [packageInfo, setPackagesData] = useState([]);
   const [allUser, setUserLists] = useState([]);
+  const [total, setTotal] = useState();
   console.log(userData)
 
   React.useLayoutEffect(() => {
@@ -50,11 +51,13 @@ export default function TripDetails({ route, navigation }) {
           .where('tripId', '==', tripData.tripId) 
           .get().then((querySnapshot) => {
             const dataArr = [];
+            let total = 0;
             querySnapshot.forEach(doc => { 
               let data = doc.data();
-              console.log(data)
+              total += data.items.length;
               dataArr.push(data);   
             })  
+            setTotal(total);
             setPackagesData(dataArr)
             setSpinner(false); 
         }).catch((error) => {
@@ -81,7 +84,7 @@ export default function TripDetails({ route, navigation }) {
         <Text style={styles.dateText}>{tripData.tripInfo.pickUpDate}</Text>
       </View>
       <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}> 
-        <Text style={styles.title}>TOTAL {tripData.categoryLists.length}</Text>
+        <Text style={styles.title}>TOTAL {total}</Text>
         <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27 , margin: 10}}/>
       </View>
     </View> 
@@ -104,10 +107,10 @@ export default function TripDetails({ route, navigation }) {
     </View>
     <ScrollView>
     {packageInfo.map((item, index) => (
-        <>
+        <View key={index}>
           {allUser.filter((data) => data.id === item.userId).map((user, usrindex) => (
-            <TouchableOpacity style={styles.item} key={index} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item })}>
-              <View style={{flex: 1, alignContent: "center"}} key={usrindex}>  
+            <TouchableOpacity style={styles.item} key={usrindex} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item })}>
+              <View style={{flex: 1, alignContent: "center"}}>  
                   <Avatar
                     size="large"
                     rounded
@@ -131,12 +134,10 @@ export default function TripDetails({ route, navigation }) {
               </View>
             </TouchableOpacity>
           ))} 
-        </>
+        </View>
      ))} 
      </ScrollView>
-      <Button title={"Ship"}>
-        <FontAwesome5 style={{color: "#fff", marginRight: 10 }}  name='plane-departure' size={20} />
-      </Button>
+      <Button title={"Ship"} children={'plane-departure'} /> 
       <Spinner
         visible={spinner}
         textStyle={{ color: "#fff" }}

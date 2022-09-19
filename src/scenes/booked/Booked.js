@@ -1,8 +1,7 @@
 import React from 'react'; 
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './styles'
-import { Avatar } from 'react-native-elements'
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Avatar } from 'react-native-elements' 
 import Button from '../../components/Button'
 import WhiteButton from '../../components/Button/WhiteButton'
 
@@ -75,12 +74,9 @@ export default function Booked({route, navigation}) {
                <Text style={styles.totalLabel}>-</Text> 
           </View>
       </View>    
-        <Button title={"Confirm"}>
-          <FontAwesome style={{color: "#fff", marginRight: 10 }}  name='check' size={20} />
-        </Button>
-        <WhiteButton title={"Refuse"}>
-          <FontAwesome style={{color: "#169393", marginRight: 10 }}  name='remove' size={20} />
-        </WhiteButton>
+        
+      <Button title={"Confirm"} children={'check'} /> 
+      <WhiteButton title={"Refuse"} children={'remove'}/>
     </View>
   )
 }

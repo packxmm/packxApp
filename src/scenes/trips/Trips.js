@@ -1,31 +1,59 @@
-import React, {  useState } from 'react';
-import { Text, View, TouchableOpacity, StatusBar, ScrollView, useColorScheme ,SafeAreaView, Image} from 'react-native';
+import React, {  useState , useEffect} from 'react';
+import { Text, View, TouchableOpacity, StatusBar, ScrollView, RefreshControl ,SafeAreaView, Image} from 'react-native';
 import styles from './styles';  
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay' 
 
 export default function Trips(props) {
   const userData = props.extraData  
-  const [tripData, setTripData] = useState([]) 
+  const [tripData, setTripData] = useState([]);
+  const [spinner, setSpinner] = useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
 
-  firebase.firestore()
-    .collection('trips') 
-    .where('facilityId', '==', userData.id) 
-    .get().then((querySnapshot) => {
-      const dataArr = [];
-      querySnapshot.forEach(doc => { 
-        const data = doc.data();
-        dataArr.push(data);   
-      })  
-      setTripData(dataArr);
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });  
+  useEffect(() => {  
+    firebase.firestore()
+      .collection('trips') 
+      .where('facilityId', '==', userData.id) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          const data = doc.data();
+          dataArr.push(data);   
+        })  
+        setTripData(dataArr); 
+        setSpinner(false);
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });  
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    try {  
+      firebase.firestore()
+      .collection('trips') 
+      .where('facilityId', '==', userData.id) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          const data = doc.data();
+          dataArr.push(data);   
+        })  
+        setTripData(dataArr); 
+        setRefreshing(false);
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });  
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
     
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />  
       <ScrollView>
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.mainText}> Your Trips </Text>
@@ -61,11 +89,11 @@ export default function Trips(props) {
         </View> 
         </SafeAreaView>
       </ScrollView>
-      {/* <Spinner
+      <Spinner
         visible={spinner}
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
-      /> */}
+      />
     </View>
   )
 }
