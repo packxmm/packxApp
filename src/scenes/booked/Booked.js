@@ -1,9 +1,11 @@
 import React, { useState } from 'react'; 
 import { View, Text, TouchableOpacity, Image, TextInput , Switch} from 'react-native';
 import styles from './styles'
+import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements' 
 import Button from '../../components/Button'
 import WhiteButton from '../../components/Button/WhiteButton'
+import Spinner from 'react-native-loading-spinner-overlay' 
 
 export default function Booked({route, navigation}) {
   const userData = route.params.user;  
@@ -14,6 +16,7 @@ export default function Booked({route, navigation}) {
   const [totalAmount, setTotalAmount] = useState(0);
   const [confirmed, setConfiremd] = useState(false); 
   const [isEnabled, setIsEnabled] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   React.useLayoutEffect(() => {
@@ -68,6 +71,7 @@ export default function Booked({route, navigation}) {
   }
 
   const saveData = () => {   
+    setSpinner(true); 
     if(isEnabled == true){
       setPackageData(prevState => ({
           ...prevState,
@@ -75,6 +79,16 @@ export default function Booked({route, navigation}) {
       }));
     }
     console.log(packageData)
+      const updatePackages = { 
+        status : packageData.status,
+        items : packageData.items,
+        total : packageData.total,
+        trackingStatus : "confirmed"
+      } 
+      const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+      getPackages.update(updatePackages);
+      navigation.navigate('TripDetails');
+      setSpinner(false); 
   }
   return ( 
     <View style={styles.container}>  
@@ -163,14 +177,19 @@ export default function Booked({route, navigation}) {
         <View  style={{marginBottom: "5%"}}>
           <Button title={"Save"} children={'save'} onPress={saveData}/> 
         </View> 
-      ) :
-      (
-        <>
-          <Button title={"Confirm"} children={'check'}  onPress={confirmBooking} /> 
-          <WhiteButton title={"Refuse"} children={'remove'}/>
-        </>
-      )
+        ) :
+        (
+          <>
+            <Button title={"Confirm"} children={'check'}  onPress={confirmBooking} /> 
+            <WhiteButton title={"Refuse"} children={'remove'}/>
+          </>
+        )
       }
+      <Spinner
+        visible={spinner}
+        textStyle={{ color: "#fff" }}
+        overlayColor="rgba(0,0,0,0.5)"
+      />
     </View>
   )
 }

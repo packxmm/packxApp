@@ -13,7 +13,6 @@ export default function Login({route, navigation}) {
   const [spinner, setSpinner] = useState(false)
   const scheme = useColorScheme();
   
-  console.log(userType)
   const onFooterLinkPress = () => {
     navigation.navigate('Registration', {userType : userType})
   }
