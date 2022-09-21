@@ -48,7 +48,6 @@ export default function Trips(props) {
       console.error(error);
     }
   }, []);
-    
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />  

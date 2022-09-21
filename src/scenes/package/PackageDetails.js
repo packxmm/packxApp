@@ -1,6 +1,4 @@
 import React, {  useState } from 'react';
-import Modal from "react-native-modal"; 
-import uuid from 'react-native-uuid';
 import { View, Text, TouchableOpacity, Image , ScrollView, TextInput} from 'react-native';
 import styles from './PackageDetailsSyles';
 import Spinner from 'react-native-loading-spinner-overlay' 
@@ -11,16 +9,10 @@ import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
 
 export default function PackageDetails({ route, navigation }) { 
-  const [isModalVisible, setModalVisible] = useState(false); 
-  const [itemList,setItemLists] = useState([]);
-  const [item, setItem] = useState(null);
-  const [qty, setQty] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const tripData = route.params.tripInfo;  
   const packageData = route.params.items;  
   const userData = route.params.user;  
-  const [recName, setReceiverName] = useState('')
-  const [recContact, setReceiverContact] = useState('')
   const [facilityInfo, setfacilityInfo] = useState({});
 
   console.log(packageData)
@@ -35,59 +27,6 @@ export default function PackageDetails({ route, navigation }) {
       )
     });
   }, [navigation]);
-
-  function showModal(){   
-    setModalVisible(true);
-  } 
-
-  function hideModal(){   
-    console.log(userData);
-    setModalVisible(false);    
-    const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');  
-    setSpinner(true);
-    const data = { 
-      id: getUuid,
-      tripId : tripData.tripId,
-      userId : userData.id,
-      recName : recName,
-      recContact : recContact,
-      items : itemList, 
-      trackingStatus : "reserved"
-    } 
-    const usersRef = firebase.firestore().collection('package')
-    usersRef
-      .doc(getUuid)
-      .set(data)
-      .then(() => {  
-        setSpinner(false);
-        navigation.navigate('Reserved');
-      })
-      .catch((error) => {
-        setSpinner(false)
-        alert(error)
-      });
-  } 
-
-  function addList(){
-    setItemLists(itemList => [{  
-      item : item, 
-      qty : qty
-    },...itemList]);
-  }
-  firebase.firestore()
-    .collection('users')
-    .doc(tripData.facilityId)
-    .get().then((doc) => {
-      if (doc.exists) {
-          const data = doc.data();
-          setfacilityInfo(data)
-      } else {
-          console.log("No such document!");
-      }
-  }).catch((error) => {
-      console.log("Error getting document:", error);
-  }); 
   return ( 
     <ScrollView style={styles.container}> 
         <View style={styles.tripDetails}> 
@@ -224,18 +163,6 @@ export default function PackageDetails({ route, navigation }) {
             </View> 
           </View>
         </View>    
-        {/* <View style={styles.itemLists}> 
-          <View style={{flex: 1, alignItems: "center"}}>
-            <Text style={styles.mainText}>PROHIBITED ITEMS</Text> 
-          </View>
-          <View style={{flex: 4, flexDirection: 'column' }}>  
-                {tripData.prohibitedLists.map((data ,index) => (
-                  <View key={index} style={styles.itembox}>
-                    <Text style={styles.itemlabel}> <FontAwesome5 style={styles.icon} name={data.item} size={16} />  {data.category}</Text>  
-                  </View>
-                 ))}
-          </View>
-        </View>   */}
           <Spinner
             visible={spinner}
             textStyle={{ color: "#fff" }}

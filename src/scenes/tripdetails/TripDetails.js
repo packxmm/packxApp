@@ -1,11 +1,10 @@
 import React, {  useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, StatusBar, ScrollView, useColorScheme ,SafeAreaView, Image} from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Image} from 'react-native';
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons'; 
 import { Avatar } from 'react-native-elements'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Button from '../../components/Button'
 
 export default function TripDetails({ route, navigation }) { 
@@ -13,8 +12,8 @@ export default function TripDetails({ route, navigation }) {
   const userData = route.params.user;   
   const [packageInfo, setPackagesData] = useState([]);
   const [allUser, setUserLists] = useState([]);
-  const [total, setTotal] = useState();
-  console.log(userData)
+  const [total, setTotal] = useState(); 
+  const [spinner, setSpinner] = useState(true);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -26,8 +25,6 @@ export default function TripDetails({ route, navigation }) {
       )
     });
   }, [navigation]);
-  
-  const [spinner, setSpinner] = useState(true)
     
     useEffect(() => {    
         const packageRef = firebase.firestore().collection('package')
@@ -64,7 +61,7 @@ export default function TripDetails({ route, navigation }) {
             console.log("Error getting document:", error);
         }); 
     }, []); 
-
+    
   return ( 
     <ScrollView style={styles.container}> 
     <View style={styles.tripHeader}> 
@@ -109,7 +106,7 @@ export default function TripDetails({ route, navigation }) {
     {packageInfo.map((item, index) => (
         <View key={index}>
           {allUser.filter((data) => data.id === item.userId).map((user, usrindex) => (
-            <TouchableOpacity style={styles.item} key={usrindex} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item })}>
+            <TouchableOpacity style={styles.item} key={usrindex} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item , trip: tripData})}>
               <View style={{flex: 1, alignContent: "center"}}>  
                   <Avatar
                     size="large"

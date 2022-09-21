@@ -15,6 +15,7 @@ import TripReserved from '../../../scenes/tripreserved';
 import Trips from '../../../scenes/trips';
 import PackageDetails from '../../../scenes/package/PackageDetails';
 import TripBooking from '../../../scenes/booked';
+import Notification from '../../../scenes/notification';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
@@ -89,7 +90,7 @@ const HomeTabs = (props) => {
           )}
           <Tab.Screen
           name="INBOX"
-          children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}
+          children={()=> <Notification user={user}  navigationProps={navigationProps}/>}
           options={{headerShown: false, title:  ''}}  /> 
           <Tab.Screen
           name="PROFILE"

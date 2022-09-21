@@ -20,10 +20,12 @@
       "enabled": true,
       "fallbackToCacheTimeout": 10000
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "reactnative.expo.firebase.boilerplate",
+      "bundleIdentifier": "com.packx.booking",
       "buildNumber": "1.0.0",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Use the photo library to change your avatar."
@@ -31,7 +33,7 @@
       "userInterfaceStyle": "automatic"
     },
     "android": {
-      "package": "reactnative.expo.firebase.boilerplate",
+      "package": "com.packx.booking",
       "versionCode": 1,
       "userInterfaceStyle": "automatic",
       "permissions": [
@@ -39,6 +41,9 @@
         "CAMERA"
       ]
     },
+    "plugins": [
+      "@notifee/react-native"
+    ],
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [
@@ -49,6 +54,11 @@
         "tsx"
       ]
     },
-    "description": ""
+    "description": "",
+    "extra": {
+      "eas": {
+        "projectId": "dcd0e403-bdd2-4a16-b743-461047b2973f"
+      }
+    }
   }
 }

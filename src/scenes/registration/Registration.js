@@ -154,6 +154,7 @@ export default function Registration({route, navigation}) {
           value={phoneNo}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
+          keyboardType="numeric"
         />
         <TouchableOpacity
           style={styles.button}

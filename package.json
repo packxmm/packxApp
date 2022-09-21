@@ -1,16 +1,16 @@
 {
   "private": true,
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "node_modules/.bin/eslint src/ --fix src/ --fix",
     "test": "node_modules/.bin/jest --passWithNoTests"
   },
   "dependencies": {
+    "@notifee/react-native": "^5.7.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.2",
@@ -28,6 +28,8 @@
     "expo-image-manipulator": "~10.2.0",
     "expo-image-picker": "~12.0.1",
     "expo-notifications": "~0.14.0",
+    "expo-splash-screen": "~0.14.1",
+    "expo-status-bar": "~1.2.0",
     "expo-updates": "~0.11.2",
     "firebase": "8.2.3",
     "global": "^4.4.0",
@@ -54,11 +56,13 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.1",
+    "react-native-webview": "^11.23.1",
     "react-redux": "^7.1.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.9",
     "babel-eslint": "^10.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-expo": "9.0.1",
@@ -91,5 +95,7 @@
       "yarn lint",
       "yarn test"
     ]
-  }
+  },
+  "name": "packxApp",
+  "version": "1.0.0"
 }

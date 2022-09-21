@@ -12,10 +12,12 @@ export default StyleSheet.create({
     marginVertical :  "4%", 
   }, 
   text:{ 
-    fontSize: 12, 
+    fontSize: 11, 
     fontFamily: "Ubuntu",
     textTransform: 'capitalize',
     flex: 1,
+    textAlign: 'center',
+    color: "#3F3D56"
   },
   title: { 
     color: "#185354",
@@ -54,22 +56,20 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: "row",  
     justifyContent: 'space-between',
-    paddingVertical: "2%"
+    paddingVertical: "2%",
   },
   tableTitleText : { 
     flex: 1, 
-    display: 'flex',
-    justifyContent: 'center',
-    alignSelf: 'center',
     color: '#2797A6',
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: "UbuntuMedium", 
+    textAlign: 'center',
     textTransform: 'capitalize'
   },
   tableTitledec : {
     flex: 3,
     color: '#2797A6',
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: "UbuntuMedium", 
     textTransform: 'capitalize' 
   },
@@ -82,24 +82,45 @@ export default StyleSheet.create({
     paddingVertical :  "3%" 
   },
   amountRow: { 
-    flexDirection: "row",
-    justifyContent: 'flex-end',
+    flexDirection: "column",
+    alignItems: 'flex-end',
     borderTopColor: '#ECEFEF',
     borderTopWidth: 1,
-    borderBottomColor: '#ECEFEF',
-    borderBottomWidth: 1,
     padding :  "2%" 
   }, 
+  amountText : {
+      flexDirection: "row",
+      borderBottomColor: '#ECEFEF',
+      borderBottomWidth: 1,
+      marginVertical :  "2%" 
+  },
+  switchRow : {
+      flexDirection: "row",
+      alignItems: 'center',
+  },
   dectext: {
     flex: 3, 
-    fontSize: 13, 
+    fontSize: 11, 
     textTransform: 'capitalize',
     fontFamily: "Ubuntu",
+    color: "#3F3D56"
   },
   totalLabel: {
     fontSize: 13,
     fontFamily: "UbuntuMedium", 
     paddingVertical :  "3%",
     paddingEnd:  "3%"
-  } 
+  },
+  input: {
+    flex: 1,
+    fontSize: 11,
+    color: "#3F3D56",
+    fontFamily: 'Ubuntu',
+    marginHorizontal: "2%",
+    textAlign: 'center'
+  },
+  switchBtn : {
+    marginRight: "3%",
+    transform: [{ scaleX: .7 }, { scaleY: .7 }]
+  }
 })
