@@ -140,8 +140,8 @@ export default function TripDetails({ route, navigation }) {
                     />  
                 </View> 
                 <View style={{flex: 2, alignItems: 'flex-start', paddingLeft: "5%"}}>
-                  <Text style={styles.title}>{user.fullName}</Text> 
-                  <Text style={styles.text}>{item.trackingStatus}</Text>
+                  <Text style={[styles.title, {marginTop: "5%"}]}>{user.fullName}</Text> 
+                  <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
                 </View>
                 <View style={{flex: 1 ,flexDirection: "column" }}>
                   <View style={styles.itemCount}>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react' 
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
-import Feather from 'react-native-vector-icons/Feather';
 import { View, SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, useColorScheme} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
@@ -13,10 +12,6 @@ export default function Package(props) {
   const [spinner, setSpinner] = useState(false); 
   const [packageData, setPackageData] = useState([]) 
   const [tripData, setTripData] = useState([]) 
-  console.log(props.route)
-  const goDetail = () => {
-    props.navigation.navigate('Detail', { userData: userData })
-  }
 
   useEffect(() => {   
     setSpinner(true);

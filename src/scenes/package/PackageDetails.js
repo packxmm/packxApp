@@ -1,21 +1,19 @@
-import React, {  useState } from 'react';
-import { View, Text, TouchableOpacity, Image , ScrollView, TextInput} from 'react-native';
+import React, {  useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image , ScrollView} from 'react-native';
 import styles from './PackageDetailsSyles';
 import Spinner from 'react-native-loading-spinner-overlay' 
-import Icon from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { firebase } from '../../firebase/config'
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements'
-import Button from '../../components/Button'
 
 export default function PackageDetails({ route, navigation }) { 
   const [spinner, setSpinner] = useState(false);
   const tripData = route.params.tripInfo;  
   const packageData = route.params.items;  
+  const currency = tripData.categoryLists[0].currency;
+  const weight = tripData.categoryLists[0].weight;
   const userData = route.params.user;  
   const [facilityInfo, setfacilityInfo] = useState({});
-
-  console.log(packageData)
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -27,6 +25,27 @@ export default function PackageDetails({ route, navigation }) {
       )
     });
   }, [navigation]);
+
+  useEffect(() => {  
+    setSpinner(true);
+    const usersRef = firebase.firestore().collection('users')
+    usersRef
+      .doc(tripData.facilityId)
+      .get()
+      .then(firestoreDocument => {
+        if (!firestoreDocument.exists) {
+          console.log("User does not exist anymore.")
+          return;
+        }else{
+          setfacilityInfo(firestoreDocument.data());
+        }
+        setSpinner(false)
+      })
+      .catch(error => {
+        setSpinner(false)
+        alert(error)
+      });
+  }, []);
   return ( 
     <ScrollView style={styles.container}> 
         <View style={styles.tripDetails}> 
@@ -91,18 +110,18 @@ export default function PackageDetails({ route, navigation }) {
         <View style={{ flex: 2, flexDirection: "column", marginHorizontal: "2%" }}>   
             <Text style={styles.mainText}>SHIPMENT COST</Text> 
             <View style={styles.itemHeader} > 
-              <Text style={[styles.itemTitle, {flex: 4}]}>Item Description</Text>
-              <Text style={[styles.itemTitle, {flex: 1}]}>Qty</Text>
-              <Text style={[styles.itemTitle, {flex: 1}]}>Wgt</Text>
-              <Text style={[styles.itemTitle, {flex: 1}]}>$</Text>
+              <Text style={[styles.itemTitle, {flex: 3}]}>Item Description</Text>
+              <Text style={[styles.itemTitle, {flex: 1, textAlign: 'right'}]}>Qty</Text>
+              <Text style={[styles.itemTitle, {flex: 1, textAlign: 'right'}]}>Wgt</Text>
+              <Text style={[styles.itemTitle, {flex: 2, textAlign: 'center'}]}>$</Text>
             </View>   
                 <ScrollView>
                   {packageData.items.map((data, index ) => (
                     <View style={styles.itemRow} key={index}>
-                      <Text style={[styles.deslabel, {flex: 4}]}> {data.item}</Text>  
-                      <Text style={[styles.deslabel, {flex: 1}]}> {data.qty} x </Text>  
-                      <Text style={[styles.deslabel, {flex: 1}]}> - </Text>  
-                      <Text style={[styles.deslabel, {flex: 1}]}> - </Text>  
+                      <Text style={[styles.deslabel, {flex: 3}]}> {data.item}</Text>  
+                      <Text style={[styles.deslabel, {flex: 1, textAlign: 'right'}]}> {data.qty} x </Text>  
+                      <Text style={[styles.deslabel, {flex: 1, textAlign: 'right'}]}> {data.wgt ? data.wgt : "-" } {weight}</Text>  
+                      <Text style={[styles.deslabel, {flex: 2, textAlign: 'right'}]}> {data.price ? data.price : "-" } {currency}</Text>  
                     </View>
                   ))}
               </ScrollView>  
@@ -122,8 +141,12 @@ export default function PackageDetails({ route, navigation }) {
                 <Image source={require('../../../assets/images/package-icon.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/> 
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
-              <View style={{ flex: 4}}>
-                <Text style={styles.itemTitle}>Package has been reserved</Text>
+              <View style={{ flex: 4}}> 
+                  {packageData.trackingStatus === "reserved" ? (
+                    <Text style={styles.itemTitle}>Package has been reserved</Text>
+                  ) : (
+                    <Text style={styles.itemlabel}>Package has been reserved</Text> 
+                  )}
               </View>
             </View>  
             <View style={styles.itemStatus}> 
@@ -132,7 +155,11 @@ export default function PackageDetails({ route, navigation }) {
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
               <View style={{ flex: 4}}>
-                  <Text style={styles.itemlabel}>Package is received by facility</Text>
+                  {packageData.trackingStatus === "confirmed" ? (
+                    <Text style={styles.itemTitle}>Package is received by facility</Text>
+                  ) : (
+                    <Text style={styles.itemlabel}>Package is received by facility</Text> 
+                  )}
                 </View>
             </View> 
             <View style={styles.itemStatus}> 

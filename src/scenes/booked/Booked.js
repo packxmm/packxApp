@@ -9,7 +9,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 
 export default function Booked({route, navigation}) {
   const userData = route.params.user;  
-  const tripData = route.params.trip;  
+  const tripData = route.params.trip; 
   const currency = tripData.categoryLists[0].currency;
   const weight = tripData.categoryLists[0].weight;
   const [packageData, setPackageData] = useState(route.params.packageInfo);  
@@ -18,7 +18,8 @@ export default function Booked({route, navigation}) {
   const [isEnabled, setIsEnabled] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+   
+  console.log(packageData)
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -35,6 +36,12 @@ export default function Booked({route, navigation}) {
       }
     })
     setTotalAmount(total);
+    if(packageData.trackingStatus === "confirmed"){
+      setConfiremd(true)
+    }
+    if(packageData.status === "Paid"){
+      setIsEnabled(true)
+    }
   }, [navigation]);
 
   const setWeight = (text, index) => {
@@ -71,24 +78,17 @@ export default function Booked({route, navigation}) {
   }
 
   const saveData = () => {   
-    setSpinner(true); 
-    if(isEnabled == true){
-      setPackageData(prevState => ({
-          ...prevState,
-          status: "Paid"
-      }));
-    }
-    console.log(packageData)
-      const updatePackages = { 
-        status : packageData.status,
-        items : packageData.items,
-        total : packageData.total,
-        trackingStatus : "confirmed"
-      } 
-      const getPackages = firebase.firestore().collection('package').doc(packageData.id);
-      getPackages.update(updatePackages);
-      navigation.navigate('TripDetails');
-      setSpinner(false); 
+    setSpinner(true);
+    const updatePackages = { 
+      status : isEnabled === true ? "Paid" : "Unpaid",
+      items : packageData.items,
+      total : packageData.total,
+      trackingStatus : "confirmed"
+    } 
+    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    getPackages.update(updatePackages);
+    navigation.navigate('TripDetails');
+    setSpinner(false); 
   }
   return ( 
     <View style={styles.container}>  
