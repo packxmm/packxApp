@@ -86,6 +86,9 @@ export default StyleSheet.create({
     paddingVertical: "5%",
     marginBottom: "3%",
   },
+  reserved: {
+    backgroundColor: "#CECECE", 
+  },
   itemCount : {
     flex: 1,
     flexDirection: "row",

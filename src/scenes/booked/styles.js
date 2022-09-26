@@ -14,7 +14,6 @@ export default StyleSheet.create({
   text:{ 
     fontSize: 11, 
     fontFamily: "Ubuntu",
-    textTransform: 'capitalize',
     flex: 1,
     textAlign: 'center',
     color: "#3F3D56"

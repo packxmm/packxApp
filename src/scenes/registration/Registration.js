@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Text, TextInput, TouchableOpacity, View, Linking, StatusBar, useColorScheme } from 'react-native'
+import { Image, Text, TextInput, TouchableOpacity, View, Linking, StatusBar } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles';
@@ -11,13 +11,13 @@ export default function Registration({route, navigation}) {
   const [avatar, setAvatar] = useState('')
   const [gender, setGender] = useState('')
   const [fullName, setFullName] = useState('')
+  const [facilityName, setFacilitylName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [address, setAddress] = useState('')
   const [phoneNo, setPhoneNo] = useState('')
   const [spinner, setSpinner] = useState(false)
-  const scheme = useColorScheme()
   console.log(userType)
 
   const onFooterLinkPress = () => {
@@ -79,32 +79,31 @@ export default function Registration({route, navigation}) {
         )}
         <Text style={styles.inputLabel}>Full Name</Text>
         <TextInput
-          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          style={styles.input}
           placeholder='Please Fill Your Name'
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setFullName(text)}
           value={fullName}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
-        /> 
-        {/* <Text style={styles.inputLabel}>Gender</Text>
-        <CheckBox
-          title='Male'
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
-          checked={false}
-          onPress={() => setGender("male")}
-          containerStyle={{backgroundColor : "none"}}
-        />
-        <CheckBox
-          title='Female'
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
-          checked={() =>setGender("female")}
-        /> */}
+        />  
+        { userType === "facility" && (
+          <>
+           <Text style={styles.inputLabel}>Facility Name</Text>
+           <TextInput
+             style={styles.input}
+             placeholder='Please Fill Your Company Name'
+             placeholderTextColor="#aaaaaa"
+             onChangeText={(text) => setFacilitylName(text)}
+             value={facilityName}
+             underlineColorAndroid="transparent"
+             autoCapitalize="none"
+           />  
+          </>
+        )}
         <Text style={styles.inputLabel}>Email</Text>
         <TextInput
-          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          style={styles.input}
           placeholder='Your email thina@abc.com '
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setEmail(text)}
@@ -115,7 +114,7 @@ export default function Registration({route, navigation}) {
         />
         <Text style={styles.inputLabel}>Set Password</Text>
         <TextInput
-          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          style={styles.input}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder='Password'
@@ -126,7 +125,7 @@ export default function Registration({route, navigation}) {
         />
         <Text style={styles.inputLabel}>Confirm Password</Text>
         <TextInput
-          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          style={styles.input}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder='Confirm Password'
@@ -137,7 +136,7 @@ export default function Registration({route, navigation}) {
         />
         <Text style={styles.inputLabel}> Address</Text>
         <TextInput
-          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          style={styles.input}
           placeholderTextColor="#aaaaaa"
           placeholder='Your Address'
           onChangeText={(text) => setAddress(text)}
@@ -147,7 +146,7 @@ export default function Registration({route, navigation}) {
         />
         <Text style={styles.inputLabel}> Phone Number </Text>
         <TextInput
-          style={scheme === 'dark' ? styles.darkinput : styles.input}
+          style={styles.input}
           placeholderTextColor="#aaaaaa"
           placeholder='Your Phone Number +65XXXXXXXX '
           onChangeText={(text) => setPhoneNo(text)}
@@ -162,7 +161,7 @@ export default function Registration({route, navigation}) {
           <Text style={styles.buttonTitle}>Create account</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
-          <Text style={scheme === 'dark' ? styles.darkfooterText : styles.footerText}>Already got an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text></Text>
+          <Text style={styles.footerText}>Already got an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text></Text>
         </View>
         <Text style={styles.link} onPress={ ()=>{ Linking.openURL('https://github.com/kiyohken2000/reactnative-expo-firebase-boilerplate')}}>Require agree EULA</Text>
       </KeyboardAwareScrollView>

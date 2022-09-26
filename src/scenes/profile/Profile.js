@@ -67,7 +67,7 @@ export default function Profile(props) {
           <View style={{flex: 3, alignItems: 'flex-start', paddingTop: 10}}>
               <Text style={styles.title}>{userData.fullName}</Text>  
               <Text style={styles.subtitle}>{userData.email}</Text>
-              <Text style={styles.text}>Facility ID:NYC001</Text>
+              {/* <Text style={styles.text}>Facility ID:NYC001</Text> */}
           </View>
           <View style={{flex: 1 ,flexDirection: "column",paddingTop: 10 }}>
               <View style={styles.itemCount}>

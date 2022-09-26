@@ -1,8 +1,9 @@
-import React from 'react'; 
+import React , {useState, useEffect }from 'react'; 
 import { createStackNavigator } from '@react-navigation/stack' ; 
 import { NavigationContainer } from '@react-navigation/native'
-import { StyleSheet, Text, StatusBar, View, Button ,TouchableOpacity, Image} from 'react-native';
+import {  Text, View, TouchableOpacity, Image} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
+import { firebase } from '../../../firebase/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from 'theme'; 
 import Home from '../../../scenes/home' 
@@ -23,7 +24,24 @@ const Tab = createBottomTabNavigator()
 const HomeTabs = (props) => {
   const navigationProps = props.navigationProps;
   const user = props.user;
-  console.log(props.route)
+  const [notiData, setNotification] = useState([]);  
+  // console.log(user)
+  useEffect(() => {    
+    const notiRef = firebase.firestore().collection('notification')
+    notiRef
+      .where('user', '==', user.id) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          let data = doc.data();
+          dataArr.push(data);   
+        })  
+        setNotification(dataArr);
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    }); 
+  }, []);  
+  console.log(notiData)
   return (
       <Tab.Navigator
         screenOptions={({ route , navigation}) => ({
@@ -43,7 +61,7 @@ const HomeTabs = (props) => {
             <Ionicons name={iconName} size={size} color={color} style={{ paddingTop: 5 }}/>
             <Text style={{fontFamily: "UbuntuMedium",fontSize: 12, color: color, paddingTop: 5 }} color={color}>{route.name} </Text>
             </View>;
-          }, 
+          },       
           tabBarItemStyle:{
             height: 62,
             padding: 10,
@@ -88,10 +106,18 @@ const HomeTabs = (props) => {
                     options={{headerShown: false, title:  ''}}  /> 
               </>
           )}
-          <Tab.Screen
-          name="INBOX"
-          children={()=> <Notification user={user}  navigationProps={navigationProps}/>}
-          options={{headerShown: false, title:  ''}}  /> 
+          {notiData.length > 0 ? (
+            <Tab.Screen
+            name="INBOX"
+            children={()=> <Notification {...props} noti={notiData}/>}
+            options={{headerShown: false, title:  '', tabBarBadge: notiData.length, tabBarBadgeStyle: {backgroundColor: "#085252", color: "#ffffff"}}}  /> )
+          : ( 
+            <Tab.Screen
+            name="INBOX"
+            children={()=> <Notification user={user} navigationProps={navigationProps} data={notiData}/>}
+            options={{headerShown: false, title:  '',}}  /> 
+          )
+          }
           <Tab.Screen
           name="PROFILE"
           children={()=> <ProfileNavigator user={user}  navigationProps={navigationProps}/>}

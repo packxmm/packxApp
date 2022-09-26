@@ -27,45 +27,44 @@ export default function TripDetails({ route, navigation }) {
     });
   }, [navigation]);
     
-    useEffect(() => {    
-        const packageRef = firebase.firestore().collection('package')
-        const usersRef = firebase.firestore().collection('users')
-        usersRef 
-          .get()
-          .then((querySnapshot) =>{ 
-            const dataArr = [];
-            querySnapshot.forEach(doc => { 
-              let data = doc.data();
-              dataArr.push(data);   
-            })  
-            setUserLists(dataArr)
-            // console.log(dataArr)
-          })
-          .catch(error => {
-            alert(error)
-          });  
+  useEffect(() => {    
+      const packageRef = firebase.firestore().collection('package')
+      const usersRef = firebase.firestore().collection('users')
+      usersRef 
+        .get()
+        .then((querySnapshot) =>{ 
+          const dataArr = [];
+          querySnapshot.forEach(doc => { 
+            let data = doc.data();
+            dataArr.push(data);   
+          })  
+          setUserLists(dataArr)
+          // console.log(dataArr)
+        })
+        .catch(error => {
+          alert(error)
+        });  
 
-        packageRef
-          .where('tripId', '==', tripData.tripId) 
-          .get().then((querySnapshot) => {
-            const dataArr = [];
-            let total = 0;
-            querySnapshot.forEach(doc => { 
-              let data = doc.data();
-              total += data.items.length;
-              dataArr.push(data);   
-            })  
-            setTotal(total);
-            setPackagesData(dataArr)
-            setSpinner(false); 
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        }); 
-    }, []); 
+      packageRef
+        .where('tripId', '==', tripData.tripId) 
+        .get().then((querySnapshot) => {
+          const dataArr = [];
+          let total = 0;
+          querySnapshot.forEach(doc => { 
+            let data = doc.data();
+            total += data.items.length;
+            dataArr.push(data);   
+          })  
+          setTotal(total);
+          setPackagesData(dataArr)
+          setSpinner(false); 
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      }); 
+  }, []); 
 
     const onRefresh = React.useCallback(() => {
-      setRefreshing(true);
-
+      setRefreshing(true); 
       const packageRef = firebase.firestore().collection('package')
       packageRef
         .where('tripId', '==', tripData.tripId) 
@@ -80,6 +79,7 @@ export default function TripDetails({ route, navigation }) {
           setTotal(total);
           setPackagesData(dataArr)
           setSpinner(false); 
+          setRefreshing(false);
       }).catch((error) => {
           console.log("Error getting document:", error);
       }); 
@@ -130,7 +130,7 @@ export default function TripDetails({ route, navigation }) {
       {packageInfo.map((item, index) => (
           <View key={index}>
             {allUser.filter((data) => data.id === item.userId).map((user, usrindex) => (
-              <TouchableOpacity style={styles.item} key={usrindex} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item , trip: tripData})}>
+              <TouchableOpacity style={[styles.item, item.trackingStatus === "reserved" && styles.reserved]} key={usrindex} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item , trip: tripData})}>
                 <View style={{flex: 1, alignContent: "center"}}>  
                     <Avatar
                       size="large"

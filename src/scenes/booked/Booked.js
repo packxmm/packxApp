@@ -6,6 +6,7 @@ import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
 import WhiteButton from '../../components/Button/WhiteButton'
 import Spinner from 'react-native-loading-spinner-overlay' 
+import uuid from 'react-native-uuid';
 
 export default function Booked({route, navigation}) {
   const userData = route.params.user;  
@@ -18,7 +19,6 @@ export default function Booked({route, navigation}) {
   const [isEnabled, setIsEnabled] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-   
   console.log(packageData)
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -79,6 +79,8 @@ export default function Booked({route, navigation}) {
 
   const saveData = () => {   
     setSpinner(true);
+    const generateUuid = uuid.v4();
+    const getUuid = generateUuid.replaceAll('-', '');  
     const updatePackages = { 
       status : isEnabled === true ? "Paid" : "Unpaid",
       items : packageData.items,
@@ -88,6 +90,20 @@ export default function Booked({route, navigation}) {
     const getPackages = firebase.firestore().collection('package').doc(packageData.id);
     getPackages.update(updatePackages);
     navigation.navigate('TripDetails');
+
+    const msgData = { 
+      id: getUuid,
+      user : userData.id,
+      msg :  "Your reserved package "+ packageData.id.slice(0,8) + " is now confirmed.",
+      type : "confirmed"
+    }
+    const notiRef = firebase.firestore().collection('notification')
+    notiRef
+    .doc(getUuid)
+    .set(msgData)
+    .catch((error) => {
+      alert(error)
+    }); 
     setSpinner(false); 
   }
   return ( 

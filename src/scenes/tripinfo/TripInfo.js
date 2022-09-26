@@ -56,8 +56,8 @@ export default function TripInfo({ route, navigation }) {
       trackingStatus : "reserved",
       status: "Unpaid"
     } 
-    const usersRef = firebase.firestore().collection('package')
-    usersRef
+    const packageRef = firebase.firestore().collection('package');
+    packageRef
       .doc(getUuid)
       .set(data)
       .then(() => {  
@@ -74,6 +74,20 @@ export default function TripInfo({ route, navigation }) {
       } 
       const updateTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
       updateTrip.update(addPackages);
+      
+      const msgData = { 
+        id: getUuid,
+        user : tripData.facilityId,
+        msg :  "PackX Id "+ tripData.tripId.slice(0,8) + " has reserved a trip.",
+        type : "reserved"
+      }
+      const notiRef = firebase.firestore().collection('notification')
+      notiRef
+      .doc(getUuid)
+      .set(msgData)
+      .catch((error) => {
+        alert(error)
+      }); 
   } 
 
   function addList(){
