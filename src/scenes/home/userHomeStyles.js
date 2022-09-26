@@ -7,6 +7,7 @@ export default StyleSheet.create({
   },
   input: { 
     fontFamily: 'Ubuntu',
+    width: "70%"
   },
   header: { 
     flex: 1,

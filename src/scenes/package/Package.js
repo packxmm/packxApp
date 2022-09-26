@@ -56,11 +56,19 @@ export default function Package(props) {
             <View style={styles.itemLists} key={index}>
                 {tripData.filter((data) => data.tripId === item.tripId).map((trip, index) => (
                   <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('PackageDetails', { items: item , tripInfo : trip , user : userData})}>
-                    <View style={styles.tripHeader}> 
-                      <View style={styles.statusBtn}> 
+                    <View style={styles.tripHeader}>  
+                      {item.trackingStatus === "reserved" && ( 
+                       <View style={[styles.statusBtn ,styles.reserved]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
-                        <Text style={styles.statusText}>  {item.trackingStatus}</Text> 
-                      </View> 
+                          <Text style={[styles.statusText]}>  {item.trackingStatus}</Text> 
+                        </View> 
+                      )}
+                      {item.trackingStatus === "confirmed" && ( 
+                       <View style={[styles.statusBtn ,styles.received]}> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                          <Text style={[styles.statusText]}>  Received</Text> 
+                        </View> 
+                      )}
                       <View style={{flex: 2, alignItems: "flex-end", justifyContent: "space-around"}}>
                         <Text style={styles.tripname}>TRIP ID - <Text style={styles.triplabel}>{item.tripId.slice(0,8)}</Text></Text>
                         <Text style={styles.tripname}>Package ID - <Text style={styles.triplabel}>{item.id.slice(0,8)}</Text></Text>

@@ -80,18 +80,23 @@ export default StyleSheet.create({
   statusBtn : { 
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#E5F1F2",
     borderRadius: 15,  
-    paddingEnd: "3%", 
     marginBottom: "2%", 
-    paddingLeft: "2%",
-    height: 20
+    paddingVertical: 2,
+    paddingHorizontal: "3%",
+    height: 25
   },
   statusText: {
-    fontSize: 12,
+    fontSize: 13,
+    paddingTop: 2,
     textTransform: "uppercase",
     fontFamily: "UbuntuMedium",
     color: "#000000", 
-    paddingVertical: "1%" ,
   },
+  reserved : {
+    backgroundColor: "#E5F1F2"
+  },
+  received : {
+    backgroundColor: "#C9EFEF", 
+  }
 })

@@ -13,6 +13,7 @@ export default function UserHome(props) {
   const scheme = useColorScheme();
   const [spinner, setSpinner] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [searchData, setsearchResult] = useState([]) 
 
   useEffect(() => {  
     firebase.firestore()
@@ -24,6 +25,7 @@ export default function UserHome(props) {
         dataArr.push(data);   
       })  
       setTripData(dataArr); 
+      setsearchResult(dataArr);
       storeData(dataArr)
       setSpinner(false);
     }).catch((error) => {
@@ -62,6 +64,19 @@ export default function UserHome(props) {
     }
   }, []);
   
+  const searchTrip = (val) => {
+    if(val){
+      const searchData = tripData.filter(item => {
+        const itemData = item.tripInfo.dropOff ? item.tripInfo.dropOff.toUpperCase() : ''.toUpperCase();
+        const desData = item.tripInfo.desVal ? item.tripInfo.desVal.toUpperCase() : ''.toUpperCase();
+        const valData = val.toUpperCase();
+        return itemData.indexOf(valData) > -1 || desData.indexOf(valData) > -1;
+      })
+      setsearchResult(searchData);
+    }else{
+      setsearchResult(tripData);
+    }
+  }; 
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle= { scheme === "dark" ? "light-content" : "dark-content" }/>
@@ -72,7 +87,7 @@ export default function UserHome(props) {
           <Image source={require('../../../assets/images/sm-logoWhite.png')} style={{ width: 40,resizeMode: 'center', height: 38}}/> 
           <View style={{ flexDirection: 'row'}}> 
             <Ionicons name="search-outline" size={18} style={{ padding : '3%', color: '#7C7C7C' }}/>
-            <TextInput style={styles.input}  placeholder="Search trip to destination"/>
+            <TextInput style={styles.input}  placeholder="Search trip to destination" onChangeText={(e) => {searchTrip(e)}}/>
           </View> 
           <MaterialIcons name="microsoft-xbox-controller-menu" size={30} style={{ paddingTop: '1%', color: '#169393' }}/>
       </View>
@@ -81,7 +96,7 @@ export default function UserHome(props) {
           <Text style={styles.text}> Pack & Send Everything Simply with PackX </Text>
         </View>
         <View style={styles.itemLists}>
-          {tripData.map((item, index) => (
+          {searchData.map((item, index) => (
             <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripInfo', { tripInfo: item , user: userData})}>
                <View style={{flex: 10}}>
                 <View style={styles.tripHeader}> 
