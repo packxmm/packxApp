@@ -7,8 +7,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
 
-export default function TripDetails({ route, navigation }) { 
-  const tripData = route.params.tripInfo;  
+export default function TripDetails({ route, navigation }) {
+  const [tripData, setTripData] = useState(route.params.tripInfo);  
   const userData = route.params.user;   
   const [packageInfo, setPackagesData] = useState([]);
   const [allUser, setUserLists] = useState([]);
@@ -86,21 +86,45 @@ export default function TripDetails({ route, navigation }) {
     }, []);
   
   const changeTrackingStatus = () =>{ 
-    setSpinner(true); 
-    setRefreshing(true);
+    setSpinner(true);  
+    setTripData(prevState => ({
+        ...prevState,
+        trackingStatus : "On Route",
+    }))
     const updateTrip = { 
       trackingStatus : "On Route"
     }  
     console.log(updateTrip)
     const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
-    getTrip.update(updateTrip);
-    tripData.packageLists.forEach(packageId => { 
-      console.log(packageId)
-      const getPackages = firebase.firestore().collection('package').doc(packageId);
-      getPackages.update(updateTrip);
-    }) 
-    setSpinner(false); 
-    setRefreshing(false);
+    getTrip.update(updateTrip).then(() => {
+      tripData.packageLists.forEach(packageId => { 
+        console.log(packageId)
+        const getPackages = firebase.firestore().collection('package').doc(packageId);
+        getPackages.update(updateTrip);
+      }) 
+      setSpinner(false); 
+    });
+  }
+
+  const arriveTrip = () =>{ 
+    setSpinner(true);  
+    setTripData(prevState => ({
+        ...prevState,
+        trackingStatus : "Arrive",
+    }))
+    const updateTrip = { 
+      trackingStatus : "Arrive"
+    }  
+    console.log(updateTrip)
+    const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
+    getTrip.update(updateTrip).then(() => {
+      tripData.packageLists.forEach(packageId => { 
+        console.log(packageId)
+        const getPackages = firebase.firestore().collection('package').doc(packageId);
+        getPackages.update(updateTrip);
+      }) 
+      setSpinner(false); 
+    });
   }
   return ( 
     <ScrollView style={styles.container}>  
@@ -158,7 +182,7 @@ export default function TripDetails({ route, navigation }) {
                 </View> 
                 <View style={{flex: 2, alignItems: 'flex-start', paddingLeft: "5%"}}>
                   <Text style={[styles.title, {marginTop: "5%"}]}>{user.fullName}</Text> 
-                  {item.trackingStatus !== "On Route" && (
+                  {item.trackingStatus !== "On Route" || tripData.trackingStatus !== "Arrive" && (
                     <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
                   )}
                 </View>
@@ -177,10 +201,14 @@ export default function TripDetails({ route, navigation }) {
           </View>
       ))} 
       </ScrollView>
-      {tripData.trackingStatus === "On Route" ? (
-        <Button title={"Arrive"} children={'plane-arrival'}  onPress={changeTrackingStatus}/> 
-      ): ( 
-        <Button title={"Ship"} children={'plane-departure'}  onPress={changeTrackingStatus}/> 
+      {tripData.trackingStatus !== "Arrive" && (
+        <>
+        {tripData.trackingStatus === "On Route" ? (
+          <Button title={"Arrive"} children={'plane-arrival'}  onPress={arriveTrip}/> 
+        ): ( 
+          <Button title={"Ship"} children={'plane-departure'}  onPress={changeTrackingStatus}/> 
+        )}
+        </>
       )}
       <Spinner
         visible={spinner}

@@ -84,6 +84,7 @@ export default StyleSheet.create({
     marginBottom: "2%", 
     paddingVertical: 2,
     paddingHorizontal: "3%",
+    width: 120,
     height: 25
   },
   statusText: {
@@ -97,6 +98,12 @@ export default StyleSheet.create({
     backgroundColor: "#E5F1F2"
   },
   received : {
-    backgroundColor: "#C9EFEF", 
+    backgroundColor: "#C9EFEF"
+  },
+  onroute : {
+    backgroundColor: "#7AD7D7"
+  },
+  arrive : {
+    backgroundColor: "#33BDBD"
   }
 })

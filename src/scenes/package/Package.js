@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react' 
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
-import { View, SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, useColorScheme} from 'react-native'; 
+import { View, SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, useColorScheme, RefreshControl} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -12,6 +12,7 @@ export default function Package(props) {
   const [spinner, setSpinner] = useState(false); 
   const [packageData, setPackageData] = useState([]) 
   const [tripData, setTripData] = useState([]) 
+  const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {   
     setSpinner(true);
@@ -32,6 +33,24 @@ export default function Package(props) {
     });  
   }, []);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true); 
+    firebase.firestore()
+      .collection('package') 
+      .where('userId', '==', userData.id) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          const data = doc.data();
+          dataArr.push(data);   
+        })  
+        setPackageData(dataArr); 
+        setRefreshing(false);
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+  }, []);
+
   const getData = async () => {
     console.log("getData")
     try {
@@ -48,6 +67,7 @@ export default function Package(props) {
     <View style={{ flex: 1 }}>
     <StatusBar barStyle= { scheme === "dark" ? "light-content" : "dark-content" }/>
       <ScrollView>
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.mainText}> My Package </Text> 
@@ -60,13 +80,25 @@ export default function Package(props) {
                       {item.trackingStatus === "reserved" && ( 
                        <View style={[styles.statusBtn ,styles.reserved]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
-                          <Text style={[styles.statusText]}>  {item.trackingStatus}</Text> 
+                          <Text style={[styles.statusText]}> {item.trackingStatus}</Text> 
                         </View> 
                       )}
                       {item.trackingStatus === "confirmed" && ( 
                        <View style={[styles.statusBtn ,styles.received]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText]}>  Received</Text> 
+                        </View> 
+                      )}
+                      {item.trackingStatus === "On Route" && ( 
+                       <View style={[styles.statusBtn ,styles.onroute]}> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                          <Text style={[styles.statusText, {color: "#ffffff"}]}> On Route </Text> 
+                        </View> 
+                      )}
+                      {item.trackingStatus === "Arrive" && ( 
+                       <View style={[styles.statusBtn ,styles.arrive]}> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                          <Text style={[styles.statusText, {color: "#ffffff"}]}> Arrive</Text> 
                         </View> 
                       )}
                       <View style={{flex: 2, alignItems: "flex-end", justifyContent: "space-around"}}>

@@ -39,6 +39,7 @@ export default function Booked({route, navigation}) {
     if(packageData.trackingStatus === "confirmed"){
       setConfiremd(true)
     }
+
     if(packageData.status === "Paid"){
       setIsEnabled(true)
     }
@@ -144,7 +145,7 @@ export default function Booked({route, navigation}) {
                   <Text style={styles.tableTitleText}>Qty</Text> 
                   <Text style={styles.tableTitleText}>Wgt</Text> 
                   <Text style={[styles.tableTitleText]}>$</Text> 
-                  { confirmed === false && ( 
+                  {  confirmed === false && packageData.trackingStatus === "reserved" && ( 
                     <Text style={styles.tableTitleText}>Manage</Text> 
                   )}
               </View>
@@ -153,7 +154,7 @@ export default function Booked({route, navigation}) {
               <View key={index} style={styles.tableRow}>  
                   <Text style={styles.dectext}>{val.item}</Text> 
                   <Text style={[styles.text]}>{val.qty}</Text>  
-                  { confirmed === false ? ( 
+                  { confirmed === false && packageData.trackingStatus === "reserved" ? ( 
                     <>
                       <TextInput style={styles.input} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="numeric" placeholder={weight}/>
                       <TextInput style={styles.input} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="numeric" placeholder={currency}/>
@@ -172,7 +173,7 @@ export default function Booked({route, navigation}) {
                   <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
                   <Text style={styles.totalLabel}>{totalAmount} {currency}</Text> 
                 </View>
-               { confirmed === true && (   
+               { packageData.trackingStatus !== "reserved" && (   
                 <View style={styles.switchRow}>
                   <Text style={styles.totalLabel}>Unpaid</Text>  
                   <Switch
@@ -189,10 +190,18 @@ export default function Booked({route, navigation}) {
           </View>
       </View>    
       
-      { confirmed === true ? ( 
-        <View  style={{marginBottom: "5%"}}>
-          <Button title={"Save"} children={'save'} onPress={saveData}/> 
-        </View> 
+      {packageData.trackingStatus !== "reserved" ? ( 
+        <>
+        {packageData.trackingStatus === "Arrive" ? (
+            <View  style={{marginBottom: "5%"}}>
+              <Button title={"Check Out"} children={'caret-square-right'} onPress={saveData}/> 
+            </View> 
+          ) : ( 
+            <View  style={{marginBottom: "5%"}}>
+              <Button title={"Save"} children={'save'} onPress={saveData}/> 
+            </View> 
+        )}
+        </>
         ) :
         (
           <>

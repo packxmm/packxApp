@@ -168,7 +168,11 @@ export default function PackageDetails({ route, navigation }) {
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/>  
               </View>
               <View style={{ flex: 4}}>
-                  <Text style={styles.itemlabel}>Package is On-Route</Text>
+                  {packageData.trackingStatus === "On Route" ? (
+                    <Text style={styles.itemTitle}>Package is On-Route</Text>
+                  ) : (
+                    <Text style={styles.itemlabel}>Package is On-Route</Text> 
+                  )}
                 </View>
             </View> 
             <View style={styles.itemStatus}> 
@@ -176,8 +180,12 @@ export default function PackageDetails({ route, navigation }) {
                 <Image source={require('../../../assets/images/arrived-icon.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/>  
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
-              <View style={{ flex: 4}}>
-                  <Text style={styles.itemlabel}>Package has arrived at destination facility</Text>
+              <View style={{ flex: 4}}> 
+                  {packageData.trackingStatus === "Arrive" ? (
+                    <Text style={styles.itemTitle}>Package has arrived at destination facility</Text>
+                  ) : (
+                    <Text style={styles.itemlabel}>Package has arrived at destination facility</Text> 
+                  )}
                 </View>
             </View> 
             <View style={styles.itemStatus}> 
