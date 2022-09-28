@@ -25,10 +25,10 @@ export default StyleSheet.create({
     paddingVertical: "3%"
   },
   numberText:{  
-    fontSize: 12,
-    fontFamily: "Ubuntu",
-    paddingTop: "5%",
-    paddingLeft: "10%",
+    fontSize: 13,
+    fontFamily: "UbuntuMedium",
+    paddingTop: "1%",
+    paddingHorizontal: "3%"
   },
   tripHeader:{ 
     display: "flex",
@@ -94,8 +94,8 @@ export default StyleSheet.create({
     fontSize: 14,
     backgroundColor: "#E5F1F2",
     borderRadius: 20,
-    paddingHorizontal: "5%",
-    paddingVertical: "5%",
+    paddingHorizontal: "2%",
+    paddingVertical: "3%",
     marginBottom: "3%",
   },
   itemCount : {

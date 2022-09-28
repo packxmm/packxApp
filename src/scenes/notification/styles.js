@@ -32,7 +32,7 @@ export default StyleSheet.create({
     color: "#7C7C7C",
     fontSize: 14,
     fontFamily: "UbuntuMedium",
-    lineHeight: 17,
+    lineHeight: 19,
     marginRight: 10
   },
 })

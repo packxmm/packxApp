@@ -110,17 +110,17 @@ export default function PackageDetails({ route, navigation }) {
         <View style={{ flex: 2, flexDirection: "column", marginHorizontal: "2%" }}>   
             <Text style={styles.mainText}>SHIPMENT COST</Text> 
             <View style={styles.itemHeader} > 
-              <Text style={[styles.itemTitle, {flex: 3}]}>Item Description</Text>
+              <Text style={[styles.itemTitle, {flex: 4}]}>Item Description</Text>
               <Text style={[styles.itemTitle, {flex: 1, textAlign: 'right'}]}>Qty</Text>
-              <Text style={[styles.itemTitle, {flex: 1, textAlign: 'right'}]}>Wgt</Text>
+              <Text style={[styles.itemTitle, {flex: 2, textAlign: 'right'}]}>Wgt</Text>
               <Text style={[styles.itemTitle, {flex: 2, textAlign: 'center'}]}>$</Text>
             </View>   
                 <ScrollView>
                   {packageData.items.map((data, index ) => (
                     <View style={styles.itemRow} key={index}>
-                      <Text style={[styles.deslabel, {flex: 3}]}> {data.item}</Text>  
+                      <Text style={[styles.deslabel, {flex: 4}]}> {data.item}</Text>  
                       <Text style={[styles.deslabel, {flex: 1, textAlign: 'right'}]}> {data.qty} x </Text>  
-                      <Text style={[styles.deslabel, {flex: 1, textAlign: 'right'}]}> {data.wgt ? data.wgt : "-" } {weight}</Text>  
+                      <Text style={[styles.deslabel, {flex: 2, textAlign: 'right'}]}> {data.wgt ? data.wgt : "-" } {weight}</Text>  
                       <Text style={[styles.deslabel, {flex: 2, textAlign: 'right'}]}> {data.price ? data.price : "-" } {currency}</Text>  
                     </View>
                   ))}

@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useState, useEffect} from 'react';
 import Modal from "react-native-modal"; 
 import uuid from 'react-native-uuid';
 import { View, Text, TouchableOpacity, Image , ScrollView, TextInput} from 'react-native'; 
@@ -18,7 +18,8 @@ export default function TripInfo({ route, navigation }) {
   const [qty, setQty] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const tripData = route.params.tripInfo;  
-  const userData = route.params.user;  
+  const userData = route.params.user;   
+  const [total, setTotal] = useState(); 
   const [recName, setReceiverName] = useState('')
   const [recContact, setReceiverContact] = useState('')
   const [facilityInfo, setfacilityInfo] = useState({});
@@ -33,6 +34,26 @@ export default function TripInfo({ route, navigation }) {
       )
     });
   }, [navigation]);
+
+    
+  useEffect(() => {   
+    const packageRef = firebase.firestore().collection('package') 
+    packageRef
+        .where('tripId', '==', tripData.tripId) 
+        .get().then((querySnapshot) => {
+          const dataArr = [];
+          let total = 0;
+          querySnapshot.forEach(doc => { 
+            let data = doc.data();
+            total += data.items.length;
+            dataArr.push(data);   
+          })  
+          setTotal(total);
+          setSpinner(false); 
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      }); 
+}, []); 
 
   function showModal(){   
     setModalVisible(true);
@@ -142,7 +163,7 @@ export default function TripInfo({ route, navigation }) {
           </View>
         </View>   
         <View style={styles.item}> 
-            <View style={{flex: 1, alignContent: "center"}}>  
+            <View style={{flex: 2, alignContent: "center"}}>  
                 <Avatar
                   size="large"
                   rounded
@@ -150,18 +171,18 @@ export default function TripInfo({ route, navigation }) {
                   source={{ uri: facilityInfo.avatar }}
                 />  
             </View> 
-            <View style={{flex: 2, alignItems: 'flex-start'}}>
+            <View style={{flex: 4, alignItems: 'flex-start'}}>
                 <Text style={styles.title}>{facilityInfo.facilityName}</Text>  
                 <Text style={styles.tripname}>{facilityInfo.fullName}</Text>  
                 <Text>{facilityInfo.email}</Text>  
             </View>
-            <View style={{flex: 1 ,flexDirection: "column" }}>
+            <View style={{flexDirection: "column" }}>
                 <View style={styles.itemCount}>
-                  <Text style={styles.numberText}>2127</Text>
+                  <Text style={styles.numberText}>{total}</Text>
                   <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27, marginBottom: 5 }}/> 
                 </View> 
                 <View style={styles.itemCount}>
-                  <Text style={styles.numberText}>213</Text>
+                  <Text style={styles.numberText}>{tripData.packageLists !== undefined ? tripData.packageLists.length : 0 }</Text>
                   <Image source={require('../../../assets/images/plane.png')} style={{ width: 28,resizeMode: 'center', height: 20}}/> 
                 </View> 
             </View>

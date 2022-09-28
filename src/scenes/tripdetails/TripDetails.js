@@ -84,7 +84,24 @@ export default function TripDetails({ route, navigation }) {
           console.log("Error getting document:", error);
       }); 
     }, []);
-    
+  
+  const changeTrackingStatus = () =>{ 
+    setSpinner(true); 
+    setRefreshing(true);
+    const updateTrip = { 
+      trackingStatus : "On Route"
+    }  
+    console.log(updateTrip)
+    const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
+    getTrip.update(updateTrip);
+    tripData.packageLists.forEach(packageId => { 
+      console.log(packageId)
+      const getPackages = firebase.firestore().collection('package').doc(packageId);
+      getPackages.update(updateTrip);
+    }) 
+    setSpinner(false); 
+    setRefreshing(false);
+  }
   return ( 
     <ScrollView style={styles.container}>  
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -141,7 +158,9 @@ export default function TripDetails({ route, navigation }) {
                 </View> 
                 <View style={{flex: 2, alignItems: 'flex-start', paddingLeft: "5%"}}>
                   <Text style={[styles.title, {marginTop: "5%"}]}>{user.fullName}</Text> 
-                  <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
+                  {item.trackingStatus !== "On Route" && (
+                    <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
+                  )}
                 </View>
                 <View style={{flex: 1 ,flexDirection: "column" }}>
                   <View style={styles.itemCount}>
@@ -158,7 +177,11 @@ export default function TripDetails({ route, navigation }) {
           </View>
       ))} 
       </ScrollView>
-      <Button title={"Ship"} children={'plane-departure'} /> 
+      {tripData.trackingStatus === "On Route" ? (
+        <Button title={"Arrive"} children={'plane-arrival'}  onPress={changeTrackingStatus}/> 
+      ): ( 
+        <Button title={"Ship"} children={'plane-departure'}  onPress={changeTrackingStatus}/> 
+      )}
       <Spinner
         visible={spinner}
         textStyle={{ color: "#fff" }}
