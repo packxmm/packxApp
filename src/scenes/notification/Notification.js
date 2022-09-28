@@ -1,5 +1,5 @@
-import React, {  useState , useEffect} from 'react';
-import {ScrollView, View, Text, RefreshControl} from 'react-native'; 
+import React, {  useState } from 'react';
+import {ScrollView, View, Text, RefreshControl, Image} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -43,7 +43,11 @@ export default function Notification(props) {
         {notiData.map((data, index) => (  
           <View key={index} style={styles.itembox}>
               <View style={{flex: 2, justifyContent: "center" }}> 
-                <FontAwesome5 style={styles.icon} name="map-marked-alt" size={25} />
+                {data.type === "confirmed" ? ( 
+                    <Image source={require('../../../assets/images/ticket-confirm.png')} style={{ width: 34,resizeMode: 'center', height: 30}}/> 
+                ) : ( 
+                    <Image source={require('../../../assets/images/tracking.png')} style={{ width: 44,resizeMode: 'center', height: 32}}/> 
+                )}
               </View> 
               <View style={{flex: 6, justifyContent: "center"}}> 
                 <Text style={styles.text}>{data.msg}</Text>  

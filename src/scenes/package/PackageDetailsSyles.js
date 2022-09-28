@@ -196,16 +196,17 @@ export default StyleSheet.create({
         fontFamily: 'UbuntuBold',
       }, 
       itemTitle: { 
-        fontSize: 14,
+        fontSize: 12,
         color: "#2797A6", 
         fontFamily: 'UbuntuMedium', 
+        textTransform: 'capitalize'
       },
       addicon: {
         color: "#085252", 
         marginVertical: 2
       },
       deslabel: {
-        fontSize: 14,
+        fontSize: 12,
         color: "#707070", 
         fontFamily: 'Ubuntu',
         paddingVertical : "1%", 
@@ -214,10 +215,16 @@ export default StyleSheet.create({
         flex: 4, 
         flexDirection: 'column', 
         marginTop: "3%",
-        marginBottom: "10%" 
+        marginBottom: "10%",
       },
       itemStatus: { 
         flexDirection: "row" , 
         justifyContent: 'space-around', 
+      },
+      statusTitle: { 
+        fontSize: 14,
+        color: "#2797A6", 
+        fontFamily: 'UbuntuMedium', 
+        textTransform: 'capitalize',
       }
 })

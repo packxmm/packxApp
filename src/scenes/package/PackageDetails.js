@@ -113,7 +113,7 @@ export default function PackageDetails({ route, navigation }) {
               <Text style={[styles.itemTitle, {flex: 4}]}>Item Description</Text>
               <Text style={[styles.itemTitle, {flex: 1, textAlign: 'right'}]}>Qty</Text>
               <Text style={[styles.itemTitle, {flex: 2, textAlign: 'right'}]}>Wgt</Text>
-              <Text style={[styles.itemTitle, {flex: 2, textAlign: 'center'}]}>$</Text>
+              <Text style={[styles.itemTitle, {flex: 3, textAlign: 'center'}]}>$</Text>
             </View>   
                 <ScrollView>
                   {packageData.items.map((data, index ) => (
@@ -121,7 +121,7 @@ export default function PackageDetails({ route, navigation }) {
                       <Text style={[styles.deslabel, {flex: 4}]}> {data.item}</Text>  
                       <Text style={[styles.deslabel, {flex: 1, textAlign: 'right'}]}> {data.qty} x </Text>  
                       <Text style={[styles.deslabel, {flex: 2, textAlign: 'right'}]}> {data.wgt ? data.wgt : "-" } {weight}</Text>  
-                      <Text style={[styles.deslabel, {flex: 2, textAlign: 'right'}]}> {data.price ? data.price : "-" } {currency}</Text>  
+                      <Text style={[styles.deslabel, {flex: 3, textAlign: 'right'}]}> {data.price ? data.price : "-" } {currency}</Text>  
                     </View>
                   ))}
               </ScrollView>  
@@ -129,8 +129,8 @@ export default function PackageDetails({ route, navigation }) {
               <View style={styles.itemRow}>
                 <Text style={[styles.deslabel, {flex: 1}]}></Text>  
                 <Text style={[styles.deslabel, {flex: 1}]}></Text>  
-                <Text style={[styles.itemlabel, {flex: 4, textAlign: "center"}]}> Total Amount </Text>  
-                <Text style={[styles.deslabel, {flex: 1}]}> -</Text>  
+                <Text style={[styles.itemlabel, {flex: 4, textAlign: "right"}]}> Total Amount </Text>  
+                <Text style={[styles.itemlabel, {flex: 2, textAlign: "right"}]}> {packageData.total ? packageData.total : "-" } {currency}</Text>  
               </View>
         </View> 
         <View style={{ flex: 2, flexDirection: "column" }}>  
@@ -143,7 +143,7 @@ export default function PackageDetails({ route, navigation }) {
               </View>
               <View style={{ flex: 4}}> 
                   {packageData.trackingStatus === "reserved" ? (
-                    <Text style={styles.itemTitle}>Package has been reserved</Text>
+                    <Text style={styles.statusTitle}>Package has been reserved</Text>
                   ) : (
                     <Text style={styles.itemlabel}>Package has been reserved</Text> 
                   )}
@@ -156,7 +156,7 @@ export default function PackageDetails({ route, navigation }) {
               </View>
               <View style={{ flex: 4}}>
                   {packageData.trackingStatus === "confirmed" ? (
-                    <Text style={styles.itemTitle}>Package is received by facility</Text>
+                    <Text style={styles.statusTitle}>Package is received by facility</Text>
                   ) : (
                     <Text style={styles.itemlabel}>Package is received by facility</Text> 
                   )}
@@ -169,7 +169,7 @@ export default function PackageDetails({ route, navigation }) {
               </View>
               <View style={{ flex: 4}}>
                   {packageData.trackingStatus === "On Route" ? (
-                    <Text style={styles.itemTitle}>Package is On-Route</Text>
+                    <Text style={styles.statusTitle}>Package is On-Route</Text>
                   ) : (
                     <Text style={styles.itemlabel}>Package is On-Route</Text> 
                   )}
@@ -182,7 +182,7 @@ export default function PackageDetails({ route, navigation }) {
               </View>
               <View style={{ flex: 4}}> 
                   {packageData.trackingStatus === "Arrive" ? (
-                    <Text style={styles.itemTitle}>Package has arrived at destination facility</Text>
+                    <Text style={styles.statusTitle}>Package has arrived at destination facility</Text>
                   ) : (
                     <Text style={styles.itemlabel}>Package has arrived at destination facility</Text> 
                   )}
@@ -192,8 +192,12 @@ export default function PackageDetails({ route, navigation }) {
               <View style={{ flex: 1}}>
                 <Image source={require('../../../assets/images/package-pickup.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/> 
               </View>
-              <View style={{ flex: 4}}>
-                  <Text style={styles.itemlabel}>Package has been picked up</Text>
+              <View style={{ flex: 4, borderBottomColor: "#2797A6", borderBottomWidth: 3}}> 
+                  {packageData.trackingStatus === "Checkout" ? (
+                    <Text style={styles.statusTitle}>Package has been picked up</Text>
+                  ) : (
+                    <Text style={styles.itemlabel}>Package has been picked up</Text> 
+                  )} 
                 </View>
             </View> 
           </View>

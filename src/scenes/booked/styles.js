@@ -14,8 +14,7 @@ export default StyleSheet.create({
   text:{ 
     fontSize: 11, 
     fontFamily: "Ubuntu",
-    flex: 1,
-    textAlign: 'center',
+    textAlign: 'right',
     color: "#3F3D56"
   },
   title: { 
@@ -62,7 +61,6 @@ export default StyleSheet.create({
     color: '#2797A6',
     fontSize: 12,
     fontFamily: "UbuntuMedium", 
-    textAlign: 'center',
     textTransform: 'capitalize'
   },
   tableTitledec : {

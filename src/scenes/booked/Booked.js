@@ -107,6 +107,31 @@ export default function Booked({route, navigation}) {
     }); 
     setSpinner(false); 
   }
+
+  const checkOut = () => {   
+    const generateUuid = uuid.v4();
+    const getUuid = generateUuid.replaceAll('-', '');  
+    const updatePackages = { 
+      trackingStatus : "Checkout"
+    } 
+    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    getPackages.update(updatePackages);
+    const msgData = { 
+      id: getUuid,
+      user : userData.id,
+      msg :  "Your package from "+ packageData.id.slice(0,8) + " has been picked-up.",
+      type : "checkout"
+    }
+    const notiRef = firebase.firestore().collection('notification')
+    notiRef
+    .doc(getUuid)
+    .set(msgData)
+    .catch((error) => {
+      alert(error)
+    }); 
+    navigation.navigate('TripDetails');
+
+  }
   return ( 
     <View style={styles.container}>  
       <View style={styles.tripHeader}> 
@@ -141,11 +166,11 @@ export default function Booked({route, navigation}) {
           </View>
           <View style={styles.itemList}> 
               <View style={styles.tableTitle}> 
-                  <Text style={styles.tableTitledec}>Item Description</Text> 
-                  <Text style={styles.tableTitleText}>Qty</Text> 
-                  <Text style={styles.tableTitleText}>Wgt</Text> 
-                  <Text style={[styles.tableTitleText]}>$</Text> 
-                  {  confirmed === false && packageData.trackingStatus === "reserved" && ( 
+                  <Text style={[styles.tableTitledec]}>Item Description</Text> 
+                  <Text style={[styles.tableTitleText, {textAlign: "right"}]}>Qty</Text> 
+                  <Text style={[styles.tableTitleText, {textAlign: "right"}]}>Wgt</Text> 
+                  <Text style={[styles.tableTitleText, {flex: 2,textAlign: "center"}]}>$</Text> 
+                  {confirmed === false && packageData.trackingStatus === "reserved" && ( 
                     <Text style={styles.tableTitleText}>Manage</Text> 
                   )}
               </View>
@@ -153,7 +178,7 @@ export default function Booked({route, navigation}) {
           {packageData.items.map((val, index) => (
               <View key={index} style={styles.tableRow}>  
                   <Text style={styles.dectext}>{val.item}</Text> 
-                  <Text style={[styles.text]}>{val.qty}</Text>  
+                  <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.qty} x</Text>  
                   { confirmed === false && packageData.trackingStatus === "reserved" ? ( 
                     <>
                       <TextInput style={styles.input} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="numeric" placeholder={weight}/>
@@ -162,8 +187,8 @@ export default function Booked({route, navigation}) {
                     </>
                   ) : (
                     <>
-                      <Text style={[styles.text]}>{val.wgt} {weight}</Text>  
-                      <Text style={[styles.text]}>{val.price} {currency}</Text>  
+                      <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.wgt} {weight}</Text>  
+                      <Text style={[styles.text, {flex: 2, textAlign: "right"}]}>{val.price} {currency}</Text>  
                     </>
                   )}
               </View>
@@ -173,7 +198,7 @@ export default function Booked({route, navigation}) {
                   <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
                   <Text style={styles.totalLabel}>{totalAmount} {currency}</Text> 
                 </View>
-               { packageData.trackingStatus !== "reserved" && (   
+               {confirmed === true && (   
                 <View style={styles.switchRow}>
                   <Text style={styles.totalLabel}>Unpaid</Text>  
                   <Switch
@@ -194,7 +219,7 @@ export default function Booked({route, navigation}) {
         <>
         {packageData.trackingStatus === "Arrive" ? (
             <View  style={{marginBottom: "5%"}}>
-              <Button title={"Check Out"} children={'caret-square-right'} onPress={saveData}/> 
+              <Button title={"Check Out"} children={'caret-square-right'} onPress={checkOut}/> 
             </View> 
           ) : ( 
             <View  style={{marginBottom: "5%"}}>
@@ -205,8 +230,16 @@ export default function Booked({route, navigation}) {
         ) :
         (
           <>
-            <Button title={"Confirm"} children={'check'}  onPress={confirmBooking} /> 
-            <WhiteButton title={"Refuse"} children={'remove'}/>
+            {confirmed === false ? (
+                <>
+                <Button title={"Confirm"} children={'check'}  onPress={confirmBooking} /> 
+                <WhiteButton title={"Refuse"} children={'remove'}/>
+                </>
+              ) : ( 
+                <View  style={{marginBottom: "5%"}}>
+                  <Button title={"Save"} children={'save'} onPress={saveData}/> 
+                </View> 
+            )}
           </>
         )
       }

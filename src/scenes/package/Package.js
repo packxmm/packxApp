@@ -101,6 +101,12 @@ export default function Package(props) {
                           <Text style={[styles.statusText, {color: "#ffffff"}]}> Arrive</Text> 
                         </View> 
                       )}
+                      {item.trackingStatus === "Checkout" && ( 
+                       <View style={[styles.statusBtn ,styles.arrive]}> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                          <Text style={[styles.statusText, {color: "#ffffff"}]}> Check Out</Text> 
+                        </View> 
+                      )}
                       <View style={{flex: 2, alignItems: "flex-end", justifyContent: "space-around"}}>
                         <Text style={styles.tripname}>TRIP ID - <Text style={styles.triplabel}>{item.tripId.slice(0,8)}</Text></Text>
                         <Text style={styles.tripname}>Package ID - <Text style={styles.triplabel}>{item.id.slice(0,8)}</Text></Text>
