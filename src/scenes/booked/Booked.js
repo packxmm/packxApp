@@ -96,7 +96,8 @@ export default function Booked({route, navigation}) {
       id: getUuid,
       user : userData.id,
       msg :  "Your reserved package "+ packageData.id.slice(0,8) + " is now confirmed.",
-      type : "confirmed"
+      type : "confirmed",
+      timestamp : new Date().toLocaleString('en-US')
     }
     const notiRef = firebase.firestore().collection('notification')
     notiRef
@@ -120,7 +121,8 @@ export default function Booked({route, navigation}) {
       id: getUuid,
       user : userData.id,
       msg :  "Your package from "+ packageData.id.slice(0,8) + " has been picked-up.",
-      type : "checkout"
+      type : "checkout",
+      timestamp : new Date().toLocaleString('en-US')
     }
     const notiRef = firebase.firestore().collection('notification')
     notiRef

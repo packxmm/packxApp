@@ -1,7 +1,5 @@
 import React, {  useState, useEffect} from 'react';
-import Modal from "react-native-modal"; 
-import uuid from 'react-native-uuid';
-import { View, Text, TouchableOpacity, Image , ScrollView, TextInput} from 'react-native'; 
+import { View, Text, TouchableOpacity, Image , ScrollView} from 'react-native'; 
 import styles from './styles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -9,19 +7,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
-import WhiteButton from '../../components/Button/WhiteButton'
 
 export default function TripInfo({ route, navigation }) { 
-  const [isModalVisible, setModalVisible] = useState(false); 
-  const [itemList,setItemLists] = useState([]);
-  const [item, setItem] = useState(null);
-  const [qty, setQty] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const tripData = route.params.tripInfo;  
   const userData = route.params.user;   
   const [total, setTotal] = useState(); 
-  const [recName, setReceiverName] = useState('')
-  const [recContact, setReceiverContact] = useState('')
   const [facilityInfo, setfacilityInfo] = useState({});
 
   React.useLayoutEffect(() => {
@@ -55,68 +46,7 @@ export default function TripInfo({ route, navigation }) {
       }); 
 }, []); 
 
-  function showModal(){   
-    setModalVisible(true);
-  } 
 
-  function hideModal(){   
-    setModalVisible(false);   
-  } 
-
-  function confirmData(){  
-    setModalVisible(false); 
-    const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');  
-    const data = { 
-      id: getUuid,
-      tripId : tripData.tripId,
-      userId : userData.id,
-      recName : recName,
-      recContact : recContact,
-      items : itemList, 
-      trackingStatus : "reserved",
-      status: "Unpaid"
-    } 
-    const packageRef = firebase.firestore().collection('package');
-    packageRef
-      .doc(getUuid)
-      .set(data)
-      .then(() => {  
-        navigation.navigate('Reserved');
-      })
-      .catch((error) => {
-        alert(error)
-      }); 
-    
-      let getPackages = tripData.packageLists;
-      getPackages.push(getUuid);
-      const addPackages = { 
-        packageLists : getPackages
-      } 
-      const updateTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
-      updateTrip.update(addPackages);
-      
-      const msgData = { 
-        id: getUuid,
-        user : tripData.facilityId,
-        msg :  "PackX Id "+ tripData.tripId.slice(0,8) + " has reserved a trip.",
-        type : "reserved"
-      }
-      const notiRef = firebase.firestore().collection('notification')
-      notiRef
-      .doc(getUuid)
-      .set(msgData)
-      .catch((error) => {
-        alert(error)
-      }); 
-  } 
-
-  function addList(){
-    setItemLists(itemList => [{  
-      item : item, 
-      qty : qty
-    },...itemList]);
-  }
   firebase.firestore()
     .collection('users')
     .doc(tripData.facilityId)
@@ -218,59 +148,7 @@ export default function TripInfo({ route, navigation }) {
         </View>  
           { userData.type === "user" && (
             <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>  
-                <Button title={"Reserve"} onPress={showModal} />
-                <Modal isVisible={isModalVisible} transparent={true} animationType="fade" style={styles.view} > 
-                  <View style={styles.modalView}>
-                      <Text style={styles.title}>Reserve your package </Text> 
-                      <Text style={styles.subtitle}>Package Summary</Text> 
-                      <View style={{ flex: 2, flexDirection: "column" }}>  
-                          <View style={styles.itemHeader} > 
-                            <Text style={styles.itemTitle}>Item Description</Text>
-                            <Text style={styles.itemTitle}>Qty</Text>
-                          </View>   
-                          {itemList.length != 0  &&
-                            <ScrollView>
-                            {itemList.map((data, index ) => (
-                              <View style={styles.itemRow} key={index}>
-                                <Text style={styles.deslabel}> {data.item}</Text>  
-                                <Text style={styles.deslabel}> {data.qty} x </Text>  
-                              </View>
-                            ))}
-                            </ScrollView>
-                          }
-                          <View style={styles.itemRow} > 
-                            <TextInput style={styles.itemInputLg} placeholder="Input Your Item Here ...." onChangeText={setItem}/>
-                            <TextInput style={styles.itemInputXs} placeholder="Qty" onChangeText={setQty}/>
-                          </View>    
-                          <TouchableOpacity onPress={addList} style={{ flexDirection: "row", justifyContent: 'center' }}> 
-                            <FontAwesome5 style={styles.addicon} name="plus-circle" size={23} />
-                            <Text style={styles.addlabel}> Add </Text> 
-                          </TouchableOpacity>   
-                      </View> 
-                      <View style={{ flex: 2, flexDirection: "column" }}>
-                          <Text style={styles.inputLabel}>Receiver Name</Text>
-                          <TextInput style={styles.input}  
-                            placeholder="Receiver Name"
-                            placeholderTextColor="#aaaaaa"
-                            onChangeText={(text) => setReceiverName(text)}
-                            value={recName}
-                            underlineColorAndroid="transparent"
-                            autoCapitalize="none"
-                          />
-                          <Text style={styles.inputLabel}>Receiver Contact</Text>
-                          <TextInput style={styles.input} 
-                            placeholder="Receiver Contact"
-                            placeholderTextColor="#aaaaaa"
-                            onChangeText={(text) => setReceiverContact(text)}
-                            value={recContact}
-                            underlineColorAndroid="transparent"
-                            autoCapitalize="none"
-                          />
-                        <Button title={"Confirm"} onPress={confirmData} children={'check'} /> 
-                        <WhiteButton title={"Cancel"} onPress={hideModal} children={'remove'}/>
-                      </View>
-                  </View>
-                </Modal>
+                <Button title={"Reserve"} onPress={() => navigation.navigate('Reserved', { tripInfo: tripData, user: userData })}/>
             </View>
           )}
           <Spinner

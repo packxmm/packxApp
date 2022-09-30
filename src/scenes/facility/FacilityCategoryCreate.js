@@ -120,7 +120,8 @@ function FacilityCategoryForm(props){
       categoryLists : categoryLists,
       prohibitedLists : prohibitedLists,
       trackingStatus : "Reserved",
-      packageLists: []
+      packageLists: [],
+      timestamp : new Date().toLocaleString('en-US')
     } 
     const usersRef = firebase.firestore().collection('trips')
     usersRef
@@ -332,9 +333,7 @@ function FacilityCategoryForm(props){
           <FontAwesome style={styles.icon} name="plus-circle" size={23} />
           <Text style={styles.label}> Add </Text> 
         </TouchableOpacity> 
-        <Button title={"Create Trip"} onPress={goToTrips}>
-          <MaterialIcons style={{color: "#fff", marginRight: 10 }}  name='flag-triangle' size={25} />
-        </Button>
+        <Button title={"Create Trip"} onPress={goToTrips} children={"flag"}></Button>
       <Spinner
         visible={spinner}
         textStyle={{ color: "#fff" }}

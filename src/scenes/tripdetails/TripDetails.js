@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, ScrollView, Image, RefreshControl} from '
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay' 
-import Icon from 'react-native-vector-icons/Ionicons'; 
+import Icon from 'react-native-vector-icons/Ionicons';  
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
 
@@ -20,7 +20,7 @@ export default function TripDetails({ route, navigation }) {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
-          <Image source={require('../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28}}/>
+          <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back To Trip Lists</Text>
         </TouchableOpacity>
       )
@@ -182,8 +182,12 @@ export default function TripDetails({ route, navigation }) {
                 </View> 
                 <View style={{flex: 2, alignItems: 'flex-start', paddingLeft: "5%"}}>
                   <Text style={[styles.title, {marginTop: "5%"}]}>{user.fullName}</Text> 
-                  {item.trackingStatus !== "On Route" || tripData.trackingStatus !== "Arrive" && (
-                    <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
+                  {item.trackingStatus !== "On Route" && (
+                    <>
+                      {tripData.trackingStatus !== "Arrive" && (
+                        <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
+                      )}
+                    </>
                   )}
                 </View>
                 <View style={{flex: 1 ,flexDirection: "column" }}>

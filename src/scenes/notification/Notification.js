@@ -46,7 +46,7 @@ export default function Notification(props) {
                 {data.type === "confirmed" ? ( 
                     <Image source={require('../../../assets/images/ticket-confirm.png')} style={{ width: 34,resizeMode: 'center', height: 30}}/> 
                 ) : ( 
-                    <Image source={require('../../../assets/images/tracking.png')} style={{ width: 44,resizeMode: 'center', height: 32}}/> 
+                    <Image source={require('../../../assets/images/tracking-icon.png')} style={{ width: 44,resizeMode: 'center', height: 32}}/> 
                 )}
               </View> 
               <View style={{flex: 6, justifyContent: "center"}}> 

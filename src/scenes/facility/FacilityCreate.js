@@ -2,7 +2,7 @@ import React , { useState } from 'react';
 import DatePicker from 'react-native-datepicker';
 import { View, Text, useColorScheme, TouchableOpacity, Image , ScrollView, TextInput, StatusBar, SafeAreaView} from 'react-native';
 import styles from './styles' 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
 
 function FacilityCreateScreen(props){ 
@@ -11,8 +11,8 @@ function FacilityCreateScreen(props){
     props.navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => props.navigation.goBack()}>
-          <Image source={require('../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28}}/>
-          <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back</Text>
+          <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
+          <Text style={{color: "#c8c8c8", paddingLeft: 5, lineHeight: 20, fontSize: 18}}>Back</Text>
         </TouchableOpacity>
       )
     });
@@ -68,7 +68,7 @@ function FacilityCreateScreen(props){
                     placeholder="Pick The Date"
                     format="DD/MM/YYYY"
                     minDate="01-01-1900"
-                    maxDate="06-10-2022"
+                    maxDate="31-12-2035"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -106,7 +106,7 @@ function FacilityCreateScreen(props){
                     placeholder="Pick The Date"
                     format="DD/MM/YYYY"
                     minDate="01-01-1900"
-                    maxDate="06-10-2022"
+                    maxDate="31-12-2035"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -154,9 +154,7 @@ function FacilityCreateScreen(props){
   numberOfLines={3}/>
             </View>
         </SafeAreaView>
-        <Button title={"Next"} onPress={goToNext}>
-          <FontAwesome5 style={{color: "#fff", marginRight: 10 }}  name='arrow-circle-right' size={25} />
-        </Button>
+        <Button title={"Next"} onPress={goToNext} children={"arrow-circle-right"}></Button>
       </View>
     </ScrollView>
   );
