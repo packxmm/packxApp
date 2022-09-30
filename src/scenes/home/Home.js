@@ -7,27 +7,11 @@ import { Calendar } from 'react-native-calendars';
 import Lists from '../../components/Lists'
 
 export default function Home(props) {
-  const userData = props.extraData
+  // console.log(props.route)
+  const userData = props.user; 
+  const [tripsData, setTripsData] = useState([]);  
   const [token, setToken] = useState('')
   const scheme = useColorScheme()
-  const tripData = [
-    {
-      title: "Trip Activity : June 10th 2022",
-      data: [
-        { tripId : "TRIP NUMBER - 00001",from : "Yangon",to : "NEW YORK", tripStatus: "Drop off"},
-        { tripId : "TRIP NUMBER - 00002",from : "Yangon",to : "LOS ANGELES", tripStatus: "Pick-Up"}, 
-        { tripId : "TRIP NUMBER - 00003",from : "Yangon",to : "Singapore", tripStatus: "Drop off"}
-      ]
-    },
-    {
-      title: "Trip Activity : June 19th 2022",
-      data: [
-        { tripId : "TRIP NUMBER - 00001",from : "Yangon",to : "NEW YORK", tripStatus: "Drop off"},
-        { tripId : "TRIP NUMBER - 00002",from : "Yangon",to : "LOS ANGELES", tripStatus: "Pick-Up"}, 
-        { tripId : "TRIP NUMBER - 00003",from : "Yangon",to : "Singapore", tripStatus: "Drop off"}
-      ]
-    }
-  ];
 
   const ListItem = ({ data },index) => {
     return(
@@ -36,8 +20,8 @@ export default function Home(props) {
   };
   
   useEffect(() => {
-    firebase.firestore()
-      .collection('tokens')
+    const tokenRef = firebase.firestore().collection('tokens')
+      tokenRef
       .doc(userData.id)
       .get().then((doc) => {
         if (doc.exists) {
@@ -50,7 +34,23 @@ export default function Home(props) {
       }).catch((error) => {
           console.log("Error getting document:", error);
       });
+      const tripsRef = firebase.firestore().collection('trips')
+      tripsRef
+      .where('facilityId', '==', userData.id) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          const data = doc.data();
+          dataArr.push(data);   
+        })  
+        setTripsData(dataArr); 
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });  
+    
+      console.log(tripsData)
   }, []);
+
 
   return (
     <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
@@ -63,7 +63,7 @@ export default function Home(props) {
                 Create New Trip
               </Text>
             </TouchableOpacity>
-            <View style={styles.amountDue}>
+            <TouchableOpacity style={styles.amountDue} onPress={() =>  props.navigation.navigate('TotalAmount', {tripInfo : tripsData})}>
               <View>
                 <Text style={{fontSize: 18}}> Amount Due </Text>
                 <Text style={styles.priceLabel}> $ 453.00 </Text>
@@ -72,7 +72,7 @@ export default function Home(props) {
                 <Image source={require('../../../assets/images/sm-logo.png')} style={{ width: 38,resizeMode: 'center', height: 31}}/>
                 <Ionicons name="arrow-forward-outline" size={30} style={{marginTop: 20}}/>
               </View>
-            </View>
+            </TouchableOpacity>
             <Calendar
               style={styles.facilityCalendar}
               current={'2022-06-01'}
@@ -96,25 +96,15 @@ export default function Home(props) {
               enableSwipeMonths={true}
             />
             <View>
-            {tripData.map((item, index) => (
+            {tripsData.map((trip, index) => (
               <View key={index}> 
-                <Text style={styles.header}>{item.title}</Text>  
-                {item.data.map((data, index) => (
-                  <ListItem data={data} key={index}/>
-                 ))}
+                <Text style={styles.header}> Trip Activity - {new Date(trip.timestamp).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.timestamp).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.timestamp).toLocaleDateString("en-US", { year: 'numeric'})}</Text>  
+                <Lists data={trip} key={index}/>
             </View>
             ))} 
             </View>
         </SafeAreaView>
       </ScrollView>
-      <View style={{ flex: 1, width: '100%' }}>
-        <ScrollView style={styles.main}>
-          <Text style={scheme === 'dark' ? styles.darkfield : styles.field}>Mail:</Text>
-          <Text style={scheme === 'dark' ? styles.darktitle : styles.title}>{userData.email}</Text>
-          <Text style={scheme === 'dark' ? styles.darkfield : styles.field}>Expo push token:</Text>
-          <Text style={scheme === 'dark' ? styles.darktitle : styles.title}>{token.token}</Text>
-        </ScrollView>
-      </View>
     </View>
   )
 }

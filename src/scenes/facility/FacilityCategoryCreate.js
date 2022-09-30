@@ -5,7 +5,7 @@ import { firebase } from '../../firebase/config'
 import { Dropdown } from 'react-native-element-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'; 
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { View, Text, TextInput, TouchableOpacity, Image,ScrollView , StatusBar, useColorScheme} from 'react-native';
@@ -66,8 +66,8 @@ function FacilityCategoryForm(props){
     props.navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => props.navigation.goBack()}>
-          <Image source={require('../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28}}/>
-          <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back</Text>
+          <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
+          <Text style={{color: "#c8c8c8", paddingLeft: 5, lineHeight: 20, fontSize: 18}}>Back</Text>
         </TouchableOpacity>
       )
     });

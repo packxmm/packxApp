@@ -17,6 +17,7 @@ import Trips from '../../../scenes/trips';
 import PackageDetails from '../../../scenes/package/PackageDetails';
 import TripBooking from '../../../scenes/booked';
 import Notification from '../../../scenes/notification';
+import AmountDue from '../../../scenes/amountdue';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator() 
@@ -138,6 +139,9 @@ const TabNavigator = (props) => {
           <Stack.Screen name="CreateFacility"  options={{headerShown: false}} navigationProps={navigationProps}>
             {props => <FacilityNavigator {...props} user={user} />}
           </Stack.Screen> 
+          <Stack.Screen name="TotalAmount" options={{title: ''}}>
+            {props => <AmountDue {...props} user={user}  navigationProps={navigationProps}/>}
+          </Stack.Screen>
           <Stack.Screen name="TripInfo" options={{title: ''}} navigationProps={navigationProps}>
             {props => <TripInfo {...props} user={user}/>}
           </Stack.Screen>  

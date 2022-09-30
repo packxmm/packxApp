@@ -27,7 +27,7 @@ export default function TripInfo({ route, navigation }) {
   }, [navigation]);
 
     
-  useEffect(() => {   
+useEffect(() => {   
     const packageRef = firebase.firestore().collection('package') 
     packageRef
         .where('tripId', '==', tripData.tripId) 
@@ -44,22 +44,22 @@ export default function TripInfo({ route, navigation }) {
       }).catch((error) => {
           console.log("Error getting document:", error);
       }); 
-}, []); 
+    
+      firebase.firestore()
+        .collection('users')
+        .doc(tripData.facilityId)
+        .get().then((doc) => {
+          if (doc.exists) {
+              const data = doc.data();
+              setfacilityInfo(data)
+          } else {
+              console.log("No such document!");
+          }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      }); 
+  }, []); 
 
-
-  firebase.firestore()
-    .collection('users')
-    .doc(tripData.facilityId)
-    .get().then((doc) => {
-      if (doc.exists) {
-          const data = doc.data();
-          setfacilityInfo(data)
-      } else {
-          console.log("No such document!");
-      }
-  }).catch((error) => {
-      console.log("Error getting document:", error);
-  }); 
   return ( 
     <ScrollView style={styles.container}> 
         <View style={styles.tripList}> 

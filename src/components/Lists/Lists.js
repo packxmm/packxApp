@@ -4,18 +4,18 @@ import { View, Text, StyleSheet } from 'react-native';
 const ListView = ({ data }) => {
     return(
         <View style={styles.item}>
-        <Text style={styles.title}>{data.tripId}</Text>
+        <Text style={styles.title}>TRIP NUMBER - {data.tripId.slice(0,8)}</Text>
         <View style={styles.tripList}>
           <View style={{flex: 2}}>
             <Text style={styles.triplabel}>From</Text>
-            <Text style={styles.tripname}>{data.from}</Text>
+            <Text style={styles.tripname}>{data.tripInfo.dropOff}</Text>
           </View>
           <View style={{flex: 2}}>
             <Text style={styles.triplabel}>To</Text>
-            <Text style={styles.tripname}>{data.to}</Text>
+            <Text style={styles.tripname}>{data.tripInfo.desVal}</Text>
           </View>
-          <View style={{flex: 3, alignItems: "flex-end", justifyContent: "center"}}>
-            <Text style={styles.tripStatus}>{data.tripStatus}</Text>
+          <View style={{flex: 2, alignItems: "flex-end", justifyContent: "center"}}>
+            <Text style={styles.tripStatus}>{data.trackingStatus}</Text>
           </View>
           </View>
       </View>
@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     },
     tripStatus: {
       color: "#185354",
-      fontSize: 20
+      fontSize: 17, 
+      fontFamily: "Ubuntu",
     },
     triplabel: {
       fontSize: 12,
