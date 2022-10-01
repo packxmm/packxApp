@@ -8,7 +8,7 @@ import Lists from '../../components/Lists'
 
 export default function AmountDue(props) {
   const tripData = props.route.params.tripInfo;
-  console.log(tripData.trackingStatus)  
+  const [totalAmount, setTotalAmount] = useState(1000);
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerLeft: () => (
@@ -31,11 +31,15 @@ export default function AmountDue(props) {
         <>
           {trip.trackingStatus === "Arrive" &&
             <View key={index}> 
-                <Lists data={trip} key={index}/>
+                <Lists data={trip} key={index} showStatus={false}/>
             </View>
           }
         </>
       ))}
+      <View style={styles.amountText}>
+        <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
+        <Text style={styles.totalLabel}>{totalAmount} USD </Text> 
+      </View>
       </View>
     </View>
   )

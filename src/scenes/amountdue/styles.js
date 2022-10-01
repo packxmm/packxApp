@@ -53,4 +53,12 @@ export default StyleSheet.create({
     lineHeight: 19,
     marginRight: 10
   },
+  amountText : {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      borderTopColor: '#ECEFEF',
+      borderTopWidth: 1,
+      marginTop :  "1%",
+      paddingVertical :  "5%" 
+  },
 })
