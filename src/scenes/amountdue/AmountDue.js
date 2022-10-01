@@ -37,8 +37,8 @@ export default function AmountDue(props) {
         </>
       ))}
       <View style={styles.amountText}>
-        <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
-        <Text style={styles.totalLabel}>{totalAmount} USD </Text> 
+        <Text style={styles.totalLabel}>TOTAL AMOUNT - </Text>
+        <Text style={styles.text}>{totalAmount} USD </Text> 
       </View>
       </View>
     </View>

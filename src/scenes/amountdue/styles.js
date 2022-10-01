@@ -49,9 +49,8 @@ export default StyleSheet.create({
   text: {
     color: "#7C7C7C",
     fontSize: 14,
-    fontFamily: "UbuntuMedium",
-    lineHeight: 19,
-    marginRight: 10
+    fontFamily: "Ubuntu", 
+    padding :  "1%",
   },
   amountText : {
       flexDirection: "row",
@@ -60,5 +59,10 @@ export default StyleSheet.create({
       borderTopWidth: 1,
       marginTop :  "1%",
       paddingVertical :  "5%" 
+  },
+  totalLabel: {
+    fontSize: 13,
+    fontFamily: "UbuntuMedium", 
+    padding :  "1%",
   },
 })
