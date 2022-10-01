@@ -36,9 +36,19 @@ export default function AmountDue(props) {
           }
         </>
       ))}
+      <View style={[styles.amountText, {flexDirection: 'column'}]}>
+        <View style={{flexDirection: 'row', paddingBottom: "1%"}}>
+          <Text style={styles.totalLabel}>FACILITY INCOME</Text>
+          <Text style={styles.text}>{totalAmount} USD </Text> 
+        </View>
+        <View style={{flexDirection: 'row', paddingBottom: "1%"}}>
+          <Text style={styles.totalLabel}> COMISSION</Text>
+          <Text style={styles.text}> 10% </Text> 
+        </View>
+      </View>
       <View style={styles.amountText}>
-        <Text style={styles.totalLabel}>TOTAL AMOUNT - </Text>
-        <Text style={styles.text}>{totalAmount} USD </Text> 
+        <Text style={styles.header}>TOTAL AMOUNT DUE - </Text>
+        <Text style={styles.header}>{totalAmount / 10} USD </Text> 
       </View>
       </View>
     </View>
