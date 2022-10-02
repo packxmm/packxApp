@@ -1,5 +1,6 @@
 import React , { useState } from 'react'; 
 import DatePicker from 'react-native-datepicker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { View, Text, useColorScheme, TouchableOpacity, Image , ScrollView, TextInput, StatusBar, SafeAreaView} from 'react-native';
 import styles from './styles' 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -26,9 +27,8 @@ function FacilityCreateScreen(props){
   const [locPickUp, setLocPickUp] = useState("");
   const [seclocPickUp, setSecLocPickUp] = useState("");
   const [facilityInfo, setFacilityInfo] = useState("");
-  const [dropOffDate, setdropOffDate] = useState(new Date().getDate());
-  const [pickUpDate, setpickUpDate] = useState(new Date().getDate());
- 
+  const [dropOffDate, setdropOffDate] = useState(new Date().toLocaleDateString("en-US"));
+  const [pickUpDate, setpickUpDate] = useState(new Date().toLocaleDateString("en-US"));
   const goToNext =  () => {  
     props.navigation.navigate('CreateCategory', { 
       otherParam: {
@@ -44,6 +44,7 @@ function FacilityCreateScreen(props){
       }
     });
   } 
+  console.log(new Date(dropOffDate).toLocaleDateString("en-US"));
 
   return (
     <ScrollView>
@@ -53,7 +54,9 @@ function FacilityCreateScreen(props){
           <Text style={styles.text}> Create New Trip </Text>
           <Text style={styles.text}> 1 of 2 </Text>
         </View>
-          <SafeAreaView style={styles.addRoute}>
+      <KeyboardAwareScrollView
+        style={styles.addRoute} 
+        keyboardShouldPersistTaps="always">
               <Text style={styles.inputLabel} >From</Text>
               <TextInput style={styles.input} onChangeText={setDropOffCity} placeholder="Drop Off City"/>
               <Text style={styles.inputLabel}>To</Text>
@@ -66,9 +69,7 @@ function FacilityCreateScreen(props){
                     mode="date"
                     date={dropOffDate}
                     placeholder="Pick The Date"
-                    format="DD/MM/YYYY"
-                    minDate="01-01-1900"
-                    maxDate="31-12-2035"
+                    format="MM/DD/YYYY"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -104,9 +105,7 @@ function FacilityCreateScreen(props){
                     date={pickUpDate}
                     mode="date"
                     placeholder="Pick The Date"
-                    format="DD/MM/YYYY"
-                    minDate="01-01-1900"
-                    maxDate="31-12-2035"
+                    format="MM/DD/YYYY"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -136,8 +135,11 @@ function FacilityCreateScreen(props){
                   /> 
                 </View>
               </View>
-          </SafeAreaView> 
-          <SafeAreaView style={styles.addAddress}>
+          </KeyboardAwareScrollView> 
+
+      <KeyboardAwareScrollView
+        style={styles.addAddress}
+        keyboardShouldPersistTaps="always">  
             <View style={{flex: 2}}>
               <Text style={styles.inputLabel}>Drop-Off Address</Text>
               <TextInput style={styles.input} onChangeText={setLocDropOff} placeholder="Location To Drop-Off Package"/>
@@ -153,7 +155,7 @@ function FacilityCreateScreen(props){
               <TextInput style={styles.input} onChangeText={setFacilityInfo} placeholder="Describe The Annoucements" multiline={true}
   numberOfLines={3}/>
             </View>
-        </SafeAreaView>
+        </KeyboardAwareScrollView>
         <Button title={"Next"} onPress={goToNext} children={"arrow-circle-right"}></Button>
       </View>
     </ScrollView>

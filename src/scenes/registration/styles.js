@@ -5,6 +5,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     margin: "10%",
+    backgroundColor: "#FAFAFA"
   },
   logo: {
     flex: 1,

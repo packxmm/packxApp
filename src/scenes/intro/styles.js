@@ -4,7 +4,7 @@ export default StyleSheet.create({
     container:{
       flex: 1,
       flexDirection: "column",  
-      paddingHorizontal: "10%" ,
+      paddingHorizontal: "5%" ,
       backgroundColor: "#FAFAFA", 
       justifyContent: 'center',
     },
@@ -31,7 +31,7 @@ export default StyleSheet.create({
       fontSize: 16,
       color: "#8E9696",
       textAlign: 'center',
-      padding: "3%",
+      padding: "2%",
       lineHeight: 22,
       fontFamily: 'Ubuntu',
     },

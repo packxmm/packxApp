@@ -354,8 +354,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = reactnative.expo.firebase.boilerplate;
-				PRODUCT_NAME = packxApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.packx.booking";
+				PRODUCT_NAME = booking;
 				SWIFT_OBJC_BRIDGING_HEADER = "packxApp/packxApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -380,8 +380,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = reactnative.expo.firebase.boilerplate;
-				PRODUCT_NAME = packxApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.packx.booking";
+				PRODUCT_NAME = booking;
 				SWIFT_OBJC_BRIDGING_HEADER = "packxApp/packxApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -4,7 +4,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: "10%"
+    paddingHorizontal: "10%",
+    backgroundColor: "#FAFAFA"
   },
   logo : { 
     alignSelf: "center",

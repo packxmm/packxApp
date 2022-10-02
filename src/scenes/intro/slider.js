@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from './styles';
 import AppIntroSlider from 'react-native-app-intro-slider';
-// import UserScreen from '../User/User';
 
 const slides = [
   {
