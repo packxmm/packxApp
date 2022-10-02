@@ -5,11 +5,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Registration({route, navigation}) {
   const userType = route.params.userType;
-  const [avatar, setAvatar] = useState('')
-  const [gender, setGender] = useState('')
   const [fullName, setFullName] = useState('')
   const [facilityName, setFacilitylName] = useState('')
   const [email, setEmail] = useState('')
@@ -18,7 +17,17 @@ export default function Registration({route, navigation}) {
   const [address, setAddress] = useState('')
   const [phoneNo, setPhoneNo] = useState('')
   const [spinner, setSpinner] = useState(false)
-  console.log(userType)
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+          <Icon style={{color: "#1B9494"}} name={"chevron-back"} size={30} />
+          <Text style={{color: "#c8c8c8", paddingTop: 5, fontSize: 18}}>Back</Text>
+        </TouchableOpacity>
+      )
+    });
+  }, [navigation]);
 
   const onFooterLinkPress = () => {
     navigation.navigate('Login', { userType : userType})

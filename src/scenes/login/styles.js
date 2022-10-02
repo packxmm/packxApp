@@ -9,8 +9,7 @@ export default StyleSheet.create({
   },
   logo : { 
     alignSelf: "center",
-    marginTop: "30%",
-    marginBottom: "20%"
+    marginVertical: "20%"
   },
   logoBox : { 
     alignSelf: "center",

@@ -12,7 +12,6 @@ const styles = {
   button: {
     marginRight: "20%",
     width: "100%",
-    marginBottom: 40,
     height: 45,
     borderRadius: 5,
     borderColor: '#169393', 

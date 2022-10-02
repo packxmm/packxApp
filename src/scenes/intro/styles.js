@@ -39,5 +39,12 @@ export default StyleSheet.create({
       alignSelf: 'center',
       width: 220,
       height: 184
+    },
+    fotterText: {
+      fontSize: 16,
+      textAlign: 'center',
+      paddingVertical: "2%",
+      lineHeight: 22,
+      fontFamily: 'Ubuntu',
     }
   });

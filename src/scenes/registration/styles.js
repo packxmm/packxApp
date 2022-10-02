@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center', 
-    margin: "10%",
+    paddingHorizontal: "10%",
     backgroundColor: "#FAFAFA"
   },
   logo: {
@@ -82,7 +82,8 @@ export default StyleSheet.create({
   link: {
     color: '#169393',
     textAlign: 'center',
-    marginTop: 5
+    marginTop: 5,
+    marginBottom: 15
   },
   logoBox : {
     flex : 2,

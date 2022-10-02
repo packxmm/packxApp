@@ -12,7 +12,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo-sm.png",
     "splash": {
-      "image": "./assets/images/PackXLogo.png",
+      "image": "./assets/images/PackXLogo-2x.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

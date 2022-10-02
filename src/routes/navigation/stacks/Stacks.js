@@ -25,8 +25,8 @@ export const LoginNavigator = (props) => {
   return (
     <Stack.Navigator headerMode="screen" screenOptions={navigationProps}> 
       <Stack.Screen name="Intro" component={Intro} options={{headerShown: false}}/>
-      <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-      <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
+      <Stack.Screen name="Login" component={Login} options={{title: ''}}/>
+      <Stack.Screen name="Registration" component={Registration} options={{title: ''}}/>
       <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
     </Stack.Navigator>
   )

@@ -1,18 +1,29 @@
 import React, { useState } from 'react'; 
-import { Text, View, StatusBar, Image, TextInput, TouchableOpacity, useColorScheme } from 'react-native'
+import { Text, View, StatusBar, Image, TextInput, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles' 
 import Button from '../../components/Button'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Login({route, navigation}) { 
   const userType = route.params.userType;
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [spinner, setSpinner] = useState(false)
-  const scheme = useColorScheme();
   
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+          <Icon style={{color: "#1B9494"}} name={"chevron-back"} size={30} />
+          <Text style={{color: "#c8c8c8", paddingTop: 5, fontSize: 18}}>Back</Text>
+        </TouchableOpacity>
+      )
+    });
+  }, [navigation]);
+
   const onFooterLinkPress = () => {
     navigation.navigate('Registration', {userType : userType})
   }
@@ -50,15 +61,15 @@ export default function Login({route, navigation}) {
     <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
       <StatusBar barStyle="light-content" />  
       <View style={styles.logo}>
-        <Image source={require('../../../assets/images/PackXLogo.png')} style={{ width: 167,resizeMode: 'center', height: 103}}/>
+        <Image source={require('../../../assets/images/PackXLogo.png')}/>
       </View> 
       { userType === "facility" ? (
           <View  style={styles.logoBox}>
-            <Image source={require('../../../assets/images/FacilitySignIn.png')} style={{ width: 250,resizeMode: 'center', height: 176}}/>
+            <Image source={require('../../../assets/images/FacilitySignIn.png')}/>
           </View>
           ) : (  
             <View style={styles.logoBox}>
-              <Image source={require('../../../assets/images/UserSignIn.png')} style={{ width: 209,resizeMode: 'center', height: 176}}/>
+              <Image source={require('../../../assets/images/UserSignIn.png')}/>
             </View> 
         )}
       <KeyboardAwareScrollView
@@ -84,7 +95,7 @@ export default function Login({route, navigation}) {
         /> 
         <Button title={"Sign In"} onPress={onLoginPress} />
         <View style={styles.footerView}>
-            <Text style={scheme === 'dark' ? styles.darkfooterText : styles.footerText}>Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
+            <Text style={styles.footerText}>Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
           </View>
         <Spinner
           visible={spinner}
