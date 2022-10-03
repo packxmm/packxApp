@@ -23,7 +23,6 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.packx.booking",
@@ -31,12 +30,12 @@
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Use the photo library to change your avatar."
       },
-      "userInterfaceStyle": "light"
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "package": "com.packx.booking",
       "versionCode": 1,
-      "userInterfaceStyle": "light",
+      "userInterfaceStyle": "automatic",
       "permissions": [
         "VIBRATE",
         "CAMERA"

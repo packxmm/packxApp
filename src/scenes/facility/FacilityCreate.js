@@ -1,7 +1,7 @@
 import React , { useState } from 'react'; 
 import DatePicker from 'react-native-datepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { View, Text, useColorScheme, TouchableOpacity , ScrollView, TextInput, StatusBar} from 'react-native';
+import { View, Text, TouchableOpacity , ScrollView, TextInput, StatusBar, useColorScheme} from 'react-native';
 import styles from './styles' 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
@@ -20,6 +20,7 @@ function FacilityCreateScreen(props){
   }, [props.navigation]);
 
   const scheme = useColorScheme(); 
+  console.log(scheme)
   const [dropOffVal, setDropOffCity] = useState("");
   const [desVal, setDesCity] = useState("");
   const [locDropOff, setLocDropOff] = useState("");
@@ -92,8 +93,7 @@ function FacilityCreateScreen(props){
                         fontSize: 14
                       },
                       datePicker:{
-                        backgroundColor: scheme === 'light' ? '#fff' : '#222',
-                        color: scheme === 'light' ? '#000' : '#fff'
+                        backgroundColor: scheme === 'dark' ? '#222222' : '#ffffff'
                       }
                     }}
                     onDateChange={(date) => {
@@ -131,9 +131,11 @@ function FacilityCreateScreen(props){
                       dateText: {
                         fontSize: 14,
                         color: "#000"
+                      },
+                      datePicker:{
+                        backgroundColor: scheme === 'dark' ? '#222222' : '#ffffff'
                       }
                     }}
-                    themeVariant="light"
                     onDateChange={(date) => {
                       setpickUpDate(date);
                     }}
@@ -158,8 +160,8 @@ function FacilityCreateScreen(props){
     numberOfLines={10}/>
               </View>
           </View>  
-        </KeyboardAwareScrollView>
         <Button title={"Next"} onPress={goToNext} children={"arrow-circle-right"}></Button>
+        </KeyboardAwareScrollView>
       </View>
     </ScrollView>
   );

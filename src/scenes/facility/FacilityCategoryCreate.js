@@ -337,8 +337,8 @@ function FacilityCategoryForm(props){
           <FontAwesome style={styles.icon} name="plus-circle" size={23} />
           <Text style={styles.label}> Add </Text> 
         </TouchableOpacity> 
-        </KeyboardAwareScrollView>
         <Button title={"Create Trip"} onPress={goToTrips} children={"flag"}></Button>
+      </KeyboardAwareScrollView>
       <Spinner
         visible={spinner}
         textStyle={{ color: "#fff" }}
