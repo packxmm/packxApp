@@ -44,16 +44,16 @@ export default function Notification(props) {
           <View key={index} style={styles.itembox}>
               <View style={{flex: 2, justifyContent: "center" }}> 
                 {data.type === "confirmed" ? ( 
-                    <Image source={require('../../../assets/images/ticket-confirm.png')} style={{ width: 34,resizeMode: 'center', height: 30}}/> 
+                    <Image source={require('../../../assets/images/ticket-confirm.png')}/> 
                 ) : ( 
-                    <Image source={require('../../../assets/images/tracking-icon.png')} style={{ width: 44,resizeMode: 'center', height: 32}}/> 
+                    <Image source={require('../../../assets/images/tracking-icon.png')}/> 
                 )}
               </View> 
               <View style={{flex: 6, justifyContent: "center"}}> 
                 <Text style={styles.text}>{data.msg}</Text>  
               </View> 
-              <View style={{flex: 1, justifyContent: "center", alignItems: "center" }}> 
-                <FontAwesome5 style={styles.icon} name="bell" size={14} />
+              <View style={{flex: 1, paddingTop: 5, alignItems: "center" }}> 
+                <FontAwesome5 style={styles.icon} name="bell" size={16} />
               </View>
           </View>
         ))}

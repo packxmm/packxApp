@@ -23,7 +23,6 @@ Notifications.setNotificationHandler({
 export default function App() {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState(null)
-  const scheme = useColorScheme()
 
   const navigationProps = {
     headerTintColor: 'white',
@@ -68,7 +67,7 @@ export default function App() {
   }
   
   return(
-    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer>
       { user ? (
             <TabNavigator user={user} navigationProps={navigationProps}/>
         ) : (

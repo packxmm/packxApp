@@ -19,8 +19,8 @@ export default function TripInfo({ route, navigation }) {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
-          <Image source={require('../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28}}/>
-          <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back</Text>
+          <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
+          <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 5, fontSize: 18}}>Back</Text>
         </TouchableOpacity>
       )
     });
@@ -109,17 +109,17 @@ useEffect(() => {
             <View style={{flexDirection: "column" }}>
                 <View style={styles.itemCount}>
                   <Text style={styles.numberText}>{total}</Text>
-                  <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27, marginBottom: 5 }}/> 
+                  <Image source={require('../../../assets/images/Package.png')} style={{ marginBottom: 5 }}/> 
                 </View> 
                 <View style={styles.itemCount}>
                   <Text style={styles.numberText}>{tripData.packageLists !== undefined ? tripData.packageLists.length : 0 }</Text>
-                  <Image source={require('../../../assets/images/plane.png')} style={{ width: 28,resizeMode: 'center', height: 20}}/> 
+                  <Image source={require('../../../assets/images/plane.png')}/> 
                 </View> 
             </View>
         </View> 
         <View style={styles.itemLists}> 
           <View style={{flex: 1, alignItems: "center"}}>
-            <Text style={styles.mainText}>CATEGORY</Text> 
+            <Text style={styles.mainText}>PRICING</Text> 
           </View>
           <View style={{flex: 4, flexDirection: 'column' }}>  
                 {tripData.categoryLists.map((data , index) => (

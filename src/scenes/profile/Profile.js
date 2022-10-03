@@ -71,12 +71,12 @@ export default function Profile(props) {
           </View>
           <View style={{flex: 1 ,flexDirection: "column",paddingTop: 10 }}>
               <View style={styles.itemCount}>
-                <Text style={styles.count}>2127</Text>
-                <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27 }}/> 
+                <Text style={styles.count}>21</Text>
+                <Image source={require('../../../assets/images/Package.png')}/> 
               </View> 
               <View style={styles.itemCount}>
-                <Text style={styles.count}>213</Text>
-                <Image source={require('../../../assets/images/plane.png')} style={{ width: 28,resizeMode: 'center', height: 20}}/> 
+                <Text style={styles.count}>13</Text>
+                <Image source={require('../../../assets/images/plane.png')}/> 
               </View> 
           </View>
       </View> 

@@ -9,7 +9,7 @@ export default StyleSheet.create({
       justifyContent: 'center',
     },
     logoBox : {
-      flex : 3,
+      flex : 2,
       alignItems: 'center',
       justifyContent: 'flex-end'
     },

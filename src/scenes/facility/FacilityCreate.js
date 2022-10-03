@@ -13,7 +13,7 @@ function FacilityCreateScreen(props){
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => props.navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
-          <Text style={{color: "#c8c8c8", paddingLeft: 5, lineHeight: 20, fontSize: 18}}>Back</Text>
+          <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 5, fontSize: 18}}>Back</Text>
         </TouchableOpacity>
       )
     });
@@ -91,6 +91,7 @@ function FacilityCreateScreen(props){
                       },
                       dateText: {
                         fontSize: 14,
+                        color: "#000"
                       }
                     }}
                     onDateChange={(date) => {
@@ -127,6 +128,7 @@ function FacilityCreateScreen(props){
                       },
                       dateText: {
                         fontSize: 14,
+                        color: "#000"
                       }
                     }}
                     onDateChange={(date) => {

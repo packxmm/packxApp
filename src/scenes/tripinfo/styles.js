@@ -27,7 +27,7 @@ export default StyleSheet.create({
   numberText:{  
     fontSize: 13,
     fontFamily: "UbuntuMedium",
-    paddingTop: "1%",
+    paddingTop: "2%",
     paddingHorizontal: "3%"
   },
   tripHeader:{ 

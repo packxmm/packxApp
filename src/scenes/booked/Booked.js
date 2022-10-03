@@ -6,6 +6,7 @@ import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
 import WhiteButton from '../../components/Button/WhiteButton'
 import Spinner from 'react-native-loading-spinner-overlay' 
+import Icon from 'react-native-vector-icons/Ionicons';
 import uuid from 'react-native-uuid';
 
 export default function Booked({route, navigation}) {
@@ -24,8 +25,8 @@ export default function Booked({route, navigation}) {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
-          <Image source={require('../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28}}/>
-          <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back To Lists</Text>
+          <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
+          <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 7, fontSize: 17}}>Back To Lists</Text>
         </TouchableOpacity>
       )
     });
@@ -233,10 +234,10 @@ export default function Booked({route, navigation}) {
         (
           <>
             {confirmed === false ? (
-                <>
+              <View  style={{marginBottom: "10%"}}>
                 <Button title={"Confirm"} children={'check'}  onPress={confirmBooking} /> 
                 <WhiteButton title={"Refuse"} children={'remove'}/>
-                </>
+              </View> 
               ) : ( 
                 <View  style={{marginBottom: "5%"}}>
                   <Button title={"Save"} children={'save'} onPress={saveData}/> 

@@ -14,12 +14,11 @@ export default StyleSheet.create({
     textTransform: 'capitalize',
     fontFamily: "UbuntuMedium",  
   },
-  count:{ 
+  count: { 
     fontSize: 12,  
     textTransform: 'capitalize',
     fontFamily: "UbuntuMedium", 
-    paddingTop: "6%",
-    paddingLeft:  "2%"
+    marginTop: "8%",
   },
   title: { 
     color: "#185354",

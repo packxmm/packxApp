@@ -15,7 +15,7 @@ export default function intro({navigation}) {
       <View style={styles.logoBox}>
         <Image source={require('../../../assets/images/PackXLogo.png')}/>
       </View>
-      <View style={{ flex: 7}}>
+      <View style={{ flex: 6}}>
         <Slider />
       </View>
       {/* <View style={styles.socialBtn}> 

@@ -21,7 +21,7 @@ export default function TripDetails({ route, navigation }) {
       headerLeft: () => (
         <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
-          <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back To Trip Lists</Text>
+          <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 7, fontSize: 17}}>Back To Trips</Text>
         </TouchableOpacity>
       )
     });
@@ -147,7 +147,7 @@ export default function TripDetails({ route, navigation }) {
         </View>
         <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}> 
           <Text style={styles.title}>TOTAL {total}</Text>
-          <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27 , margin: 10}}/>
+          <Image source={require('../../../assets/images/Package.png')} style={{ margin: 10}}/>
         </View>
       </View> 
       <View style={styles.tripList}>

@@ -69,13 +69,13 @@ export default function Home(props) {
                 <Text style={styles.priceLabel}> $ 453.00 </Text>
               </View>
               <View>
-                <Image source={require('../../../assets/images/sm-logo.png')} style={{ width: 38,resizeMode: 'center', height: 31}}/>
+                <Image source={require('../../../assets/images/sm-logo.png')}/>
                 <Ionicons name="arrow-forward-outline" size={30} style={{marginTop: 20}}/>
               </View>
             </TouchableOpacity>
             <Calendar
               style={styles.facilityCalendar}
-              current={'2022-06-01'}
+              initialDate={new Date().toLocaleDateString()}
               minDate={'2021-12-31'}
               maxDate={'2022-12-31'}
               onDayPress={day => {
