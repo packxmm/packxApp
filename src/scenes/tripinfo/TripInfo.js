@@ -69,7 +69,11 @@ useEffect(() => {
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>From</Text>
                 <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text> 
-                <Text style={styles.triplabel}>{tripData.tripInfo.dropOffDate}</Text>
+                {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
+                  <Text style={styles.triplabel}>{new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                ) : ( 
+                  <Text style={styles.triplabel}>{tripData.tripInfo.dropOffDate}</Text>
+                )}
               </View>
               <View style={{flex: 1, paddingTop: "5%"}}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> DROP OFF ADDRESSS</Text>
@@ -83,7 +87,11 @@ useEffect(() => {
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>To</Text>
                 <Text style={styles.tripname}>{tripData.tripInfo.desVal}</Text> 
-                <Text style={styles.triplabel}>{tripData.tripInfo.pickUpDate}</Text>
+                {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
+                  <Text style={styles.triplabel}>{new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                ) : ( 
+                  <Text style={styles.triplabel}>{tripData.tripInfo.pickUpDate}</Text>
+                )}
               </View>  
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> PICK UP ADDRESS</Text>

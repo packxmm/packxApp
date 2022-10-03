@@ -54,8 +54,8 @@ export default function PackageDetails({ route, navigation }) {
             <View style={{flex: 3, marginBottom: "2%", flexDirection: 'column'  }}>
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>From</Text>
-                <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text> 
-                <Text style={styles.triplabel}>{tripData.tripInfo.dropOffDate}</Text>
+                <Text style={styles.tripname}>{tripData.tripInfo.dropOffDate}</Text>
+                <Text style={styles.triplabel}>{new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
               </View>
               <View style={{flex: 1, paddingTop: "5%"}}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> DROP OFF ADDRESSS</Text>
@@ -63,15 +63,15 @@ export default function PackageDetails({ route, navigation }) {
               </View> 
             </View>
             <View style={{flex: 1, justifyContent: 'center'}}>  
-              <Image source={require('../../../assets/images/stopFlight.png')} style={{ width: 43,resizeMode: 'center', height: 140}}/>  
+              <Image source={require('../../../assets/images/stopFlight.png')} style={{height: 130, marginBottom: 20}}/>  
             </View>
-            <View style={{flex: 3, flexDirection: 'column' }}>
+            <View style={{flex: 3, marginLeft: "2%", flexDirection: 'column' }}>
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>To</Text>
                 <Text style={styles.tripname}>{tripData.tripInfo.desVal}</Text> 
-                <Text style={styles.triplabel}>{tripData.tripInfo.pickUpDate}</Text>
+                <Text style={styles.triplabel}>{new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
               </View>  
-              <View style={{flex: 1 }}>
+              <View style={{flex: 1, paddingTop: "5%"}}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> PICK UP ADDRESS</Text>
                 <Text style={styles.itemlabel}>{tripData.tripInfo.pickUpAddress}</Text> 
               </View> 
@@ -95,11 +95,11 @@ export default function PackageDetails({ route, navigation }) {
             <View style={{flex: 1 ,flexDirection: "column" }}>
                 <View style={styles.itemCount}>
                   <Text style={styles.numberText}>2127</Text>
-                  <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27, marginBottom: 5 }}/> 
+                  <Image source={require('../../../assets/images/Package.png')} style={{ marginBottom: 5 }}/> 
                 </View> 
                 <View style={styles.itemCount}>
                   <Text style={styles.numberText}>213</Text>
-                  <Image source={require('../../../assets/images/plane.png')} style={{ width: 28,resizeMode: 'center', height: 20}}/> 
+                  <Image source={require('../../../assets/images/plane.png')}/> 
                 </View> 
             </View>
         </View> 
@@ -138,7 +138,7 @@ export default function PackageDetails({ route, navigation }) {
           <View style={styles.statusBox}>  
             <View style={styles.itemStatus}> 
               <View style={{ flex: 1}}>
-                <Image source={require('../../../assets/images/package-icon.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/> 
+                <Image source={require('../../../assets/images/package-icon.png')} style={{ marginLeft: 10}}/> 
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
               <View style={{ flex: 4}}> 
@@ -151,7 +151,7 @@ export default function PackageDetails({ route, navigation }) {
             </View>  
             <View style={styles.itemStatus}> 
               <View style={{ flex: 1}}>
-                <Image source={require('../../../assets/images/received-icon.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/>  
+                <Image source={require('../../../assets/images/received-icon.png')} style={{ marginLeft: 10}}/>  
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
               <View style={{ flex: 4}}>
@@ -164,7 +164,7 @@ export default function PackageDetails({ route, navigation }) {
             </View> 
             <View style={styles.itemStatus}> 
               <View style={{ flex: 1}}>
-                <Image source={require('../../../assets/images/plane-icon.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/> 
+                <Image source={require('../../../assets/images/plane-icon.png')} style={{ marginLeft: 10}}/> 
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/>  
               </View>
               <View style={{ flex: 4}}>
@@ -177,7 +177,7 @@ export default function PackageDetails({ route, navigation }) {
             </View> 
             <View style={styles.itemStatus}> 
               <View style={{ flex: 1}}>
-                <Image source={require('../../../assets/images/arrived-icon.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/>  
+                <Image source={require('../../../assets/images/arrived-icon.png')} style={{ marginLeft: 10}}/>  
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
               <View style={{ flex: 4}}> 
@@ -190,9 +190,9 @@ export default function PackageDetails({ route, navigation }) {
             </View> 
             <View style={styles.itemStatus}> 
               <View style={{ flex: 1}}>
-                <Image source={require('../../../assets/images/package-pickup.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10}}/> 
+                <Image source={require('../../../assets/images/package-pickup.png')} style={{ marginLeft: 10}}/> 
               </View>
-              <View style={{ flex: 4, borderBottomColor: "#2797A6", borderBottomWidth: 3}}> 
+              <View style={{ flex: 4}}> 
                   {packageData.trackingStatus === "Checkout" ? (
                     <Text style={styles.statusTitle}>Package has been picked up</Text>
                   ) : (

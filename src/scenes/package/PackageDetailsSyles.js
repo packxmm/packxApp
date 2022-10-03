@@ -108,7 +108,8 @@ export default StyleSheet.create({
       itemlabel: { 
         fontSize: 14, 
         fontFamily: 'Ubuntu',
-        alignSelf: 'flex-start',
+        alignSelf: 'flex-start', 
+        marginTop: "3%",
       },
       itembox: {
         display: 'flex',
@@ -215,7 +216,7 @@ export default StyleSheet.create({
         flex: 4, 
         flexDirection: 'column', 
         marginTop: "3%",
-        marginBottom: "10%",
+        marginBottom: "15%",
       },
       itemStatus: { 
         flexDirection: "row" , 
@@ -223,7 +224,8 @@ export default StyleSheet.create({
       },
       statusTitle: { 
         fontSize: 14,
-        color: "#2797A6", 
+        color: "#2797A6",  
+        marginTop: "3%",
         fontFamily: 'UbuntuMedium', 
         textTransform: 'capitalize',
       }

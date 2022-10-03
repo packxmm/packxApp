@@ -137,13 +137,13 @@ export default function TripDetails({ route, navigation }) {
           <Text style={styles.triplabel}>From</Text>
           <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text>
           <Text style={styles.datelabel}>Last Drop Off</Text>
-          <Text style={styles.dateText}>{tripData.tripInfo.dropOffDate}</Text>
+          <Text style={styles.dateText}>{new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
         </View>
         <View style={{flex: 2}}>
           <Text style={styles.triplabel}>To</Text>
           <Text style={styles.tripname}>{tripData.tripInfo.desVal}</Text>
           <Text style={styles.datelabel}>Est. Arrival</Text>
-          <Text style={styles.dateText}>{tripData.tripInfo.pickUpDate}</Text>
+          <Text style={styles.dateText}>{new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
         </View>
         <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}> 
           <Text style={styles.title}>TOTAL {total}</Text>

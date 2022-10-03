@@ -79,31 +79,31 @@ export default function Package(props) {
                     <View style={styles.tripHeader}>  
                       {item.trackingStatus === "reserved" && ( 
                        <View style={[styles.statusBtn ,styles.reserved]}> 
-                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText]}> {item.trackingStatus}</Text> 
                         </View> 
                       )}
                       {item.trackingStatus === "confirmed" && ( 
                        <View style={[styles.statusBtn ,styles.received]}> 
-                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText]}>  Received</Text> 
                         </View> 
                       )}
                       {item.trackingStatus === "On Route" && ( 
                        <View style={[styles.statusBtn ,styles.onroute]}> 
-                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText, {color: "#ffffff"}]}> On Route </Text> 
                         </View> 
                       )}
                       {item.trackingStatus === "Arrive" && ( 
                        <View style={[styles.statusBtn ,styles.arrive]}> 
-                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText, {color: "#ffffff"}]}> Arrive</Text> 
                         </View> 
                       )}
                       {item.trackingStatus === "Checkout" && ( 
                        <View style={[styles.statusBtn ,styles.arrive]}> 
-                        <Image source={require('../../../assets/images/tracking.png')} style={{ width: 19,resizeMode: 'center', height: 15, marginTop: "3%"  }}/> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText, {color: "#ffffff"}]}> Check Out</Text> 
                         </View> 
                       )}
@@ -116,15 +116,15 @@ export default function Package(props) {
                             <View style={{flex: 3}}>
                               <Text style={styles.triplabel}>From</Text>
                               <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text> 
-                              <Text style={styles.dateText}>{trip.tripInfo.dropOffDate}</Text>
+                              <Text style={styles.dateText}>{new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
                             </View>
                             <View style={{flex: 2, justifyContent: 'center', alignItems:"center"}}>  
-                              <Image source={require('../../../assets/images/stopFlight.png')} style={{ width: 43,resizeMode: 'center', height: 40}}/>  
+                              <Image source={require('../../../assets/images/stopFlight.png')} style={{ width: 43, height: 40}}/>  
                             </View>
                             <View style={{flex: 3 }}>
                               <Text style={styles.triplabel}>To</Text>
                               <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text> 
-                              <Text style={styles.dateText}>{trip.tripInfo.pickUpDate}</Text>
+                              <Text style={styles.dateText}>{new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
                             </View>
                             <View style={{flex: 1, justifyContent: "center", alignItems:"center" }}>
                               <Ionicons name="md-chevron-forward-outline" size={30} style={{marginLeft: 10, color: '#94A0A0' }}/> 

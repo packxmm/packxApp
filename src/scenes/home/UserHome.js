@@ -6,6 +6,7 @@ import { View,SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollVie
 import styles from './userHomeStyles'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay'
+import { invalid } from 'moment';
 
 export default function UserHome(props) {
   const userData = props.user 
@@ -107,16 +108,24 @@ export default function UserHome(props) {
                     <Text style={styles.triplabel}>From</Text>
                     <Text style={styles.tripname}>{item.tripInfo.dropOff}</Text>
                     <Text style={styles.datelabel}>Last Drop Off</Text>
-                    <Text style={styles.dateText}>{item.tripInfo.dropOffDate}</Text>
-                  </View>
+                    {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
+                      <Text style={styles.dateText}>{new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                    ) : ( 
+                      <Text style={styles.dateText}>{item.tripInfo.dropOffDate}</Text>
+                    )}
+                    </View>
                   <View style={{flex: 1, justifyContent: 'center'}}>  
-                    <Image source={require('../../../assets/images/planeCircle.png')} style={{ width: 33,resizeMode: 'center', height: 33}}/>  
+                    <Image source={require('../../../assets/images/planeCircle.png')} style={{ width: 33, height: 33}}/>  
                   </View>
                   <View style={{flex: 2}}>
                     <Text style={styles.triplabel}>To</Text>
                     <Text style={styles.tripname}>{item.tripInfo.desVal}</Text>
                     <Text style={styles.datelabel}>Est. Arrival</Text>
-                    <Text style={styles.dateText}>{item.tripInfo.pickUpDate}</Text>
+                    {new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
+                      <Text style={styles.dateText}>{new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                    ) : ( 
+                      <Text style={styles.dateText}>{item.tripInfo.pickUpDate}</Text>
+                    )}
                   </View>
                 </View> 
                </View>
