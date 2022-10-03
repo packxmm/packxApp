@@ -1,7 +1,7 @@
 import React , { useState } from 'react'; 
 import DatePicker from 'react-native-datepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { View, Text, useColorScheme, TouchableOpacity, Image , ScrollView, TextInput, StatusBar, SafeAreaView} from 'react-native';
+import { View, Text, useColorScheme, TouchableOpacity , ScrollView, TextInput, StatusBar} from 'react-native';
 import styles from './styles' 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
@@ -19,7 +19,7 @@ function FacilityCreateScreen(props){
     });
   }, [props.navigation]);
 
-  const scheme = useColorScheme("dark");
+  const scheme = useColorScheme(); 
   const [dropOffVal, setDropOffCity] = useState("");
   const [desVal, setDesCity] = useState("");
   const [locDropOff, setLocDropOff] = useState("");
@@ -44,7 +44,6 @@ function FacilityCreateScreen(props){
       }
     });
   } 
-  console.log(new Date(dropOffDate).toLocaleDateString("en-US"));
 
   return (
     <ScrollView>
@@ -90,8 +89,11 @@ function FacilityCreateScreen(props){
                         color: "gray"
                       },
                       dateText: {
-                        fontSize: 14,
-                        color: "#000"
+                        fontSize: 14
+                      },
+                      datePicker:{
+                        backgroundColor: scheme === 'light' ? '#fff' : '#222',
+                        color: scheme === 'light' ? '#000' : '#fff'
                       }
                     }}
                     onDateChange={(date) => {
@@ -131,6 +133,7 @@ function FacilityCreateScreen(props){
                         color: "#000"
                       }
                     }}
+                    themeVariant="light"
                     onDateChange={(date) => {
                       setpickUpDate(date);
                     }}
@@ -151,8 +154,8 @@ function FacilityCreateScreen(props){
               </View>
               <View style={{flex: 2}}>
                 <Text style={styles.inputLabel}>Facility Information</Text>
-                <TextInput style={styles.input} onChangeText={setFacilityInfo} placeholder="Describe The Annoucements" multiline={true}
-    numberOfLines={3}/>
+                <TextInput style={[styles.input, {height: 150}]} onChangeText={setFacilityInfo} placeholder="Describe The Annoucements" multiline={true}
+    numberOfLines={10}/>
               </View>
           </View>  
         </KeyboardAwareScrollView>

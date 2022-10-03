@@ -5,6 +5,7 @@ import { firebase } from '../../firebase/config'
 import { Dropdown } from 'react-native-element-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'; 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -144,6 +145,9 @@ function FacilityCategoryForm(props){
         <Text style={styles.text}> Create New Trip </Text>
         <Text style={styles.text}> 2 of 2 </Text>
       </View>
+
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="always">
           {categoryLists.length > 0 && (
             <ScrollView style={styles.addRoute}>
                 <Text style={styles.label}>PRICIE CHART</Text>  
@@ -333,6 +337,7 @@ function FacilityCategoryForm(props){
           <FontAwesome style={styles.icon} name="plus-circle" size={23} />
           <Text style={styles.label}> Add </Text> 
         </TouchableOpacity> 
+        </KeyboardAwareScrollView>
         <Button title={"Create Trip"} onPress={goToTrips} children={"flag"}></Button>
       <Spinner
         visible={spinner}

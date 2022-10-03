@@ -1,8 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react'
 import { firebase } from '../../firebase/config'
-import { colors } from 'theme'
-import {Text, TouchableOpacity, Image, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import * as Notifications from 'expo-notifications'
 import { DefaultTheme, DarkTheme } from '@react-navigation/native' 
