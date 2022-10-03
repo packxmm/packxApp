@@ -55,8 +55,8 @@ function FacilityCreateScreen(props){
           <Text style={styles.text}> 1 of 2 </Text>
         </View>
       <KeyboardAwareScrollView
-        style={styles.addRoute} 
         keyboardShouldPersistTaps="always">
+          <View style={styles.addRoute}>
               <Text style={styles.inputLabel} >From</Text>
               <TextInput style={styles.input} onChangeText={setDropOffCity} placeholder="Drop Off City"/>
               <Text style={styles.inputLabel}>To</Text>
@@ -136,27 +136,25 @@ function FacilityCreateScreen(props){
                     }}
                   /> 
                 </View>
+              </View> 
+          </View>
+          <View style={styles.addAddress}>
+              <View style={{flex: 2}}>
+                <Text style={styles.inputLabel}>Drop-Off Address</Text>
+                <TextInput style={styles.input} onChangeText={setLocDropOff} placeholder="Location To Drop-Off Package"/>
+                <TextInput style={styles.input} onChangeText={setSecLocDropOff} placeholder="2nd Address Line ( Optional )"/>
               </View>
-          </KeyboardAwareScrollView> 
-
-      <KeyboardAwareScrollView
-        style={styles.addAddress}
-        keyboardShouldPersistTaps="always">  
-            <View style={{flex: 2}}>
-              <Text style={styles.inputLabel}>Drop-Off Address</Text>
-              <TextInput style={styles.input} onChangeText={setLocDropOff} placeholder="Location To Drop-Off Package"/>
-              <TextInput style={styles.input} onChangeText={setSecLocDropOff} placeholder="2nd Address Line ( Optional )"/>
-            </View>
-            <View style={{flex: 2}}>
-              <Text style={styles.inputLabel}>Pick-Up Address</Text>
-              <TextInput style={styles.input} onChangeText={setLocPickUp} placeholder="Location To Pick-Up Package"/>
-              <TextInput style={styles.input} onChangeText={setSecLocPickUp} placeholder="2nd Address Line ( Optional )"/>
-            </View>
-            <View style={{flex: 2}}>
-              <Text style={styles.inputLabel}>Facility Information</Text>
-              <TextInput style={styles.input} onChangeText={setFacilityInfo} placeholder="Describe The Annoucements" multiline={true}
-  numberOfLines={3}/>
-            </View>
+              <View style={{flex: 2}}>
+                <Text style={styles.inputLabel}>Pick-Up Address</Text>
+                <TextInput style={styles.input} onChangeText={setLocPickUp} placeholder="Location To Pick-Up Package"/>
+                <TextInput style={styles.input} onChangeText={setSecLocPickUp} placeholder="2nd Address Line ( Optional )"/>
+              </View>
+              <View style={{flex: 2}}>
+                <Text style={styles.inputLabel}>Facility Information</Text>
+                <TextInput style={styles.input} onChangeText={setFacilityInfo} placeholder="Describe The Annoucements" multiline={true}
+    numberOfLines={3}/>
+              </View>
+          </View>  
         </KeyboardAwareScrollView>
         <Button title={"Next"} onPress={goToNext} children={"arrow-circle-right"}></Button>
       </View>

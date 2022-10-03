@@ -193,11 +193,11 @@ export default function TripDetails({ route, navigation }) {
                 <View style={{flex: 1 ,flexDirection: "column" }}>
                   <View style={styles.itemCount}>
                     <Text style={styles.title}>{item.items.length}</Text>
-                    <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27, marginBottom: 10 }}/> 
+                    <Image source={require('../../../assets/images/Package.png')} style={{ marginBottom: 10 }}/> 
                   </View> 
                   <View style={styles.itemCount}>
-                    <Text style={styles.text}>{item.status}</Text>
-                    <Image source={require('../../../assets/images/cashImg.png')} style={{ width: 28,resizeMode: 'center', height: 20}}/> 
+                    <Text style={[styles.text, {marginTop: "5%"}]}>{item.status}</Text>
+                    <Image source={require('../../../assets/images/cashImg.png')}/> 
                   </View> 
                 </View>
               </TouchableOpacity>
