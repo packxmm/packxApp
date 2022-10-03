@@ -14,7 +14,6 @@ export default StyleSheet.create({
   text:{ 
     fontSize: 11, 
     fontFamily: "Ubuntu",
-    textAlign: 'right',
     color: "#3F3D56"
   },
   title: { 

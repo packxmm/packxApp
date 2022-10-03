@@ -155,11 +155,11 @@ export default function Booked({route, navigation}) {
           <View style={{flex: 1 ,flexDirection: "column" }}>
               <View style={styles.itemCount}>
               <Text style={styles.title}>{packageData.items.length}</Text>
-              <Image source={require('../../../assets/images/Package.png')} style={{ width: 28,resizeMode: 'center', height: 27, marginBottom: 10 }}/> 
+              <Image source={require('../../../assets/images/Package.png')} style={{ marginBottom: 10 }}/> 
               </View> 
               <View style={styles.itemCount}>
               <Text style={styles.totalLabel}>{packageData.status}</Text>
-              <Image source={require('../../../assets/images/cashImg.png')} style={{ width: 28,resizeMode: 'center', height: 20}}/> 
+              <Image source={require('../../../assets/images/cashImg.png')}/> 
               </View> 
           </View>
       </View>   
@@ -170,27 +170,36 @@ export default function Booked({route, navigation}) {
           <View style={styles.itemList}> 
               <View style={styles.tableTitle}> 
                   <Text style={[styles.tableTitledec]}>Item Description</Text> 
-                  <Text style={[styles.tableTitleText, {textAlign: "right"}]}>Qty</Text> 
-                  <Text style={[styles.tableTitleText, {textAlign: "right"}]}>Wgt</Text> 
-                  <Text style={[styles.tableTitleText, {flex: 2,textAlign: "center"}]}>$</Text> 
-                  {confirmed === false && packageData.trackingStatus === "reserved" && ( 
-                    <Text style={styles.tableTitleText}>Manage</Text> 
+                  {confirmed === false && packageData.trackingStatus === "reserved" ? ( 
+                    <>
+                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Qty </Text> 
+                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Wgt </Text> 
+                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> $ </Text> 
+                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "right"}]}>Manage</Text> 
+                    </>
+                  ): (
+                    <>
+                     <Text style={[styles.tableTitleText, {flex: 1,textAlign: "right"}]}> Qty </Text> 
+                      <Text style={[styles.tableTitleText, {flex: 1,textAlign: "right"}]}> Wgt </Text> 
+                      <Text style={[styles.tableTitleText, {flex: 2, textAlign: "right", marginRight: 20}]}> $ </Text> 
+                    </>
                   )}
               </View>
           </View>
           {packageData.items.map((val, index) => (
               <View key={index} style={styles.tableRow}>  
-                  <Text style={styles.dectext}>{val.item}</Text> 
-                  <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.qty} x</Text>  
+                  <Text style={styles.dectext}>{val.item}</Text>   
                   { confirmed === false && packageData.trackingStatus === "reserved" ? ( 
                     <>
-                      <TextInput style={styles.input} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="numeric" placeholder={weight}/>
-                      <TextInput style={styles.input} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="numeric" placeholder={currency}/>
-                      <Text style={[styles.text, {color: "#990404"}]}>Remove</Text> 
+                      <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.qty} x</Text>
+                      <TextInput style={[styles.input, {flex: 1, textAlign: "right"}]} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="numeric" placeholder="Wgt"/>
+                      <TextInput style={[styles.input, {flex: 1, textAlign: "center"}]} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="numeric" placeholder="$"/>
+                      <Text style={[styles.text, {flex: 1, textAlign: "right",color: "#990404"}]}>Remove</Text> 
                     </>
                   ) : (
                     <>
-                      <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.wgt} {weight}</Text>  
+                     <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.qty} x</Text>
+                      <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.wgt} {weight}</Text>  
                       <Text style={[styles.text, {flex: 2, textAlign: "right"}]}>{val.price} {currency}</Text>  
                     </>
                   )}
