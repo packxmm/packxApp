@@ -69,14 +69,22 @@ export default function Trips(props) {
                 <View style={{flex: 2}}>
                   <Text style={styles.triplabel}>From</Text>
                   <Text style={styles.tripname}>{item.tripInfo.dropOff}</Text>
-                  <Text style={styles.datelabel}>Last Drop Off</Text>
-                  <Text style={styles.dateText}>{new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                  <Text style={styles.datelabel}>Last Drop Off</Text> 
+                  {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
+                    <Text style={styles.dateText}>{new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(item.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                  ) : ( 
+                    <Text style={styles.dateText}>{item.tripInfo.dropOffDate}</Text>
+                  )}
                 </View>
                 <View style={{flex: 2}}>
                   <Text style={styles.triplabel}>To</Text>
                   <Text style={styles.tripname}>{item.tripInfo.desVal}</Text>
                   <Text style={styles.datelabel}>Est. Arrival</Text>
-                  <Text style={styles.dateText}>{new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                  {new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
+                    <Text style={styles.dateText}>{new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(item.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                  ) : ( 
+                    <Text style={styles.dateText}>{item.tripInfo.pickUpDate}</Text>
+                  )}
                 </View>
                 <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}>
                   <Text style={styles.title}>{item.packageLists.length}</Text>

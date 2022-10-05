@@ -94,9 +94,11 @@ export default function Login({route, navigation}) {
           autoCapitalize="none"
         /> 
         <Button title={"Sign In"} onPress={onLoginPress} />
-        <View style={styles.footerView}>
+        {userType !== "facility" && (
+          <View style={styles.footerView}>
             <Text style={styles.footerText}>Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
           </View>
+        )}
         <Spinner
           visible={spinner}
           textStyle={{ color: "#fff" }}

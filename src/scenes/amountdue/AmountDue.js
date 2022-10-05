@@ -1,5 +1,6 @@
-import React, {  useState } from 'react';
+import React, {  useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity} from 'react-native'; 
+import CurrencyConverter from 'react-currency-conv';
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -7,7 +8,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Lists from '../../components/Lists'
 
 export default function AmountDue(props) {
-  const tripData = props.route.params.tripInfo;
+  // const tripData = props.route.params.tripInfo;
+  const [tripData, setTripData] = useState(props.route.params.tripInfo);
   const [totalAmount, setTotalAmount] = useState(1000);
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -19,6 +21,29 @@ export default function AmountDue(props) {
       )
     });
   }, [props.navigation]);
+  useEffect(() => {    
+    const packageRef = firebase.firestore().collection('package') 
+    packageRef
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          let data = doc.data();
+          dataArr.push(data);   
+        })  
+        let finishedTrip = tripData.filter((trip) => trip.trackingStatus === "Arrive");
+        finishedTrip.forEach((trip,index) => { 
+          let total = 0;
+          dataArr.filter((data) => data.tripId === trip.tripId).map(packageItem => {
+            total += packageItem.total
+          });
+          finishedTrip[index].totalAmount = total;
+        })
+        // console.log(finishedTrip) 
+        setTripData(finishedTrip)
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    }); 
+}, []);
   return (
     <View style={styles.container}>
       <View style={styles.amountDue}>
@@ -27,15 +52,25 @@ export default function AmountDue(props) {
           <Text style={styles.title}> FINISHED TRIPS </Text>
           <Text style={styles.title}> REVENUE </Text>
         </View>
-        {tripData.map((trip, index) => (  
-        <>
-          {trip.trackingStatus === "Arrive" &&
-            <View key={index}> 
-                <Lists data={trip} key={index} showStatus={false}/>
-            </View>
-          }
-        </>
-      ))}
+        {tripData.filter((data) => data.trackingStatus === "Arrive").map((trip, index) => (
+            // <Lists data={trip} key={index} showStatus={false}/> 
+            <View style={styles.item} key={index}>
+              <Text style={styles.title}>TRIP NUMBER - {trip.tripId.slice(0,8)}</Text>
+              <View style={styles.tripList}>
+                <View style={{flex: 2}}>
+                  <Text style={styles.triplabel}>From</Text>
+                  <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text>
+                </View>
+                <View style={{flex: 2}}>
+                  <Text style={styles.triplabel}>To</Text>
+                  <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text>
+                </View>
+                <View style={{flex: 2, alignItems: "flex-end", justifyContent: "center"}}>
+                  <Text style={styles.tripname}> {trip.totalAmount} {trip.categoryLists[0].currency}</Text>
+                </View>
+                </View>
+          </View>
+        ))}
       <View style={[styles.amountText, {flexDirection: 'column'}]}>
         <View style={{flexDirection: 'row', paddingBottom: "1%"}}>
           <Text style={styles.totalLabel}>FACILITY INCOME</Text>

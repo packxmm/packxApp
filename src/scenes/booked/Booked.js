@@ -72,26 +72,15 @@ export default function Booked({route, navigation}) {
   }
 
   const confirmBooking = () => {  
-    setPackageData(prevState => ({
-        ...prevState,
-        total: totalAmount
-    }));
     setConfiremd(true)
-  }
-
-  const saveData = () => {   
     setSpinner(true);
     const generateUuid = uuid.v4();
     const getUuid = generateUuid.replaceAll('-', '');  
     const updatePackages = { 
-      status : isEnabled === true ? "Paid" : "Unpaid",
-      items : packageData.items,
-      total : packageData.total,
       trackingStatus : "confirmed"
     } 
     const getPackages = firebase.firestore().collection('package').doc(packageData.id);
     getPackages.update(updatePackages);
-    navigation.navigate('TripDetails');
 
     const msgData = { 
       id: getUuid,
@@ -110,7 +99,40 @@ export default function Booked({route, navigation}) {
     setSpinner(false); 
   }
 
+  const saveData = () => {   
+    setSpinner(true);
+    const generateUuid = uuid.v4();
+    const getUuid = generateUuid.replaceAll('-', '');  
+    const updatePackages = { 
+      status : isEnabled === true ? "Paid" : "Unpaid",
+      items : packageData.items,
+      total : totalAmount,
+      trackingStatus : "received"
+    } 
+    console.log(updatePackages)
+    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    getPackages.update(updatePackages);
+    navigation.navigate('TripDetails');
+
+    const msgData = { 
+      id: getUuid,
+      user : userData.id,
+      msg :  "Your reserved package "+ packageData.id.slice(0,8) + " is now received.",
+      type : "receive",
+      timestamp : new Date().toLocaleString('en-US')
+    }
+    const notiRef = firebase.firestore().collection('notification')
+    notiRef
+    .doc(getUuid)
+    .set(msgData)
+    .catch((error) => {
+      alert(error)
+    }); 
+    setSpinner(false); 
+  }
+
   const checkOut = () => {   
+    setSpinner(true);
     const generateUuid = uuid.v4();
     const getUuid = generateUuid.replaceAll('-', '');  
     const updatePackages = { 
@@ -132,8 +154,8 @@ export default function Booked({route, navigation}) {
     .catch((error) => {
       alert(error)
     }); 
-    navigation.navigate('TripDetails');
-
+    setSpinner(false); 
+    navigation.navigate('TripDetails'); 
   }
   return ( 
     <View style={styles.container}>  
@@ -170,7 +192,7 @@ export default function Booked({route, navigation}) {
           <View style={styles.itemList}> 
               <View style={styles.tableTitle}> 
                   <Text style={[styles.tableTitledec]}>Item Description</Text> 
-                  {confirmed === false && packageData.trackingStatus === "reserved" ? ( 
+                  {confirmed === true || packageData.trackingStatus === "reserved" ? ( 
                     <>
                       <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Qty </Text> 
                       <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Wgt </Text> 
@@ -189,7 +211,7 @@ export default function Booked({route, navigation}) {
           {packageData.items.map((val, index) => (
               <View key={index} style={styles.tableRow}>  
                   <Text style={styles.dectext}>{val.item}</Text>   
-                  { confirmed === false && packageData.trackingStatus === "reserved" ? ( 
+                  { confirmed === true || packageData.trackingStatus === "reserved" ? ( 
                     <>
                       <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.qty} x</Text>
                       <TextInput style={[styles.input, {flex: 1, textAlign: "right"}]} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="numeric" placeholder="Wgt"/>
@@ -210,7 +232,7 @@ export default function Booked({route, navigation}) {
                   <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
                   <Text style={styles.totalLabel}>{totalAmount} {currency}</Text> 
                 </View>
-               {confirmed === true && (   
+               {packageData.trackingStatus !== "reserved" && (   
                 <View style={styles.switchRow}>
                   <Text style={styles.totalLabel}>Unpaid</Text>  
                   <Switch

@@ -23,7 +23,7 @@ export default StyleSheet.create({
     paddingBottom : 10,
   },
   title: {
-    // marginBottom: 10,
+    marginBottom: 10,
     color: "#169393",
     fontSize: 14,
     fontFamily: "UbuntuBold", 
@@ -31,9 +31,6 @@ export default StyleSheet.create({
   Row: { 
     flexDirection: 'row', 
     justifyContent: "space-between",
-    borderBottomColor: "#E5F1F2",
-    borderBottomWidth: 2,
-    paddingBottom: 10
   },
   icon: {
     color: "#185354",
@@ -67,4 +64,29 @@ export default StyleSheet.create({
     padding :  "1%",
     textAlign: 'right'
   },
+  item: {
+    color: "#185354",
+    fontSize: 14,
+    padding: 10,
+    borderTopColor: '#E5F1F2',
+    borderTopWidth: 2,
+  },
+  tripList: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  tripStatus: {
+    color: "#185354",
+    fontSize: 17, 
+    fontFamily: "Ubuntu",
+  },
+  triplabel: {
+    fontSize: 12,
+    marginBottom: 10,
+    color: "rgba(23,25,48,0.6)"
+  },
+  tripname: {
+    textTransform: "uppercase",
+    fontFamily: "UbuntuMedium",
+  }
 })

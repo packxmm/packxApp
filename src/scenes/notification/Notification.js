@@ -14,7 +14,8 @@ export default function Notification(props) {
     try {  
       const notiRef = firebase.firestore().collection('notification')
       notiRef
-        .where('user', '==', props.user.id) 
+        .where('user', '==', props.user.id)
+        .orderBy('timestamp', 'asc')
         .get().then((querySnapshot) => {
           const dataArr = [];
           querySnapshot.forEach(doc => { 

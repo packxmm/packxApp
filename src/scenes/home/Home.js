@@ -12,12 +12,6 @@ export default function Home(props) {
   const [tripsData, setTripsData] = useState([]);  
   const [token, setToken] = useState('')
   const scheme = useColorScheme()
-
-  const ListItem = ({ data },index) => {
-    return(
-      <Lists key={index} data={data} />
-    )
-  };
   
   useEffect(() => {
     const tokenRef = firebase.firestore().collection('tokens')
@@ -99,7 +93,7 @@ export default function Home(props) {
             {tripsData.map((trip, index) => (
               <View key={index}> 
                 <Text style={styles.header}> Trip Activity - {new Date(trip.timestamp).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.timestamp).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.timestamp).toLocaleDateString("en-US", { year: 'numeric'})}</Text>  
-                <Lists data={trip} key={index} showStatus={true}/>
+                <Lists data={trip} key={index}/>
             </View>
             ))} 
             </View>

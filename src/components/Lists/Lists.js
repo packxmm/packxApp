@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ListView = ({ data , showStatus}) => {
+const ListView = ({ data , showStatus, index}) => {
     return(
-        <View style={styles.item}>
+        <View style={styles.item} key={index}>
         <Text style={styles.title}>TRIP NUMBER - {data.tripId.slice(0,8)}</Text>
         <View style={styles.tripList}>
           <View style={{flex: 2}}>
@@ -14,16 +14,9 @@ const ListView = ({ data , showStatus}) => {
             <Text style={styles.triplabel}>To</Text>
             <Text style={styles.tripname}>{data.tripInfo.desVal}</Text>
           </View>
-          {showStatus === true && (
-            <View style={{flex: 2, alignItems: "flex-end", justifyContent: "center"}}>
-              <Text style={styles.tripStatus}>{data.trackingStatus}</Text>
-            </View>
-          )}
-          {showStatus === false && (
-            <View style={{flex: 2, alignItems: "flex-end", justifyContent: "center"}}>
-              <Text style={styles.tripname}> 1000 {data.categoryLists[0].currency}</Text>
-            </View>
-          )}
+          <View style={{flex: 2, alignItems: "flex-end", justifyContent: "center"}}>
+            <Text style={styles.tripStatus}>{data.trackingStatus}</Text>
+          </View>
           </View>
       </View>
     )

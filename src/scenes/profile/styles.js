@@ -11,7 +11,6 @@ export default StyleSheet.create({
   text:{ 
     fontSize: 12,  
     color: "#7B6F72",
-    textTransform: 'capitalize',
     fontFamily: "UbuntuMedium",  
   },
   count: { 

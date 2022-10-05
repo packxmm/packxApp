@@ -78,15 +78,21 @@ export default function Package(props) {
                   <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('PackageDetails', { items: item , tripInfo : trip , user : userData})}>
                     <View style={styles.tripHeader}>  
                       {item.trackingStatus === "reserved" && ( 
-                       <View style={[styles.statusBtn ,styles.reserved]}> 
+                        <View style={[styles.statusBtn ,styles.reserved]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
-                          <Text style={[styles.statusText]}> {item.trackingStatus}</Text> 
+                          <Text style={[styles.statusText]}> Reserved</Text> 
+                        </View> 
+                      )}  
+                      {item.trackingStatus === "confirmed" && ( 
+                        <View style={[styles.statusBtn ,styles.reserved]}> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
+                          <Text style={[styles.statusText]}> Reserved</Text> 
                         </View> 
                       )}
-                      {item.trackingStatus === "confirmed" && ( 
+                      {item.trackingStatus === "received" && ( 
                        <View style={[styles.statusBtn ,styles.received]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
-                          <Text style={[styles.statusText]}>  Received</Text> 
+                          <Text style={[styles.statusText]}>Received</Text> 
                         </View> 
                       )}
                       {item.trackingStatus === "On Route" && ( 

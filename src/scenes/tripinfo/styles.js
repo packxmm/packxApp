@@ -104,7 +104,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between', 
   },
   itemlabel: { 
-    fontSize: 14, 
+    fontSize: 13, 
     fontFamily: 'Ubuntu',
     alignSelf: 'flex-start',
   },
