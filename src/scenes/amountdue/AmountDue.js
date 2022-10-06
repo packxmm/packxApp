@@ -1,6 +1,5 @@
 import React, {  useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity} from 'react-native'; 
-import CurrencyConverter from 'react-currency-conv';
+import { View, Text, Image, TouchableOpacity} from 'react-native';  
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -21,7 +20,17 @@ export default function AmountDue(props) {
       )
     });
   }, [props.navigation]);
-  useEffect(() => {    
+
+  useEffect(() => {  
+    var myHeaders = new Headers();
+    myHeaders.append("apikey", "XPsgYKyEDyFawJsENbritHT858Vw7gOE");
+
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+      headers: myHeaders
+    };
+
     const packageRef = firebase.firestore().collection('package') 
     packageRef
       .get().then((querySnapshot) => {
@@ -37,13 +46,18 @@ export default function AmountDue(props) {
             total += packageItem.total
           });
           finishedTrip[index].totalAmount = total;
-        })
-        // console.log(finishedTrip) 
+          let currency = trip.categoryLists[0].currency;
+          let reqUrl = "https://api.apilayer.com/fixer/convert?to=USD&from="+currency+"&amount="+total;
+          fetch(reqUrl, requestOptions)
+            .then(response => response.text())
+            .then(result => finishedTrip[index].convAmount = JSON.parse(result).result)
+            .catch(error => console.log('error', error));
+        }) 
         setTripData(finishedTrip)
     }).catch((error) => {
         console.log("Error getting document:", error);
-    }); 
-}, []);
+    });   
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.amountDue}>
@@ -51,7 +65,7 @@ export default function AmountDue(props) {
         <View style={styles.Row}> 
           <Text style={styles.title}> FINISHED TRIPS </Text>
           <Text style={styles.title}> REVENUE </Text>
-        </View>
+        </View> 
         {tripData.filter((data) => data.trackingStatus === "Arrive").map((trip, index) => (
             // <Lists data={trip} key={index} showStatus={false}/> 
             <View style={styles.item} key={index}>
@@ -66,7 +80,8 @@ export default function AmountDue(props) {
                   <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text>
                 </View>
                 <View style={{flex: 2, alignItems: "flex-end", justifyContent: "center"}}>
-                  <Text style={styles.tripname}> {trip.totalAmount} {trip.categoryLists[0].currency}</Text>
+                  <Text style={[styles.tripname,{marginBottom: 5}]}> {trip.totalAmount} {trip.categoryLists[0].currency}</Text> 
+                  <Text style={styles.triplabel}> {parseFloat(trip.convAmount).toFixed(2)} USD</Text> 
                 </View>
                 </View>
           </View>
