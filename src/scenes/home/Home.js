@@ -5,15 +5,19 @@ import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Calendar } from 'react-native-calendars';
 import Lists from '../../components/Lists'
+import Spinner from 'react-native-loading-spinner-overlay' 
 
 export default function Home(props) {
   // console.log(props.route)
   const userData = props.user; 
   const [tripsData, setTripsData] = useState([]);  
+  const [totalAmount, setTotalAmount] = useState(43.00);
   const [token, setToken] = useState('')
   const scheme = useColorScheme()
+  const [spinner, setSpinner] = useState(true);
   
   useEffect(() => {
+    setSpinner(true);
     const tokenRef = firebase.firestore().collection('tokens')
       tokenRef
       .doc(userData.id)
@@ -28,21 +32,67 @@ export default function Home(props) {
       }).catch((error) => {
           console.log("Error getting document:", error);
       });
+
+      var requestOptions = {
+        method: 'GET',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      };
+
       const tripsRef = firebase.firestore().collection('trips')
       tripsRef
       .where('facilityId', '==', userData.id) 
       .get().then((querySnapshot) => {
         const dataArr = [];
+        const finishedArr = []
         querySnapshot.forEach(doc => { 
           const data = doc.data();
           dataArr.push(data);   
+          if(data.trackingStatus === "Arrive"){
+            finishedArr.push(data);    
+          }
         })  
         setTripsData(dataArr); 
+        const packageRef = firebase.firestore().collection('package') 
+        packageRef
+          .get().then((querySnapshot) => {
+            const packdataArr = [];
+            querySnapshot.forEach(doc => { 
+              let data = doc.data();
+              packdataArr.push(data);   
+            })  
+            console.log(finishedArr)
+            setSpinner(false); 
+            //   let finishedTrip = dataArr.filter((trip) => trip.trackingStatus === "Arrive");
+            let convertTotal = 0; 
+            finishedArr.forEach((trip,index) => { 
+              let total = 0;
+              packdataArr.filter((data) => data.tripId === trip.tripId).map(packageItem => {
+                total += packageItem.total
+              }); 
+              let currency = trip.categoryLists[0].currency; 
+              let reqUrl = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/"+currency.toLowerCase()+".json";
+              fetch(reqUrl,requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                  let convertRate = total / result[currency.toLowerCase()];
+                  convertTotal += parseFloat(convertRate.toFixed(2));
+                  if(index === finishedArr.length - 1){
+                    setSpinner(false); 
+                    setTotalAmount(convertTotal)
+                  }
+                })
+                .catch(error => console.log('error', error));
+            }) 
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });   
       }).catch((error) => {
           console.log("Error getting document:", error);
       });  
     
-      console.log(tripsData)
   }, []);
 
 
@@ -60,7 +110,7 @@ export default function Home(props) {
             <TouchableOpacity style={styles.amountDue} onPress={() =>  props.navigation.navigate('TotalAmount', {tripInfo : tripsData})}>
               <View>
                 <Text style={{fontSize: 18}}> Amount Due </Text>
-                <Text style={styles.priceLabel}> $ 453.00 </Text>
+                <Text style={styles.priceLabel}> $ {(totalAmount / 10).toFixed(2)} </Text>
               </View>
               <View>
                 <Image source={require('../../../assets/images/sm-logo.png')}/>
@@ -99,6 +149,11 @@ export default function Home(props) {
             </View>
         </SafeAreaView>
       </ScrollView>
+      <Spinner
+        visible={spinner}
+        textStyle={{ color: "#fff" }}
+        overlayColor="rgba(0,0,0,0.5)"
+      />
     </View>
   )
 }

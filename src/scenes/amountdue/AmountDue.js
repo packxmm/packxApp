@@ -23,9 +23,6 @@ export default function AmountDue(props) {
 
   useEffect(() => {   
     setSpinner(true);
-    var myHeaders = new Headers();
-    myHeaders.append("apikey", "XPsgYKyEDyFawJsENbritHT858Vw7gOE");
-
     var requestOptions = {
       method: 'GET',
       headers : { 
@@ -56,13 +53,15 @@ export default function AmountDue(props) {
             .then(response => response.json())
             .then(result => {
               let convertRate = total / result[currency.toLowerCase()];
-              finishedTrip[index].convAmount = convertRate.toFixed(2); 
-              setSpinner(false);
+              finishedTrip[index].convAmount = convertRate.toFixed(2);
+              convertTotal += parseFloat(convertRate.toFixed(2));
+              setTotalAmount(convertTotal)
+              if(index === finishedTrip.length - 1){
+                setSpinner(false); 
+              }
             })
             .catch(error => console.log('error', error));
-            convertTotal += parseFloat(finishedTrip[index].convAmount);
         }) 
-        setTotalAmount(convertTotal)
         setTripData(finishedTrip)
     }).catch((error) => {
         console.log("Error getting document:", error);
