@@ -2,14 +2,14 @@ import React, {  useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity} from 'react-native';  
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Lists from '../../components/Lists'
+import Spinner from 'react-native-loading-spinner-overlay' 
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
 export default function AmountDue(props) {
   // const tripData = props.route.params.tripInfo;
   const [tripData, setTripData] = useState(props.route.params.tripInfo);
   const [totalAmount, setTotalAmount] = useState(1000);
+  const [spinner, setSpinner] = useState(true);
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerLeft: () => (
@@ -21,14 +21,17 @@ export default function AmountDue(props) {
     });
   }, [props.navigation]);
 
-  useEffect(() => {  
+  useEffect(() => {   
+    setSpinner(true);
     var myHeaders = new Headers();
     myHeaders.append("apikey", "XPsgYKyEDyFawJsENbritHT858Vw7gOE");
 
     var requestOptions = {
       method: 'GET',
-      redirect: 'follow',
-      headers: myHeaders
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
     };
 
     const packageRef = firebase.firestore().collection('package') 
@@ -40,19 +43,26 @@ export default function AmountDue(props) {
           dataArr.push(data);   
         })  
         let finishedTrip = tripData.filter((trip) => trip.trackingStatus === "Arrive");
+        let convertTotal = 0;
         finishedTrip.forEach((trip,index) => { 
           let total = 0;
           dataArr.filter((data) => data.tripId === trip.tripId).map(packageItem => {
             total += packageItem.total
           });
           finishedTrip[index].totalAmount = total;
-          let currency = trip.categoryLists[0].currency;
-          let reqUrl = "https://api.apilayer.com/fixer/convert?to=USD&from="+currency+"&amount="+total;
-          fetch(reqUrl, requestOptions)
-            .then(response => response.text())
-            .then(result => finishedTrip[index].convAmount = JSON.parse(result).result)
+          let currency = trip.categoryLists[0].currency; 
+          let reqUrl = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/"+currency.toLowerCase()+".json";
+          fetch(reqUrl,requestOptions)
+            .then(response => response.json())
+            .then(result => {
+              let convertRate = total / result[currency.toLowerCase()];
+              finishedTrip[index].convAmount = convertRate.toFixed(2); 
+              setSpinner(false);
+            })
             .catch(error => console.log('error', error));
+            convertTotal += parseFloat(finishedTrip[index].convAmount);
         }) 
+        setTotalAmount(convertTotal)
         setTripData(finishedTrip)
     }).catch((error) => {
         console.log("Error getting document:", error);
@@ -81,7 +91,7 @@ export default function AmountDue(props) {
                 </View>
                 <View style={{flex: 2, alignItems: "flex-end", justifyContent: "center"}}>
                   <Text style={[styles.tripname,{marginBottom: 5}]}> {trip.totalAmount} {trip.categoryLists[0].currency}</Text> 
-                  <Text style={styles.triplabel}> {parseFloat(trip.convAmount).toFixed(2)} USD</Text> 
+                  <Text style={styles.triplabel}> {trip.convAmount} USD</Text> 
                 </View>
                 </View>
           </View>
@@ -97,10 +107,15 @@ export default function AmountDue(props) {
         </View>
       </View>
       <View style={styles.amountText}>
-        <Text style={styles.header}>TOTAL AMOUNT DUE - </Text>
-        <Text style={styles.header}>{totalAmount / 10} USD </Text> 
+        <Text style={styles.totalAmount}>TOTAL AMOUNT DUE - </Text>
+        <Text style={styles.totalAmount}>{(totalAmount / 10).toFixed(2)} USD </Text> 
       </View>
       </View>
+      <Spinner
+        visible={spinner}
+        textStyle={{ color: "#fff" }}
+        overlayColor="rgba(0,0,0,0.5)"
+      />
     </View>
   )
 }

@@ -88,5 +88,10 @@ export default StyleSheet.create({
   tripname: {
     textTransform: "uppercase",
     fontFamily: "UbuntuMedium",
-  }
+  },
+  totalAmount: {
+    fontSize: 16,
+    fontFamily: 'UbuntuMedium',
+    paddingBottom : 10,
+  },
 })
