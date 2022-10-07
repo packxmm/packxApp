@@ -69,24 +69,16 @@ export default function HistoryDetails({ route, navigation }) {
             <View style={styles.tripList}>
               <View style={{flex: 2}}>
                 <Text style={styles.triplabel}>From</Text>
-                <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text>
-                {new Date(trip.tripInfo.datelabel).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? ( 
-                  <Text style={styles.datelabel}>{new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
-                ) : ( 
-                  <Text style={styles.datelabel}>{trip.tripInfo.dropOffDate}</Text>
-                )}
+                <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text> 
+                <Text style={styles.datelabel}>{new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
               </View>
               <View style={{flex: 1, justifyContent: 'center'}}>  
                 <Image source={require('../../../assets/images/stopFlight.png')} style={{ width: 43, height: 50}}/>  
               </View>
               <View style={{flex: 2}}>
                 <Text style={styles.triplabel}>To</Text>
-                <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text>
-                {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
-                  <Text style={styles.datelabel}>{new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
-                ) : ( 
-                  <Text style={styles.datelabel}>{trip.tripInfo.pickUpDate}</Text>
-                )}
+                <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text> 
+                <Text style={styles.datelabel}>{new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
               </View>
             </View> 
           </View>
