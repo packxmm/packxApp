@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, ScrollView, Image} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
-import Icon from 'react-native-vector-icons/Ionicons';   
+import Icon from 'react-native-vector-icons/Ionicons';
+import Spinner from 'react-native-loading-spinner-overlay'    
 
 export default function HistoryDetails({ route, navigation }) {
   const userData = route.params.user;
@@ -10,7 +11,8 @@ export default function HistoryDetails({ route, navigation }) {
   const tripData = route.params.trip;
   const [currency, setCurrency] = useState("$");
   const [weight, setWeight] = useState("lb");
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(null);
+  const [spinner, setSpinner] = useState(true);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -37,10 +39,12 @@ export default function HistoryDetails({ route, navigation }) {
           return;
         }else{
           setUserInfo(firestoreDocument.data());
+          setSpinner(false); 
         }
       })
       .catch(error => {
         alert(error)
+        setSpinner(false); 
       });
   },[])
   console.log(userInfo)
@@ -114,22 +118,24 @@ export default function HistoryDetails({ route, navigation }) {
                 <Text style={[styles.tripname, {flex: 2, textAlign: "right", fontSize: 14}]}> {packageData.total ? packageData.total : "-" } {currency}</Text>  
               </View>
         </View> 
-        <View style={styles.tripItem}> 
-          <Text style={styles.tripTitle}>Sender Information</Text> 
-          <Text style={[styles.userId, {flex: 1}]}>User ID : {userInfo.id.slice(0,8)}</Text> 
-          <View style={{flexDirection: "row", marginVertical: 5}}> 
-            <Text style={[styles.deslabel, {flex: 1}]}>Name :</Text> 
-            <Text style={[styles.tripname, {flex: 3, paddingTop: 5}]}>{userInfo.fullName}</Text> 
+        {userInfo !== null && (
+          <View style={styles.tripItem}> 
+            <Text style={styles.tripTitle}>Sender Information</Text> 
+            <Text style={[styles.userId, {flex: 1}]}>User ID : {userInfo.id.slice(0,8)}</Text> 
+            <View style={{flexDirection: "row", marginVertical: 5}}> 
+              <Text style={[styles.deslabel, {flex: 1}]}>Name :</Text> 
+              <Text style={[styles.tripname, {flex: 3, paddingTop: 5}]}>{userInfo.fullName}</Text> 
+            </View>
+            <View style={{flexDirection: "row", marginVertical: 5}}> 
+              <Text style={[styles.deslabel, {flex: 1}]}>Phone :</Text> 
+              <Text style={[styles.tripname, {flex: 3, paddingTop: 5}]}>{userInfo.phone}</Text> 
+            </View>
+            <View style={{flexDirection: "row", marginVertical: 5}}> 
+              <Text style={[styles.deslabel, {flex: 1}]}>Address :</Text> 
+              <Text style={[styles.tripname, {flex: 3, paddingTop: 5}]}>{userInfo.address}</Text> 
+            </View>
           </View>
-          <View style={{flexDirection: "row", marginVertical: 5}}> 
-            <Text style={[styles.deslabel, {flex: 1}]}>Phone :</Text> 
-            <Text style={[styles.tripname, {flex: 3, paddingTop: 5}]}>{userInfo.phone}</Text> 
-          </View>
-          <View style={{flexDirection: "row", marginVertical: 5}}> 
-            <Text style={[styles.deslabel, {flex: 1}]}>Address :</Text> 
-            <Text style={[styles.tripname, {flex: 3, paddingTop: 5}]}>{userInfo.address}</Text> 
-          </View>
-        </View>
+        )}
         <View style={styles.tripItem}> 
           <Text style={styles.tripTitle}>Receiver Information</Text> 
           <View style={{flexDirection: "row", marginVertical: 5}}> 
@@ -142,6 +148,11 @@ export default function HistoryDetails({ route, navigation }) {
           </View>
         </View>
     </View>
+    <Spinner
+      visible={spinner}
+      textStyle={{ color: "#fff" }}
+      overlayColor="rgba(0,0,0,0.5)"
+    />
     </ScrollView>
   )
 }
