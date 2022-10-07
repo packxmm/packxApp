@@ -47,7 +47,7 @@ export default function HistoryDetails({ route, navigation }) {
         setSpinner(false); 
       });
   },[])
-  console.log(userInfo)
+  // console.log(userInfo)
   return (
     <ScrollView>
     <View style={styles.container}> 

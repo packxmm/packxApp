@@ -51,7 +51,7 @@ export default function History({ route, navigation }) {
         console.log("Error getting document:", error);
     });
   },[])
-  console.log(packageData)
+  // console.log(packageData)
   return (
     <View style={styles.container}> 
       <Text style={styles.header}> TRANSACTION HISTORY </Text> 
