@@ -2,10 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container:{
-      flex: 1, 
-      justifyContent: 'flex-start',
-      paddingHorizontal: "10%", 
-      marginTop: "15%" 
+    flex: 1, 
+    justifyContent: 'flex-start',
+    paddingHorizontal: "10%", 
+    paddingTop: "2%" , 
+    backgroundColor: "#FAFAFA"
   }, 
   input: {
     width: "100%",

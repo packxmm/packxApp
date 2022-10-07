@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text,TextInput, Image, TouchableOpacity, ScrollView, useColorScheme, StatusBar} from 'react-native'; 
+import { View, Text,TextInput, Image, TouchableOpacity, ScrollView, useColorScheme, StatusBar} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
@@ -8,15 +8,27 @@ import * as ImagePicker from 'expo-image-picker'
 import * as ImageManipulator from 'expo-image-manipulator'
 import Constants from 'expo-constants' 
 import Button from '../../components/Button'
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
 export default function Detail({ route, navigation }) {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [phoneNo, setPhone] = useState('')
   const [progress, setProgress] = useState('')
-  const [avatar, setAvatar] = useState('')
+  const [avatar, setAvatar] = useState("https://firebasestorage.googleapis.com/v0/b/packx-e600f.appspot.com/o/profileImage%2FphotoFrame.png?alt=media&token=4e8a2851-abbf-4e9e-9ce7-5fc861a95004")
   const userData = route.params.userData
   const scheme = useColorScheme()
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+          <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
+          <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 7, fontSize: 17}}>Back To Profile</Text>
+        </TouchableOpacity>
+      )
+    });
+  }, [navigation]);
 
   useEffect(() => {
     setAvatar(userData.avatar)
@@ -83,12 +95,13 @@ export default function Detail({ route, navigation }) {
   }
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always">
         <StatusBar barStyle="dark-content" />
-          <View style={{ flex: 3 , justifyContent: 'center' , alignItems: 'center'  }}>
+          <View style={{ flex: 1 , justifyContent: 'center' , alignItems: 'center'  }}>
             <Avatar
               containerStyle={{borderColor: "#ffffff", borderWidth: 5}}
               size="large"
@@ -102,7 +115,6 @@ export default function Detail({ route, navigation }) {
             <Text>{progress}</Text> 
           </View> 
           <View style={{flex: 8}}>
-            <ScrollView>
               <Text style={styles.inputLabel}>First Name</Text>
               <TextInput style={styles.input}  
               placeholder={fullName}
@@ -125,12 +137,12 @@ export default function Detail({ route, navigation }) {
               <TextInput style={styles.input}  placeholder="Gender"/>
               <Text style={styles.inputLabel}>Birth Date</Text>
               <TextInput style={styles.input}  placeholder="Birth Date"/>
-              <Text style={styles.inputLabel}>Government ID </Text>
+              <Text style={styles.inputLabel}>Phone Number </Text>
               <TextInput style={styles.input}  placeholder="+957xxxxxxxx"/>
-            </ScrollView> 
           </View>
           <Button title={"Save"} onPress={profileUpdate} />
       </KeyboardAwareScrollView>
     </View>
+      </ScrollView> 
   )
 }

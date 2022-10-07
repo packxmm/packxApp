@@ -9,6 +9,8 @@ import Profile from '../../../scenes/profile'
 import Detail from '../../../scenes/details'
 import Home from '../../../scenes/home'; 
 import PackageLists from '../../../scenes/package';
+import History from '../../../scenes/history';
+import HistoryDetails from '../../../scenes/historydetails';
 
 // ------------------------------------
 // Constants
@@ -81,8 +83,14 @@ export const ProfileNavigator = (props) => {
       <Stack.Screen name="Profile" options={{headerShown: false}}>
         {props => <Profile {...props} extraData={user}/>}
       </Stack.Screen>
-      <Stack.Screen name="Detail" options={{headerShown: false}}>
+      <Stack.Screen name="Detail" options={{title: ''}}>
         {props => <Detail {...props} extraData={user}/>}
+      </Stack.Screen> 
+      <Stack.Screen name="History" options={{title: ''}}>
+        {props => <History {...props} extraData={user}/>}
+      </Stack.Screen> 
+      <Stack.Screen name="HistoryDetails" options={{title: ''}}>
+        {props => <HistoryDetails {...props} extraData={user}/>}
       </Stack.Screen> 
     </Stack.Navigator>
   )

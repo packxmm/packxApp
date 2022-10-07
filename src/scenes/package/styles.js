@@ -4,7 +4,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     marginTop: "3%",
-    marginHorizontal: "4%"
+    marginHorizontal: "4%", 
+    backgroundColor: "#FAFAFA"
   },
   header: { 
     flexDirection: 'column',

@@ -16,6 +16,10 @@ export default function Profile(props) {
   console.log(props.route)
   const goDetail = () => {
     props.navigation.navigate('Detail', { userData: userData })
+  } 
+
+  const gotToHistory = () => {
+    props.navigation.navigate('History', { userData: userData })
   }
 
   const signOut = () => {
@@ -85,22 +89,22 @@ export default function Profile(props) {
           <TouchableOpacity style={styles.accountLabel} onPress={goDetail}> 
             <Icon style={styles.icon} name='person-outline' size={16} />
             <Text style={styles.accountText}>Personal Information</Text>  
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity> 
-          <TouchableOpacity style={styles.accountLabel}>
+          {/* <TouchableOpacity style={styles.accountLabel}>
             <Icon style={styles.icon} name='person-outline' size={16} />
             <Text style={styles.accountText}>Facility Information</Text>  
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.accountLabel}>  
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
+          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.accountLabel} onPress={gotToHistory}>  
             <Icon style={styles.icon} name='reader-outline' size={16} />
             <Text style={styles.accountText}>Transaction History</Text> 
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountLabel} onPress={signOut}>
             <Feather style={styles.icon} name='settings' size={16} />
             <Text style={styles.accountText} >Sign Out</Text>
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity>
       </View> 
       <View style={styles.account}> 
@@ -108,17 +112,17 @@ export default function Profile(props) {
           <TouchableOpacity style={styles.accountLabel}> 
             <Icon style={styles.icon} name='person-outline' size={16} />
             <Text style={styles.accountText}>How PackX Works? </Text>  
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity>  
           <TouchableOpacity style={styles.accountLabel}>  
             <Icon style={styles.icon} name='reader-outline' size={16} />
             <Text style={styles.accountText}>FAQ</Text> 
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountLabel}>
             <Feather style={styles.icon} name='pie-chart' size={16} />
             <Text style={styles.accountText}>Get Help</Text>
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity>
       </View> 
       <View style={styles.account}> 
@@ -126,12 +130,12 @@ export default function Profile(props) {
           <TouchableOpacity style={styles.accountLabel}> 
             <Icon style={styles.icon} name='person-outline' size={16} />
             <Text style={styles.accountText}>Terms of Service</Text>  
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity>  
           <TouchableOpacity style={styles.accountLabel}>  
             <Icon style={styles.icon} name='reader-outline' size={16} />
             <Text style={styles.accountText}>Privacy Policy</Text> 
-            <Icon style={styles.righticon} name='chevron-forward' size={16} />
+            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity> 
       </View> 
       <Spinner

@@ -48,7 +48,7 @@ export default StyleSheet.create({
   },
   righticon: {
     alignSelf: 'flex-end',
-    color: "#185354",
+    color: "#0C9494",
   },
   account: { 
     backgroundColor: "#FFFFFF",

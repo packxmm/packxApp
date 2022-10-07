@@ -251,7 +251,7 @@ export default function Booked({route, navigation}) {
       
       {packageData.trackingStatus !== "reserved" ? ( 
         <>
-        {packageData.trackingStatus === "Arrive" ? (
+        {tripData.trackingStatus === "Arrive" ? (
             <View  style={{marginBottom: "5%"}}>
               <Button title={"Check Out"} children={'caret-square-right'} onPress={checkOut}/> 
             </View> 
