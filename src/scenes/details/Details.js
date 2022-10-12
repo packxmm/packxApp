@@ -110,7 +110,7 @@ export default function Detail({ route, navigation }) {
               source={{ uri: avatar }}
             /> 
             <TouchableOpacity onPress={ImageChoiceAndUpload}>
-              <Image source={require('../../../assets/images/uploadBtn.png')} style={{ width: 83,resizeMode: 'center', height: 30, marginVertical: "5%"}}/>
+              <Image source={require('../../../assets/images/uploadBtn.png')} style={{ marginVertical: "5%"}}/>
             </TouchableOpacity> 
             <Text>{progress}</Text> 
           </View> 

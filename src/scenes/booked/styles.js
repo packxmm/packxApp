@@ -45,7 +45,7 @@ export default StyleSheet.create({
   itemList: {
     display: "flex",
     flexDirection: "row", 
-    padding: "2%",   
+    paddingVertical: "2%",   
     borderTopColor: '#E5F1F2',
     borderTopWidth: 1,
   },
@@ -73,8 +73,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-around',
     borderTopColor: '#E5F1F2',
-    borderTopWidth: 1,
-    paddingHorizontal :  "2%", 
+    borderTopWidth: 1, 
     paddingVertical :  "3%" 
   },
   amountRow: { 

@@ -48,19 +48,25 @@ export default function AmountDue(props) {
           });
           finishedTrip[index].totalAmount = total;
           let currency = trip.categoryLists[0].currency; 
-          let reqUrl = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/"+currency.toLowerCase()+".json";
-          fetch(reqUrl,requestOptions)
-            .then(response => response.json())
-            .then(result => {
-              let convertRate = total / result[currency.toLowerCase()];
-              finishedTrip[index].convAmount = convertRate.toFixed(2);
-              convertTotal += parseFloat(convertRate.toFixed(2));
-              setTotalAmount(convertTotal)
-              if(index === finishedTrip.length - 1){
-                setSpinner(false); 
-              }
-            })
-            .catch(error => console.log('error', error));
+          if(currency !== "USD"){ 
+            let reqUrl = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/"+currency.toLowerCase()+".json";
+            fetch(reqUrl,requestOptions)
+              .then(response => response.json())
+              .then(result => {
+                let convertRate = total / result[currency.toLowerCase()];
+                finishedTrip[index].convAmount = convertRate.toFixed(2);
+                convertTotal += parseFloat(convertRate.toFixed(2));
+                setTotalAmount(convertTotal)
+                if(index === finishedTrip.length - 1){
+                  setSpinner(false); 
+                }
+              })
+              .catch(error => console.log('error', error));
+          }else{ 
+            finishedTrip[index].convAmount = total;
+            setTotalAmount(total)
+            setSpinner(false); 
+          }
         }) 
         setTripData(finishedTrip)
     }).catch((error) => {
@@ -106,7 +112,7 @@ export default function AmountDue(props) {
         </View>
       </View>
       <View style={styles.amountText}>
-        <Text style={styles.totalAmount}>TOTAL AMOUNT DUE - </Text>
+        <Text style={styles.totalAmount}>TOTAL AMOUNT DUE : </Text>
         <Text style={styles.totalAmount}>{(totalAmount / 10).toFixed(2)} USD </Text> 
       </View>
       </View>

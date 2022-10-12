@@ -68,7 +68,7 @@ export default function Profile(props) {
                 source={{ uri: userData.avatar }}
               />
           </View> 
-          <View style={{flex: 3, alignItems: 'flex-start'}}>
+          <View style={{flex: 4, alignItems: 'flex-start'}}>
               <Text style={styles.title}>{userData.facilityName}</Text>
               <Text style={styles.subtitle}>{userData.fullName}</Text>  
               <Text style={styles.text}>{userData.email}</Text>

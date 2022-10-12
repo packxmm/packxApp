@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StatusBar ,SafeAreaView, ScrollView, Image, TouchableOpacity , useColorScheme} from 'react-native';
+import { View, Text, StatusBar ,SafeAreaView, ScrollView, Image, TouchableOpacity , useColorScheme, RefreshControl} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles'
 import { firebase } from '../../firebase/config'
@@ -11,12 +11,27 @@ export default function Home(props) {
   // console.log(props.route)
   const userData = props.user; 
   const [tripsData, setTripsData] = useState([]);  
-  const [totalAmount, setTotalAmount] = useState(43.00);
+  const [totalAmount, setTotalAmount] = useState(0.00);
   const [token, setToken] = useState('')
+  const [refreshing, setRefreshing] = useState(false);
   const scheme = useColorScheme()
   const [spinner, setSpinner] = useState(true);
   
   useEffect(() => {
+    getData();
+  }, []);
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    try { 
+      getData();
+      setRefreshing(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const getData = () => {
     setSpinner(true);
     const tokenRef = firebase.firestore().collection('tokens')
       tokenRef
@@ -92,14 +107,13 @@ export default function Home(props) {
       }).catch((error) => {
           console.log("Error getting document:", error);
       });  
-    
-  }, []);
-
+  }
 
   return (
     <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
       <StatusBar barStyle= { scheme.dark ? "light-content" : "dark-content" }/>
       <ScrollView>
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <SafeAreaView style={styles.container}>
             <TouchableOpacity onPress={() =>  props.navigation.navigate('CreateFacility')} style={styles.createBtn}>
               <Ionicons name="add-circle-outline" size={35}/>

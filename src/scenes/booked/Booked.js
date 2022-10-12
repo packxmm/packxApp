@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; 
-import { View, Text, TouchableOpacity, Image, TextInput , Switch} from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput , Switch, KeyboardAvoidingView, Platform} from 'react-native';
 import styles from './styles'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements' 
 import Button from '../../components/Button'
@@ -158,7 +159,7 @@ export default function Booked({route, navigation}) {
     navigation.navigate('TripDetails'); 
   }
   return ( 
-    <View style={styles.container}>  
+    <View style={styles.container}> 
       <View style={styles.tripHeader}> 
           <Text style={styles.mainText}>BOOKED TRIP</Text> 
       </View> 
@@ -184,71 +185,76 @@ export default function Booked({route, navigation}) {
               <Image source={require('../../../assets/images/cashImg.png')}/> 
               </View> 
           </View>
-      </View>   
-      <View style={{flex: 6}}>
-          <View style={styles.tripHeader}> 
-              <Text style={styles.mainText}>RESERVED ITEMS</Text> 
-          </View>
-          <View style={styles.itemList}> 
-              <View style={styles.tableTitle}> 
-                  <Text style={[styles.tableTitledec]}>Item Description</Text> 
-                  {confirmed === true || packageData.trackingStatus === "reserved" ? ( 
-                    <>
-                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Qty </Text> 
-                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Wgt </Text> 
-                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> $ </Text> 
-                      <Text style={[styles.tableTitleText, {flex: 1, textAlign: "right"}]}>Manage</Text> 
-                    </>
-                  ): (
-                    <>
-                     <Text style={[styles.tableTitleText, {flex: 1,textAlign: "right"}]}> Qty </Text> 
-                      <Text style={[styles.tableTitleText, {flex: 1,textAlign: "right"}]}> Wgt </Text> 
-                      <Text style={[styles.tableTitleText, {flex: 2, textAlign: "right", marginRight: 20}]}> $ </Text> 
-                    </>
-                  )}
-              </View>
-          </View>
-          {packageData.items.map((val, index) => (
-              <View key={index} style={styles.tableRow}>  
-                  <Text style={styles.dectext}>{val.item}</Text>   
-                  { confirmed === true || packageData.trackingStatus === "reserved" ? ( 
-                    <>
-                      <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.qty} x</Text>
-                      <TextInput style={[styles.input, {flex: 1, textAlign: "right"}]} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="numeric" placeholder="Wgt"/>
-                      <TextInput style={[styles.input, {flex: 1, textAlign: "center"}]} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="numeric" placeholder="$"/>
-                      <Text style={[styles.text, {flex: 1, textAlign: "right",color: "#990404"}]}>Remove</Text> 
-                    </>
-                  ) : (
-                    <>
-                     <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.qty} x</Text>
-                      <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.wgt} {weight}</Text>  
-                      <Text style={[styles.text, {flex: 2, textAlign: "right"}]}>{val.price} {currency}</Text>  
-                    </>
-                  )}
-              </View>
-          ))}   
-          <View style={styles.amountRow}>  
-                <View style={styles.amountText}>
-                  <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
-                  <Text style={styles.totalLabel}>{totalAmount} {currency}</Text> 
+      </View> 
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >   
+        <View style={{flex: 6}}>
+            <View style={styles.tripHeader}> 
+                <Text style={styles.mainText}>RESERVED ITEMS</Text> 
+            </View>
+            <View style={styles.itemList}> 
+                <View style={styles.tableTitle}> 
+                    <Text style={[styles.tableTitledec]}>Item Description</Text> 
+                    {confirmed === true || packageData.trackingStatus === "reserved" ? ( 
+                      <>
+                        <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Qty </Text> 
+                        <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> Wgt </Text> 
+                        <Text style={[styles.tableTitleText, {flex: 1, textAlign: "center"}]}> $ </Text> 
+                        <Text style={[styles.tableTitleText, {flex: 1, textAlign: "right"}]}>Manage</Text> 
+                      </>
+                    ): (
+                      <>
+                      <Text style={[styles.tableTitleText, {flex: 1,textAlign: "right"}]}> Qty </Text> 
+                        <Text style={[styles.tableTitleText, {flex: 1,textAlign: "right"}]}> Wgt </Text> 
+                        <Text style={[styles.tableTitleText, {flex: 2, textAlign: "right", marginRight: 20}]}> $ </Text> 
+                      </>
+                    )}
                 </View>
-               {packageData.trackingStatus !== "reserved" && (   
-                <View style={styles.switchRow}>
-                  <Text style={styles.totalLabel}>Unpaid</Text>  
-                  <Switch
-                      style={styles.switchBtn}
-                      trackColor={{ false: "#767577", true: "#2797A6" }}
-                      thumbColor={isEnabled ? "#ffffff" : "#f4f3f4"}
-                      ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch}
-                      value={isEnabled}
-                    />
-                    <Text style={styles.totalLabel}>Paid</Text>  
+            </View> 
+            {packageData.items.map((val, index) => (
+                <View key={index} style={styles.tableRow}>  
+                    <Text style={styles.dectext}>{val.item}</Text>   
+                    { confirmed === true || packageData.trackingStatus === "reserved" ? ( 
+                      <>
+                        <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.qty} x</Text>
+                        <TextInput style={[styles.input, {flex: 1, textAlign: "right"}]} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="number-pad" 
+                    returnKeyType="done" placeholder="Wgt"/>
+                        <TextInput style={[styles.input, {flex: 1, textAlign: "center"}]} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="number-pad"                   returnKeyType="done" placeholder="$"/>
+                        <Text style={[styles.text, {flex: 1, textAlign: "right",color: "#990404"}]}>Remove</Text> 
+                      </>
+                    ) : (
+                      <>
+                      <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.qty} x</Text>
+                        <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.wgt} {weight}</Text>  
+                        <Text style={[styles.text, {flex: 2, textAlign: "right"}]}>{val.price} {currency}</Text>  
+                      </>
+                    )}
                 </View>
-                )}
-          </View>
-      </View>    
-      
+            ))}   
+            <View style={styles.amountRow}>  
+                  <View style={styles.amountText}>
+                    <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
+                    <Text style={styles.totalLabel}>{totalAmount} {currency}</Text> 
+                  </View>
+                {packageData.trackingStatus !== "reserved" && (   
+                  <View style={styles.switchRow}>
+                    <Text style={styles.totalLabel}>Unpaid</Text>  
+                    <Switch
+                        style={styles.switchBtn}
+                        trackColor={{ false: "#767577", true: "#2797A6" }}
+                        thumbColor={isEnabled ? "#ffffff" : "#f4f3f4"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                      />
+                      <Text style={styles.totalLabel}>Paid</Text>  
+                  </View>
+                  )}
+            </View>
+        </View>     
+      </KeyboardAvoidingView>
       {packageData.trackingStatus !== "reserved" ? ( 
         <>
         {tripData.trackingStatus === "Arrive" ? (
@@ -264,16 +270,12 @@ export default function Booked({route, navigation}) {
         ) :
         (
           <>
-            {confirmed === false ? (
+            {confirmed === false && (
               <View  style={{marginBottom: "10%"}}>
                 <Button title={"Confirm"} children={'check'}  onPress={confirmBooking} /> 
                 <WhiteButton title={"Refuse"} children={'remove'}/>
               </View> 
-              ) : ( 
-                <View  style={{marginBottom: "5%"}}>
-                  <Button title={"Save"} children={'save'} onPress={saveData}/> 
-                </View> 
-            )}
+              )}
           </>
         )
       }

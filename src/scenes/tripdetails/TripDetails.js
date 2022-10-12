@@ -189,14 +189,8 @@ export default function TripDetails({ route, navigation }) {
                     />  
                 </View> 
                 <View style={{flex: 2, alignItems: 'flex-start', paddingLeft: "5%"}}>
-                  <Text style={[styles.title, {marginTop: "5%"}]}>{user.fullName}</Text> 
-                  {item.trackingStatus !== "On Route" && (
-                    <>
-                      {tripData.trackingStatus !== "Arrive" && (
-                        <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
-                      )}
-                    </>
-                  )}
+                  <Text style={[styles.title, {marginTop: "5%"}]}>{user.fullName}</Text>  
+                  <Text style={[styles.text, {marginTop: "5%"}]}>{item.trackingStatus}</Text>
                 </View>
                 <View style={{flex: 1 ,flexDirection: "column" }}>
                   <View style={styles.itemCount}>

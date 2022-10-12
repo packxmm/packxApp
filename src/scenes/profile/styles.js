@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1, 
-    paddingHorizontal : "3%",  
-    marginTop :  "3%",
+    padding : "3%", 
     backgroundColor: '#FAFAFA', 
     fontFamily: "Ubuntu",
   },
@@ -17,7 +16,7 @@ export default StyleSheet.create({
     fontSize: 12,  
     textTransform: 'capitalize',
     fontFamily: "UbuntuMedium", 
-    marginTop: "8%",
+    lineHeight: 30
   },
   title: { 
     color: "#185354",

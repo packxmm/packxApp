@@ -12,7 +12,8 @@ export default function PackageDetails({ route, navigation }) {
   const packageData = route.params.items;  
   const currency = tripData.categoryLists[0].currency;
   const weight = tripData.categoryLists[0].weight;
-  const userData = route.params.user;  
+  const [tripCount, setTripCount] = useState(0);  
+  const [packageCount, setPackageCount] = useState(0); 
   const [facilityInfo, setfacilityInfo] = useState({});
 
   React.useLayoutEffect(() => {
@@ -39,11 +40,31 @@ export default function PackageDetails({ route, navigation }) {
         }else{
           setfacilityInfo(firestoreDocument.data());
         }
+      })
+      .catch(error => {
+        setSpinner(false)
+        console.log(error)
+      });
+    
+      const tripsRef = firebase.firestore().collection('trips')
+      tripsRef
+      .where('facilityId', '==', tripData.facilityId) 
+      .get().then((querySnapshot) => {
+        let packageTotal = 0; 
+        let dataArr = [];
+        querySnapshot.forEach(doc => { 
+          const data = doc.data();
+          dataArr.push(data)
+          packageTotal += data.packageLists.length; 
+        })  
+        setPackageCount(packageTotal);
+        setTripCount(dataArr.length)
+        console.log("TripsCount " + dataArr.length)
         setSpinner(false)
       })
       .catch(error => {
         setSpinner(false)
-        alert(error)
+        console.log(error)
       });
   }, []);
   return ( 
@@ -79,7 +100,7 @@ export default function PackageDetails({ route, navigation }) {
           </View>
         </View>   
         <View style={styles.item}> 
-            <View style={{flex: 1, alignContent: "center"}}>  
+            <View style={{flex: 2, alignContent: "center"}}>  
                 <Avatar
                   size="large"
                   rounded
@@ -87,18 +108,18 @@ export default function PackageDetails({ route, navigation }) {
                   source={{ uri: facilityInfo.avatar }}
                 />  
             </View> 
-            <View style={{flex: 2, alignItems: 'flex-start'}}>
+            <View style={{flex: 4, alignItems: 'flex-start'}}>
                 <Text style={styles.title}>{facilityInfo.facilityName}</Text>  
                 <Text style={styles.tripname}>{facilityInfo.fullName}</Text>  
                 <Text>{facilityInfo.email}</Text>  
             </View>
             <View style={{flex: 1 ,flexDirection: "column" }}>
                 <View style={styles.itemCount}>
-                  <Text style={styles.numberText}>2127</Text>
+                  <Text style={styles.numberText}>{packageCount}</Text>
                   <Image source={require('../../../assets/images/Package.png')} style={{ marginBottom: 5 }}/> 
                 </View> 
                 <View style={styles.itemCount}>
-                  <Text style={styles.numberText}>213</Text>
+                  <Text style={styles.numberText}>{tripCount}</Text>
                   <Image source={require('../../../assets/images/plane.png')}/> 
                 </View> 
             </View>
@@ -155,7 +176,7 @@ export default function PackageDetails({ route, navigation }) {
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
               <View style={{ flex: 4}}>
-                  {packageData.trackingStatus === "confirmed" ? (
+                  {packageData.trackingStatus === "received" ? (
                     <Text style={styles.statusTitle}>Package is received by facility</Text>
                   ) : (
                     <Text style={styles.itemlabel}>Package is received by facility</Text> 

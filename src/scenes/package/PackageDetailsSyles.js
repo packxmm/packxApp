@@ -80,7 +80,7 @@ export default StyleSheet.create({
       itemLists: { 
         flexDirection: "column",  
         paddingHorizontal: "5%",
-        paddingVertical: "5%",
+        paddingVertical: "2%",
         backgroundColor: "#FFFFFF",
         shadowColor: 'rgba(0,0,0,0.5)',
         shadowOffset: {width: 1, height: 3},
@@ -106,7 +106,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between', 
       },
       itemlabel: { 
-        fontSize: 14, 
+        fontSize: 13, 
         fontFamily: 'Ubuntu',
         alignSelf: 'flex-start', 
         marginTop: "3%",

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { StatusBar, View, Text, Image , TouchableOpacity, TextInput, ScrollView} from 'react-native';  
 import uuid from 'react-native-uuid';
 import Spinner from 'react-native-loading-spinner-overlay' 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { firebase } from '../../firebase/config'
 import styles from './styles'
 import Button from '../../components/Button'
@@ -23,7 +24,9 @@ export default function TripReserved(props) {
     setItemLists(itemList => [{  
       item : item, 
       qty : qty
-    },...itemList]);
+    },...itemList]); 
+    setItem("");
+    setQty("");
   }
 
   function confirmData(){ 
@@ -80,6 +83,9 @@ export default function TripReserved(props) {
     <>
     {isConfirmed === false ? (
       <View style={styles.container}>
+      <KeyboardAwareScrollView
+        style={{ flex: 1, width: '100%'}}
+        keyboardShouldPersistTaps="always"> 
         <Text style={styles.title}>Reserve your package </Text> 
         <Text style={styles.subtitle}>Package Summary</Text> 
         <View style={{ flex: 3, flexDirection: "column" }}>  
@@ -98,8 +104,8 @@ export default function TripReserved(props) {
               </ScrollView>
             }
             <View style={styles.itemRow} > 
-              <TextInput style={styles.itemInputLg} placeholder="Input Your Item Here ...." onChangeText={setItem}/>
-              <TextInput style={styles.itemInputXs} placeholder="Qty" onChangeText={setQty}/>
+              <TextInput style={styles.itemInputLg} value={item} placeholder="Input Your Item Here ...." onChangeText={setItem}/>
+              <TextInput style={styles.itemInputXs} value={qty} placeholder="Qty" onChangeText={setQty}/>
             </View>    
             <TouchableOpacity onPress={addList} style={{ flexDirection: "row", justifyContent: 'center' }}> 
               <FontAwesome5 style={styles.addicon} name="plus-circle" size={23} />
@@ -128,6 +134,7 @@ export default function TripReserved(props) {
           <Button title={"Confirm"} onPress={confirmData} children={'check'} /> 
           <WhiteButton title={"Cancel"}onPress={() => props.navigation.navigate('TripInfo')} children={'remove'}/>
         </View>
+      </KeyboardAwareScrollView>
       </View>
     ) : ( 
       <View style={{ flex: 1 }}>

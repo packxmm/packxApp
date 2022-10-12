@@ -34,6 +34,7 @@ const prohibitedData = [
 const weight = [
   { weight: 'lb', value: '1' },
   { weight: 'kg', value: '2' },
+  { weight: 'pc', value: '3' },
 ];
 
 const currency = [

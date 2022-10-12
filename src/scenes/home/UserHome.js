@@ -13,7 +13,7 @@ export default function UserHome(props) {
   const [tripData, setTripData] = useState([]) 
   const scheme = useColorScheme();
   const [spinner, setSpinner] = useState(true);
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [searchData, setsearchResult] = useState([]) 
 
   useEffect(() => {  
@@ -82,7 +82,7 @@ export default function UserHome(props) {
     <View style={{ flex: 1 }}>
       <StatusBar barStyle= { scheme === "dark" ? "light-content" : "dark-content" }/>
       <ScrollView>
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <SafeAreaView style={styles.container}> 
         <View style={styles.searchBar}> 
           <Image source={require('../../../assets/images/sm-logoWhite.png')} style={{ width: 40,resizeMode: 'center', height: 38}}/> 
@@ -90,7 +90,7 @@ export default function UserHome(props) {
             <Ionicons name="search-outline" size={18} style={{ padding : '3%', color: '#7C7C7C' }}/>
             <TextInput style={styles.input}  placeholder="Search trip to destination" onChangeText={(e) => {searchTrip(e)}}/>
           </View> 
-          <MaterialIcons name="microsoft-xbox-controller-menu" size={30} style={{ paddingTop: '1%', color: '#169393' }}/>
+          {/* <MaterialIcons name="microsoft-xbox-controller-menu" size={30} style={{ paddingTop: '1%', color: '#169393' }}/> */}
       </View>
         <View style={styles.header}>
           <Text style={styles.mainText}> Welcome to PackX </Text>
