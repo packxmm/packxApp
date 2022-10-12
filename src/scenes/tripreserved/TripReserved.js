@@ -141,7 +141,7 @@ export default function TripReserved(props) {
         <StatusBar barStyle= {"dark-content"}/>
         <View style={styles.packageContainer}>
           <View style={styles.logoBox}>
-            <Image source={require('../../../assets/images/PackXLogo.png')} style={{ width: 167,resizeMode: 'center', height: 103}}/>
+            <Image source={require('../../../assets/images/PackXLogo.png')}/>
           </View>
           <Image source={require('../../../assets/images/successPack.png')} style={styles.introImg}/>
           <Text style={styles.title}>Your package</Text>

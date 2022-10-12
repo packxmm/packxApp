@@ -34,9 +34,6 @@ export default StyleSheet.create({
       fontFamily: 'Ubuntu',
   },
   introImg: {
-    resizeMode: 'center',
-    width: 162,
-    height: 181,
     marginVertical : "7%",
   },
   subtitle: {
