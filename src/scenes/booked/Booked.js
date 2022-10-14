@@ -1,7 +1,6 @@
 import React, { useState } from 'react'; 
 import { View, Text, TouchableOpacity, Image, TextInput , Switch, KeyboardAvoidingView, Platform} from 'react-native';
 import styles from './styles'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements' 
 import Button from '../../components/Button'
@@ -20,8 +19,7 @@ export default function Booked({route, navigation}) {
   const [confirmed, setConfiremd] = useState(false); 
   const [isEnabled, setIsEnabled] = useState(false);
   const [spinner, setSpinner] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  console.log(packageData)
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -73,7 +71,6 @@ export default function Booked({route, navigation}) {
   }
 
   const confirmBooking = () => {  
-    setConfiremd(true)
     setSpinner(true);
     const generateUuid = uuid.v4();
     const getUuid = generateUuid.replaceAll('-', '');  
@@ -98,7 +95,17 @@ export default function Booked({route, navigation}) {
       alert(error)
     }); 
     setSpinner(false); 
+    setConfiremd(true);
   }
+
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState) 
+    const updatePackages = { 
+      status : !isEnabled === true ? "Paid" : "Unpaid"
+    }
+    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    getPackages.update(updatePackages);
+  };
 
   const saveData = () => {   
     setSpinner(true);
@@ -234,10 +241,10 @@ export default function Booked({route, navigation}) {
                 </View>
             ))}   
             <View style={styles.amountRow}>  
-                  <View style={styles.amountText}>
-                    <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
-                    <Text style={styles.totalLabel}>{totalAmount} {currency}</Text> 
-                  </View>
+                <View style={styles.amountText}>
+                  <Text style={styles.totalLabel}>TOTAL AMOUNT </Text>
+                  <Text style={[styles.totalLabel, {textAlign: 'right'}]}>{totalAmount} {currency}</Text> 
+                </View>
                 {packageData.trackingStatus !== "reserved" && (   
                   <View style={styles.switchRow}>
                     <Text style={styles.totalLabel}>Unpaid</Text>  
@@ -257,15 +264,16 @@ export default function Booked({route, navigation}) {
       </KeyboardAvoidingView>
       {packageData.trackingStatus !== "reserved" ? ( 
         <>
-        {tripData.trackingStatus === "Arrive" ? (
-            <View  style={{marginBottom: "5%"}}>
-              <Button title={"Check Out"} children={'caret-square-right'} onPress={checkOut}/> 
-            </View> 
-          ) : ( 
+          {tripData.trackingStatus === "Arrive" && (
+              <View  style={{marginBottom: "5%"}}>
+                <Button title={"Check Out"} children={'caret-square-right'} onPress={checkOut}/> 
+              </View> 
+          )}
+          {tripData.trackingStatus === "Arrive" && (
             <View  style={{marginBottom: "5%"}}>
               <Button title={"Save"} children={'save'} onPress={saveData}/> 
-            </View> 
-        )}
+            </View>
+          )}
         </>
         ) :
         (

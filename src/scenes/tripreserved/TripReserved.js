@@ -8,6 +8,7 @@ import styles from './styles'
 import Button from '../../components/Button'
 import WhiteButton from '../../components/Button/WhiteButton'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Dialog from "react-native-dialog"
 
 export default function TripReserved(props) {
   const tripData = props.route.params.tripInfo;  
@@ -17,8 +18,12 @@ export default function TripReserved(props) {
   const [itemList,setItemLists] = useState([]);
   const [item, setItem] = useState(null);
   const [qty, setQty] = useState(null);
-  const [recName, setReceiverName] = useState('')
-  const [recContact, setReceiverContact] = useState('')
+  const [recName, setReceiverName] = useState(null)
+  const [recContact, setReceiverContact] = useState(null)
+  const [visible, setVisible] = useState(false);
+  const [dialogTitle, setdialogTitle] = useState('');
+  const [dialogDes, setdialogDes] = useState('');
+  const [showConfirm, setShowConfirmed] = useState(false);
   
   function addList(){
     setItemLists(itemList => [{  
@@ -29,7 +34,31 @@ export default function TripReserved(props) {
     setQty("");
   }
 
+  const showDialog = () => {
+    console.log(recName)
+    console.log(itemList.length)
+    setVisible(true)
+    if(itemList.length === 0){
+      setdialogTitle("Please add the items")
+      setdialogDes("Please add the items for your package reserved.")
+    }else{ 
+      if(recName === null || recContact === null){ 
+        setdialogTitle("Receiver Information")
+        setdialogDes("Please add the receiver information for your package reserved.")
+      }else{ 
+        setdialogTitle("Confirm Your Package")
+        setdialogDes("Please confirm your package reserved.")
+        setShowConfirmed(true)
+      }
+    }
+  }
+
+  const handleCancel = () => {
+    setVisible(false)
+  }
+
   function confirmData(){ 
+    setVisible(false);
     setSpinner(true); 
     const generateUuid = uuid.v4();
     const getUuid = generateUuid.replaceAll('-', '');  
@@ -88,7 +117,7 @@ export default function TripReserved(props) {
         keyboardShouldPersistTaps="always"> 
         <Text style={styles.title}>Reserve your package </Text> 
         <Text style={styles.subtitle}>Package Summary</Text> 
-        <View style={{ flex: 3, flexDirection: "column" }}>  
+        <View style={{ minHeight: "50%", flexDirection: "column" }}>  
             <View style={styles.itemHeader} > 
               <Text style={styles.itemTitle}>Item Description</Text>
               <Text style={styles.itemTitle}>Qty</Text>
@@ -112,7 +141,7 @@ export default function TripReserved(props) {
               <Text style={styles.addlabel}> Add </Text> 
             </TouchableOpacity>   
         </View> 
-        <View style={{ flex: 2, flexDirection: "column" }}>
+        <View style={{ flex: 6, flexDirection: "column", justifyContent: "center" }}>
             <Text style={styles.inputLabel}>Receiver Name</Text>
             <TextInput style={styles.input}  
               placeholder="Receiver Name"
@@ -131,7 +160,7 @@ export default function TripReserved(props) {
               underlineColorAndroid="transparent"
               autoCapitalize="none"
             />
-          <Button title={"Confirm"} onPress={confirmData} children={'check'} /> 
+          <Button title={"Confirm"} onPress={showDialog} children={'check'} /> 
           <WhiteButton title={"Cancel"}onPress={() => props.navigation.navigate('TripInfo')} children={'remove'}/>
         </View>
       </KeyboardAwareScrollView>
@@ -157,7 +186,18 @@ export default function TripReserved(props) {
       visible={spinner}
       textStyle={{ color: "#fff" }}
       overlayColor="rgba(0,0,0,0.5)"
-    />
+    /> 
+      <Dialog.Container visible={visible}>
+        <Dialog.Title>{dialogTitle}</Dialog.Title>
+        <Dialog.Description>
+        {dialogDes} 
+        </Dialog.Description>
+        {showConfirm === false ? ( 
+          <Dialog.Button label="Cancel" onPress={handleCancel} /> 
+        ):(
+          <Dialog.Button label="Confirm" onPress={confirmData} /> 
+        )}
+      </Dialog.Container>
     </>
   )
 }

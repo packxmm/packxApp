@@ -6,6 +6,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import Icon from 'react-native-vector-icons/Ionicons';  
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
+import Dialog from "react-native-dialog";
 
 export default function TripDetails({ route, navigation }) {
   const [tripData, setTripData] = useState(route.params.tripInfo);  
@@ -15,6 +16,8 @@ export default function TripDetails({ route, navigation }) {
   const [total, setTotal] = useState(); 
   const [spinner, setSpinner] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [dialogTitle, setdialogTitle] = useState('');
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,7 +42,6 @@ export default function TripDetails({ route, navigation }) {
             dataArr.push(data);   
           })  
           setUserLists(dataArr)
-          // console.log(dataArr)
         })
         .catch(error => {
           alert(error)
@@ -85,48 +87,64 @@ export default function TripDetails({ route, navigation }) {
       }); 
     }, []);
   
+  const showDialog = () => { 
+    setVisible(true)  
+    {tripData.trackingStatus === "On Route" ? (
+      setdialogTitle("The packages trip has arrived to destination")
+    ): ( 
+      setdialogTitle("All packages must be packed and ready to be shipped off ")
+    )}
+  }
+  const handleCancel = () => {
+    setVisible(false)
+  }
+    
   const changeTrackingStatus = () =>{ 
+    setVisible(false);
     setSpinner(true);  
-    setTripData(prevState => ({
-        ...prevState,
-        trackingStatus : "On Route",
-    }))
     const updateTrip = { 
       trackingStatus : "On Route"
     }  
-    console.log(updateTrip)
     const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
     getTrip.update(updateTrip).then(() => {
       tripData.packageLists.forEach(packageId => { 
-        console.log(packageId)
         const getPackages = firebase.firestore().collection('package').doc(packageId);
         getPackages.update(updateTrip);
       }) 
-      setSpinner(false); 
+      setTimeout(function(){
+        setTripData(prevState => ({
+            ...prevState,
+            trackingStatus : "On Route",
+        }))
+        setSpinner(false);
+      }, 1000)
     });
   }
 
   const arriveTrip = () =>{ 
+    setVisible(false)
     setSpinner(true);  
-    setTripData(prevState => ({
-        ...prevState,
-        trackingStatus : "Arrive",
-    }))
     const updateTrip = { 
       trackingStatus : "Arrive"
     }  
-    console.log(updateTrip)
     const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
     getTrip.update(updateTrip).then(() => {
       tripData.packageLists.forEach(packageId => { 
         console.log(packageId)
         const getPackages = firebase.firestore().collection('package').doc(packageId);
         getPackages.update(updateTrip);
-      }) 
-      setSpinner(false); 
+      })  
+      setTimeout(function(){
+        setTripData(prevState => ({
+            ...prevState,
+            trackingStatus : "Arrive",
+        }))
+        setSpinner(false);
+      }, 1000)
     });
   }
   return ( 
+    <>
     <ScrollView style={styles.container}>  
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       <View style={styles.tripHeader}> 
@@ -175,7 +193,6 @@ export default function TripDetails({ route, navigation }) {
       <View style={styles.tripHeader}> 
         <Text style={styles.mainText}>Tracking Status : {tripData.trackingStatus}</Text> 
       </View>
-      <ScrollView>
       {packageInfo.map((item, index) => (
           <View key={index}>
             {allUser.filter((data) => data.id === item.userId).map((user, usrindex) => (
@@ -206,21 +223,30 @@ export default function TripDetails({ route, navigation }) {
             ))} 
           </View>
       ))} 
-      </ScrollView>
       {tripData.trackingStatus !== "Arrive" && (
         <>
         {tripData.trackingStatus === "On Route" ? (
-          <Button title={"Arrive"} children={'plane-arrival'}  onPress={arriveTrip}/> 
+          <Button title={"Arrive"} children={'plane-arrival'}  onPress={showDialog}/> 
         ): ( 
-          <Button title={"Ship"} children={'plane-departure'}  onPress={changeTrackingStatus}/> 
+          <Button title={"Ship"} children={'plane-departure'}  onPress={showDialog}/> 
         )}
         </>
       )}
+      <Dialog.Container visible={visible}>
+        <Dialog.Title>{dialogTitle}</Dialog.Title>
+        {tripData.trackingStatus === "On Route" ? ( 
+          <Dialog.Button label="Yes" onPress={arriveTrip} />
+        ):(
+          <Dialog.Button label="Yes" onPress={changeTrackingStatus} /> 
+        )}
+        <Dialog.Button label="No" onPress={handleCancel} />
+      </Dialog.Container>
+  </ScrollView>
       <Spinner
         visible={spinner}
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
       />
-  </ScrollView>
+    </>
   )
 }

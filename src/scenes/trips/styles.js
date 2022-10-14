@@ -40,6 +40,7 @@ export default StyleSheet.create({
     color: "#185354",
     fontSize: 14,
     fontFamily: "UbuntuMedium", 
+    textTransform: 'capitalize',
   },
   numberText:{ 
     color:  '#169393', 

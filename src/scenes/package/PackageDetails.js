@@ -59,7 +59,6 @@ export default function PackageDetails({ route, navigation }) {
         })  
         setPackageCount(packageTotal);
         setTripCount(dataArr.length)
-        console.log("TripsCount " + dataArr.length)
         setSpinner(false)
       })
       .catch(error => {

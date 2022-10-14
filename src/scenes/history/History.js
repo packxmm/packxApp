@@ -76,8 +76,20 @@ export default function History({ route, navigation }) {
             <Icon style={{color: "#1B9494"}} name={"receipt-outline"} size={25} />
           </View> 
           <View style={{flex: 3, marginLeft: 15}}>
-            <Text style={[styles.title]}>E-Receipt </Text> 
+            <Text style={[styles.title]}>E-Receipt </Text>  
             <Text style={[styles.text, {marginTop: "5%"}]}>Package ID - {item.id.slice(0,8)} </Text> 
+            {tripData.filter((data) => data.tripId === item.tripId).map((trip) => (
+              <View style={{flexDirection: "row" ,justifyContent: 'space-between', marginTop: "2%"}}>
+                <View style={{flex: 2}}>
+                  <Text style={styles.triplabel}>From</Text>
+                  <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text> 
+                </View> 
+                <View style={{flex: 2}}>
+                  <Text style={styles.triplabel}>To</Text>
+                  <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text> 
+                </View>
+              </View>
+            ))}
           </View>
           <View style={{flexDirection: "row" ,alignContent: "center", paddingTop: "2%"}}>
               <Text style={styles.date}>{new Date(item.timestamp).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(item.timestamp).toLocaleDateString("en-US", { month: 'short' })} {new Date(item.timestamp).toLocaleDateString("en-US", { year: 'numeric'})}</Text> 

@@ -52,7 +52,6 @@ export default function Package(props) {
   }, []);
 
   const getData = async () => {
-    console.log("getData")
     try {
       const jsonValue = await AsyncStorage.getItem('trips'); 
       if(jsonValue != null){

@@ -37,6 +37,17 @@ export default StyleSheet.create({
     borderEndWidth: 2,
     marginRight: 5
   },
+  triplabel: {
+    fontSize: 12,
+    marginBottom: 8,
+    color: "rgba(23,25,48,0.6)",
+    fontFamily: "Ubuntu",
+  },
+  tripname: {
+    fontSize: 12,
+    textTransform: "uppercase",
+    fontFamily: "UbuntuMedium",
+  },
   text:{ 
     color:  '#085252', 
     fontFamily: "UbuntuMedium",
