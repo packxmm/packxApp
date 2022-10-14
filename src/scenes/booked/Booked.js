@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; 
 import { View, Text, TouchableOpacity, Image, TextInput , Switch, KeyboardAvoidingView, Platform} from 'react-native';
 import styles from './styles'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements' 
 import Button from '../../components/Button'
@@ -8,6 +9,7 @@ import WhiteButton from '../../components/Button/WhiteButton'
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
 import uuid from 'react-native-uuid';
+import Dialog from "react-native-dialog";
 
 export default function Booked({route, navigation}) {
   const userData = route.params.user;  
@@ -19,7 +21,8 @@ export default function Booked({route, navigation}) {
   const [confirmed, setConfiremd] = useState(false); 
   const [isEnabled, setIsEnabled] = useState(false);
   const [spinner, setSpinner] = useState(false);
-
+  const [visible, setVisible] = useState(false);
+  const [dialogTitle, setdialogTitle] = useState(''); 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -107,6 +110,11 @@ export default function Booked({route, navigation}) {
     getPackages.update(updatePackages);
   };
 
+  const showDialog = () => { 
+    setVisible(true) 
+    setdialogTitle("The package has been picked up!") 
+  }
+
   const saveData = () => {   
     setSpinner(true);
     const generateUuid = uuid.v4();
@@ -139,8 +147,8 @@ export default function Booked({route, navigation}) {
     setSpinner(false); 
   }
 
-  const checkOut = () => {   
-    setSpinner(true);
+  const checkOut = () => {  
+    setVisible(false) 
     const generateUuid = uuid.v4();
     const getUuid = generateUuid.replaceAll('-', '');  
     const updatePackages = { 
@@ -162,7 +170,6 @@ export default function Booked({route, navigation}) {
     .catch((error) => {
       alert(error)
     }); 
-    setSpinner(false); 
     navigation.navigate('TripDetails'); 
   }
   return ( 
@@ -266,10 +273,10 @@ export default function Booked({route, navigation}) {
         <>
           {tripData.trackingStatus === "Arrive" && (
               <View  style={{marginBottom: "5%"}}>
-                <Button title={"Check Out"} children={'caret-square-right'} onPress={checkOut}/> 
+                <Button title={"Check Out"} children={'caret-square-right'} onPress={showDialog}/> 
               </View> 
           )}
-          {tripData.trackingStatus === "Arrive" && (
+          {tripData.trackingStatus === "confirmed" && (
             <View  style={{marginBottom: "5%"}}>
               <Button title={"Save"} children={'save'} onPress={saveData}/> 
             </View>
@@ -292,6 +299,10 @@ export default function Booked({route, navigation}) {
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
       />
+      <Dialog.Container visible={visible}>
+        <Dialog.Title>{dialogTitle}</Dialog.Title> 
+        <Dialog.Button label="Ok" onPress={checkOut} />
+      </Dialog.Container>
     </View>
   )
 }

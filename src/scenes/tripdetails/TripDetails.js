@@ -95,6 +95,7 @@ export default function TripDetails({ route, navigation }) {
       setdialogTitle("All packages must be packed and ready to be shipped off ")
     )}
   }
+  
   const handleCancel = () => {
     setVisible(false)
   }
