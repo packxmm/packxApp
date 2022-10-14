@@ -25,6 +25,8 @@ export default function HistoryDetails({ route, navigation }) {
   }, [navigation]);
 
   useEffect(() => { 
+    console.log(tripData)
+    console.log(packageData.tripId)
     tripData.filter((data) => data.tripId === packageData.tripId).map((trip) => {
       setCurrency(trip.categoryLists[0].currency);
       setWeight(trip.categoryLists[0].weight); 

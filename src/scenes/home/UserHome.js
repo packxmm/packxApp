@@ -17,22 +17,31 @@ export default function UserHome(props) {
   const [searchData, setsearchResult] = useState([]) 
 
   useEffect(() => {  
+    getData();
+  }, []);
+
+  const getData = () => { 
+    setSpinner(true);
     firebase.firestore()
     .collection('trips') 
-    .get().then((querySnapshot) => {
+    .where('trackingStatus', '!=', "Arrive") 
+    .get() 
+    .then((querySnapshot) => {
       const dataArr = [];
       querySnapshot.forEach(doc => { 
         const data = doc.data();
-        dataArr.push(data);   
+        dataArr.push(data); 
       })  
-      setTripData(dataArr); 
+      const sortedArr = dataArr.sort((a, b) =>  new Date(a.tripInfo.dropOffDate) - new Date(b.tripInfo.dropOffDate));
+      setTripData(sortedArr); 
       setsearchResult(dataArr);
       storeData(dataArr)
       setSpinner(false);
+      setRefreshing(false);
     }).catch((error) => {
         console.log("Error getting document:", error);
     });  
-  }, []);
+  }
 
   const storeData = async (value) => {
     try {
@@ -45,24 +54,25 @@ export default function UserHome(props) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    try {
-      firebase.firestore()
-        .collection('trips') 
-        .get().then((querySnapshot) => {
-          const dataArr = [];
-          querySnapshot.forEach(doc => { 
-            const data = doc.data();
-            dataArr.push(data);   
-          })  
-          setTripData(dataArr); 
-          storeData(dataArr)
-          setRefreshing(false);
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });  
-    } catch (error) {
-      console.error(error);
-    }
+    getData()
+    // try {
+    //   firebase.firestore()
+    //     .collection('trips') 
+    //     .get().then((querySnapshot) => {
+    //       const dataArr = [];
+    //       querySnapshot.forEach(doc => { 
+    //         const data = doc.data();
+    //         dataArr.push(data);   
+    //       })  
+    //       setTripData(dataArr); 
+    //       storeData(dataArr)
+    //       setRefreshing(false);
+    //     }).catch((error) => {
+    //         console.log("Error getting document:", error);
+    //     });  
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }, []);
   
   const searchTrip = (val) => {

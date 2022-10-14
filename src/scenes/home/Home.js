@@ -25,7 +25,6 @@ export default function Home(props) {
     setRefreshing(true);
     try { 
       getData();
-      setRefreshing(false);
     } catch (error) {
       console.error(error);
     }
@@ -64,9 +63,10 @@ export default function Home(props) {
         const finishedArr = []
         querySnapshot.forEach(doc => { 
           const data = doc.data();
-          dataArr.push(data);   
           if(data.trackingStatus === "Arrive"){
             finishedArr.push(data);    
+          }else{
+            dataArr.push(data);
           }
         })  
         setTripsData(dataArr); 
@@ -96,6 +96,7 @@ export default function Home(props) {
                   convertTotal += parseFloat(convertRate.toFixed(2));
                   if(index === finishedArr.length - 1){
                     setSpinner(false); 
+                    setRefreshing(false);
                     setTotalAmount(convertTotal)
                   }
                 })

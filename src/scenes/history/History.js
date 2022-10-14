@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, ScrollView} from 'react-native'; 
+import { View, Text, TouchableOpacity, ScrollView, RefreshControl} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons'; 
@@ -10,6 +10,7 @@ export default function History({ route, navigation }) {
   const [tripData, setTripData] = useState([]);
   const [packageData, setPackagesData] = useState([]);
   const [spinner, setSpinner] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -22,11 +23,23 @@ export default function History({ route, navigation }) {
     });
   }, [navigation]);
 
+  const onRefresh = React.useCallback(() => {
+    try { 
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
   useEffect(() => { 
+    getData()
+  },[])
+
+  const getData = () => { 
+    setSpinner(true); 
     const packageRef = firebase.firestore().collection('package')
     const tripRef = firebase.firestore().collection('trips')
     tripRef
-      .where('facilityId', '==', userData.id) 
       .get().then((querySnapshot) => {
         const dataArr = [];
         querySnapshot.forEach(doc => { 
@@ -50,12 +63,13 @@ export default function History({ route, navigation }) {
     }).catch((error) => {
         console.log("Error getting document:", error);
     });
-  },[])
+  }
   // console.log(packageData)
   return (
     <View style={styles.container}> 
-      <Text style={styles.header}> TRANSACTION HISTORY </Text> 
       <ScrollView>
+      <Text style={styles.header}> TRANSACTION HISTORY </Text> 
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       {packageData.map((item, index) => (
         <TouchableOpacity style={[styles.item]} key={index} onPress={() => navigation.navigate('HistoryDetails', { user: userData, package: item , trip: tripData})}>
           <View style={{alignContent: "center"}}>  
