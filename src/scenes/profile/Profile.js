@@ -145,41 +145,5 @@ export default function Profile(props) {
       />
       </ScrollView>
 </View>
-    // <View style={styles.container}>
-    //   <StatusBar barStyle="light-content" />
-    //   <ScrollView style={{ flex: 1, width: '100%' }}>
-    //     <View style={styles.main}>
-    //       <View style={styles.avatar}>
-    //         <Avatar
-    //           size="xlarge"
-    //           rounded
-    //           title="NI"
-    //           source={{ uri: userData.avatar }}
-    //         />
-    //       </View>
-    //       <Text style={scheme === 'dark' ? styles.darkfield : styles.field}>Name:</Text>
-    //       <Text style={scheme === 'dark' ? styles.darktitle : styles.title}>{userData.fullName}</Text>
-    //       <Text style={scheme === 'dark' ? styles.darkfield : styles.field}>Mail:</Text>
-    //       <Text style={scheme === 'dark' ? styles.darktitle : styles.title}>{userData.email}</Text>
-    //       <TouchableOpacity style={styles.button} onPress={goDetail}>
-    //         <Text style={styles.buttonText}>Edit</Text>
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={styles.deletebutton} onPress={showDialog}>
-    //         <Text style={styles.buttonText}>Account delete</Text>
-    //       </TouchableOpacity>
-    //       <View style={styles.footerView}>
-    //         <Text onPress={signOut} style={styles.footerLink}>Sign out</Text>
-    //       </View>
-    //     </View>
-    //   </ScrollView>
-    //   <Dialog.Container visible={visible}>
-    //     <Dialog.Title>Account delete</Dialog.Title>
-    //     <Dialog.Description>
-    //       Do you want to delete this account? You cannot undo this action.
-    //     </Dialog.Description>
-    //     <Dialog.Button label="Cancel" onPress={handleCancel} />
-    //     <Dialog.Button label="Delete" onPress={accountDelete}  />
-    //   </Dialog.Container>
-    // </View>
   )
 }

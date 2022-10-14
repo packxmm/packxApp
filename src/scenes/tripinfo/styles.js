@@ -114,6 +114,12 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     height: 30
   },
+  link: {
+    color: '#169393',
+    textAlign: 'center',
+    marginTop: 5,
+    marginBottom: 15
+  },
   view: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     justifyContent: 'flex-end',

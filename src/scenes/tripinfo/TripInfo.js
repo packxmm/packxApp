@@ -1,9 +1,10 @@
 import React, {  useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, Image , ScrollView} from 'react-native'; 
+import { View, Text, TouchableOpacity, Image , ScrollView, Linking} from 'react-native'; 
 import styles from './styles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
@@ -110,9 +111,12 @@ useEffect(() => {
                 />  
             </View> 
             <View style={{flex: 4, alignItems: 'flex-start'}}>
-                <Text style={styles.title}>{facilityInfo.facilityName}</Text>  
-                <Text style={styles.tripname}>{facilityInfo.fullName}</Text>  
+                <Text style={styles.title}>{facilityInfo.facilityName !== undefined ? facilityInfo.facilityName : facilityInfo.fullName}</Text>  
                 <Text>{facilityInfo.email}</Text>  
+                <TouchableOpacity style={{flexDirection: 'row'}} onPress={ ()=>{ Linking.openURL('viber://contact?number='+facilityInfo.phone+'/')}}> 
+                  <Fontisto style={{color: '#169393', margin: 5}} name="viber" size={16} /> 
+                  <Text style={styles.link} >{facilityInfo.phone}</Text>
+                </TouchableOpacity>
             </View>
             <View style={{flexDirection: "column" }}>
                 <View style={styles.itemCount}>

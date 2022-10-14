@@ -53,6 +53,7 @@ export default function AmountDue(props) {
             fetch(reqUrl,requestOptions)
               .then(response => response.json())
               .then(result => {
+                console.log(result)
                 let convertRate = total / result[currency.toLowerCase()];
                 finishedTrip[index].convAmount = convertRate.toFixed(2);
                 convertTotal += parseFloat(convertRate.toFixed(2));
