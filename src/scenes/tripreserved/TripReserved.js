@@ -161,7 +161,7 @@ export default function TripReserved(props) {
               autoCapitalize="none"
             />
           <Button title={"Confirm"} onPress={showDialog} children={'check'} /> 
-          <WhiteButton title={"Cancel"}onPress={() => props.navigation.navigate('TripInfo')} children={'remove'}/>
+          <WhiteButton title={"Cancel"} onPress={() => props.navigation.navigate('TripInfo')} children={'remove'}/>
         </View>
       </KeyboardAwareScrollView>
       </View>

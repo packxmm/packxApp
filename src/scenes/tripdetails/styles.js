@@ -7,8 +7,10 @@ export default StyleSheet.create({
     backgroundColor: '#FAFAFA'
   },
   mainText: {
-    fontSize: 18,
-    fontFamily: 'UbuntuMedium',
+    color:  '#185354',  
+    fontSize: 16,
+    fontFamily: 'UbuntuMedium', 
+    textTransform: 'uppercase',
     padding : 10, 
   }, 
   text:{ 

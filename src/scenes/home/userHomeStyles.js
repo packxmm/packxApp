@@ -59,9 +59,9 @@ export default StyleSheet.create({
   title: {
     marginBottom: 10,
     color: "#185354",
-    letterSpacing: 1,
     fontSize: 14,
     fontFamily: "UbuntuMedium", 
+    textTransform: 'uppercase'
   },
   numberText:{ 
     color:  '#169393', 

@@ -50,7 +50,7 @@ const HomeTabs = (props) => {
             let iconName;
             if (route.name === 'HOME') {
               iconName = 'home-outline';
-            } else if (route.name === 'TRIPS' || route.name === 'PACKAGE') {
+            } else if (route.name === 'MY TRIP' || route.name === 'PACKAGE') {
               iconName = 'cube-outline';
             } else if (route.name === 'INBOX') {
               iconName = 'albums-outline';
@@ -92,7 +92,7 @@ const HomeTabs = (props) => {
                   children={()=> <Home {...props} extraData={user} navigationProps={navigationProps}/>}
                   options={{headerShown: false, title:  ''}} />  
                 <Tab.Screen
-                  name="TRIPS"
+                  name="MY TRIP"
                   children={()=> <Trips {...props} extraData={user} navigationProps={navigationProps}/>}
                   options={{headerShown: false, title:  ''}}  /> 
               </>

@@ -1,10 +1,11 @@
 import React, {  useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image , ScrollView} from 'react-native';
+import { View, Text, TouchableOpacity, Image , ScrollView, Linking} from 'react-native';
 import styles from './PackageDetailsSyles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements'
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 export default function PackageDetails({ route, navigation }) { 
   const [spinner, setSpinner] = useState(false);
@@ -108,9 +109,12 @@ export default function PackageDetails({ route, navigation }) {
                 />  
             </View> 
             <View style={{flex: 4, alignItems: 'flex-start'}}>
-                <Text style={styles.title}>{facilityInfo.facilityName}</Text>  
-                <Text style={styles.tripname}>{facilityInfo.fullName}</Text>  
+                <Text style={styles.title}>{facilityInfo.facilityName !== undefined ? facilityInfo.facilityName : facilityInfo.fullName}</Text>  
                 <Text>{facilityInfo.email}</Text>  
+                <TouchableOpacity style={{flexDirection: 'row'}} onPress={ ()=>{ Linking.openURL('viber://contact?number='+facilityInfo.phone+'/')}}> 
+                  <Fontisto style={{color: '#169393', margin: 5}} name="viber" size={16} /> 
+                  <Text style={styles.link} >{facilityInfo.phone}</Text>
+                </TouchableOpacity> 
             </View>
             <View style={{flex: 1 ,flexDirection: "column" }}>
                 <View style={styles.itemCount}>

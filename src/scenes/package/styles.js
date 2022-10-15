@@ -37,6 +37,9 @@ export default StyleSheet.create({
     paddingVertical: "5%",
     marginBottom: "2%",
   },
+  refused:{ 
+    backgroundColor: "#CECECE",
+  },
   title: {
     marginBottom: 10,
     color: "#185354",

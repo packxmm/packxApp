@@ -9,7 +9,8 @@ export default StyleSheet.create({
   mainText: {
     fontSize: 16,
     color:  '#185354',  
-    fontFamily: 'UbuntuBold',
+    fontFamily: 'UbuntuBold', 
+    textTransform: 'uppercase',
     paddingBottom : "3%", 
   }, 
   text:{ 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ListView = ({ data , showStatus, index}) => {
+const ListView = ({ data , index}) => {
     return(
         <View style={styles.item} key={index}>
         <Text style={styles.title}>TRIP - {data.tripId.slice(0,8)}</Text>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
       color: "#169393",
       fontSize: 14,
       fontFamily: "UbuntuBold",
+      textTransform: "uppercase"
     },
     tripList: {
       display: "flex",

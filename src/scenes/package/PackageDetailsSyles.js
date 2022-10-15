@@ -222,6 +222,12 @@ export default StyleSheet.create({
         flexDirection: "row" , 
         justifyContent: 'space-around', 
       },
+      link: {
+        color: '#169393',
+        textAlign: 'center',
+        marginTop: 5,
+        marginBottom: 15
+      },
       statusTitle: { 
         fontSize: 14,
         color: "#2797A6",  

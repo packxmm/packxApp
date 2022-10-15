@@ -197,7 +197,7 @@ export default function TripDetails({ route, navigation }) {
       {packageInfo.map((item, index) => (
           <View key={index}>
             {allUser.filter((data) => data.id === item.userId).map((user, usrindex) => (
-              <TouchableOpacity style={[styles.item, item.trackingStatus === "reserved" && styles.reserved]} key={usrindex} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item , trip: tripData})}>
+              <TouchableOpacity style={[styles.item, item.trackingStatus === "reserved" && styles.reserved, item.trackingStatus === "refused" && styles.reserved]} key={usrindex} onPress={() => navigation.navigate('Booked', { user: user, packageInfo: item , trip: tripData})}>
                 <View style={{flex: 1, alignContent: "center"}}>  
                     <Avatar
                       size="large"

@@ -112,7 +112,11 @@ export default function Booked({route, navigation}) {
 
   const showDialog = () => { 
     setVisible(true) 
-    setdialogTitle("The package has been picked up!") 
+    {tripData.trackingStatus === "Arrive" ? (
+      setdialogTitle("The package has been picked up!") 
+    ): ( 
+      setdialogTitle("Are you sure to refuse the trip reservation?")
+    )}
   }
 
   const saveData = () => {   
@@ -171,6 +175,39 @@ export default function Booked({route, navigation}) {
       alert(error)
     }); 
     navigation.navigate('TripDetails'); 
+  }
+
+  const handleCancel = () => {
+    setVisible(false)
+  }
+    
+  const refeseBooking = () => {  
+    setSpinner(true);
+    const generateUuid = uuid.v4();
+    const getUuid = generateUuid.replaceAll('-', '');  
+    const updatePackages = { 
+      trackingStatus : "refused"
+    } 
+    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    getPackages.update(updatePackages);
+    navigation.navigate('TripDetails');
+
+    const msgData = { 
+      id: getUuid,
+      user : userData.id,
+      msg :  "Your reserved package "+ packageData.id.slice(0,8) + " is now refused.",
+      type : "refused",
+      timestamp : new Date().toLocaleString('en-US')
+    }
+    const notiRef = firebase.firestore().collection('notification')
+    notiRef
+    .doc(getUuid)
+    .set(msgData)
+    .catch((error) => {
+      alert(error)
+    }); 
+    setSpinner(false); 
+    setConfiremd(true);
   }
   return ( 
     <View style={styles.container}> 
@@ -287,8 +324,8 @@ export default function Booked({route, navigation}) {
           <>
             {confirmed === false && (
               <View  style={{marginBottom: "10%"}}>
-                <Button title={"Confirm"} children={'check'}  onPress={confirmBooking} /> 
-                <WhiteButton title={"Refuse"} children={'remove'}/>
+                <Button title={"Confirm"} children={'check'} onPress={confirmBooking} /> 
+                <WhiteButton title={"Refuse"} children={'remove'} onPress={showDialog} />
               </View> 
               )}
           </>
@@ -299,10 +336,18 @@ export default function Booked({route, navigation}) {
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
       />
-      <Dialog.Container visible={visible}>
-        <Dialog.Title>{dialogTitle}</Dialog.Title> 
-        <Dialog.Button label="Ok" onPress={checkOut} />
-      </Dialog.Container>
+        {tripData.trackingStatus === "Arrive" ? ( 
+          <Dialog.Container visible={visible}>
+              <Dialog.Title>{dialogTitle}</Dialog.Title> 
+              <Dialog.Button label="Ok" onPress={checkOut} />
+          </Dialog.Container>
+        ) : ( 
+          <Dialog.Container visible={visible}>
+            <Dialog.Title>{dialogTitle}</Dialog.Title> 
+            <Dialog.Button label="Yes" onPress={refeseBooking} /> 
+            <Dialog.Button label="No" onPress={handleCancel} />
+         </Dialog.Container>
+        )}
     </View>
   )
 }

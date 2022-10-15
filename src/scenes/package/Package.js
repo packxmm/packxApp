@@ -74,12 +74,18 @@ export default function Package(props) {
           {packageData.map((item, index) => ( 
             <View style={styles.itemLists} key={index}>
                 {tripData.filter((data) => data.tripId === item.tripId).map((trip, index) => (
-                  <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('PackageDetails', { items: item , tripInfo : trip , user : userData})}>
+                  <TouchableOpacity style={[styles.item, item.trackingStatus === "refused" && styles.refused]} key={index} onPress={() => props.navigation.navigate('PackageDetails', { items: item , tripInfo : trip , user : userData})}>
                     <View style={styles.tripHeader}>  
                       {item.trackingStatus === "reserved" && ( 
                         <View style={[styles.statusBtn ,styles.reserved]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText]}> Reserved</Text> 
+                        </View> 
+                      )}  
+                      {item.trackingStatus === "refused" && ( 
+                        <View style={[styles.statusBtn ,styles.reserved]}> 
+                        <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
+                          <Text style={[styles.statusText]}> Refused</Text> 
                         </View> 
                       )}  
                       {item.trackingStatus === "confirmed" && ( 
