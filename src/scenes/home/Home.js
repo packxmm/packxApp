@@ -11,6 +11,7 @@ export default function Home(props) {
   // console.log(props.route)
   const userData = props.user; 
   const [tripsData, setTripsData] = useState([]);  
+  const [finishedtripsData, setFinishedTripsData] = useState([]);  
   const [totalAmount, setTotalAmount] = useState(0.00);
   const [token, setToken] = useState('')
   const [refreshing, setRefreshing] = useState(false);
@@ -69,6 +70,7 @@ export default function Home(props) {
             dataArr.push(data);
           }
         })  
+        setFinishedTripsData(finishedArr)
         setTripsData(dataArr); 
         const packageRef = firebase.firestore().collection('package') 
         packageRef
@@ -80,7 +82,6 @@ export default function Home(props) {
             })  
             console.log(finishedArr)
             setSpinner(false); 
-            //   let finishedTrip = dataArr.filter((trip) => trip.trackingStatus === "Arrive");
             let convertTotal = 0; 
             finishedArr.forEach((trip,index) => { 
               let total = 0;
@@ -122,7 +123,7 @@ export default function Home(props) {
                 Create New Trip
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.amountDue} onPress={() =>  props.navigation.navigate('TotalAmount', {tripInfo : tripsData})}>
+            <TouchableOpacity style={styles.amountDue} onPress={() =>  props.navigation.navigate('TotalAmount', {tripInfo : finishedtripsData})}>
               <View>
                 <Text style={{fontSize: 18}}> Amount Due </Text>
                 <Text style={styles.priceLabel}> $ {(totalAmount / 10).toFixed(2)} </Text>

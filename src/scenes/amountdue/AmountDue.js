@@ -5,8 +5,7 @@ import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons'; 
 
-export default function AmountDue(props) {
-  // const tripData = props.route.params.tripInfo;
+export default function AmountDue(props) { 
   const [tripData, setTripData] = useState(props.route.params.tripInfo);
   const [totalAmount, setTotalAmount] = useState(1000);
   const [spinner, setSpinner] = useState(true);
@@ -53,7 +52,6 @@ export default function AmountDue(props) {
             fetch(reqUrl,requestOptions)
               .then(response => response.json())
               .then(result => {
-                console.log(result)
                 let convertRate = total / result[currency.toLowerCase()];
                 finishedTrip[index].convAmount = convertRate.toFixed(2);
                 convertTotal += parseFloat(convertRate.toFixed(2));
@@ -64,8 +62,8 @@ export default function AmountDue(props) {
               })
               .catch(error => console.log('error', error));
           }else{ 
-            finishedTrip[index].convAmount = total;
-            setTotalAmount(total)
+            convertTotal += total;
+            setTotalAmount(convertTotal)
             setSpinner(false); 
           }
         }) 
@@ -85,7 +83,7 @@ export default function AmountDue(props) {
         {tripData.filter((data) => data.trackingStatus === "Arrive").map((trip, index) => (
             // <Lists data={trip} key={index} showStatus={false}/> 
             <View style={styles.item} key={index}>
-              <Text style={styles.title}>TRIP NUMBER - {trip.tripId.slice(0,8)}</Text>
+              <Text style={styles.title}>TRIP - {trip.tripId.slice(0,8)}</Text>
               <View style={styles.tripList}>
                 <View style={{flex: 2}}>
                   <Text style={styles.triplabel}>From</Text>

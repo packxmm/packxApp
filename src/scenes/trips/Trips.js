@@ -62,7 +62,7 @@ export default function Trips(props) {
           {tripData.map((item, index) => (
             <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripDetails', { tripInfo: item, user: userData })}> 
               <View style={styles.tripHeader}> 
-                <Text style={styles.title}>TRIP NUMBER - <Text style={styles.numberText}>{item.tripId.slice(0,8)} | </Text></Text>
+                <Text style={styles.title}>TRIP - <Text style={styles.numberText}>{item.tripId.slice(0,8)} | </Text></Text>
                 <Text style={styles.title}>Tracking : {item.trackingStatus}</Text>
               </View> 
               <View style={styles.tripList}>

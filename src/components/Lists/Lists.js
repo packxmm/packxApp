@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const ListView = ({ data , showStatus, index}) => {
     return(
         <View style={styles.item} key={index}>
-        <Text style={styles.title}>TRIP NUMBER - {data.tripId.slice(0,8)}</Text>
+        <Text style={styles.title}>TRIP - {data.tripId.slice(0,8)}</Text>
         <View style={styles.tripList}>
           <View style={{flex: 2}}>
             <Text style={styles.triplabel}>From</Text>

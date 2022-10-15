@@ -149,7 +149,7 @@ export default function TripDetails({ route, navigation }) {
     <ScrollView style={styles.container}>  
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       <View style={styles.tripHeader}> 
-        <Text style={styles.mainText}>TRIP NUMBER - {tripData.tripId.slice(0,8)}</Text> 
+        <Text style={styles.mainText}>TRIP - {tripData.tripId.slice(0,8)}</Text> 
       </View>
       <View style={styles.tripList}>
         <View style={{flex: 2}}>

@@ -111,7 +111,7 @@ export default function UserHome(props) {
             <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripInfo', { tripInfo: item , user: userData})}>
                <View style={{flex: 10}}>
                 <View style={styles.tripHeader}> 
-                  <Text style={styles.title}>TRIP NUMBER - <Text style={styles.numberText}>{item.tripId.slice(0,8)} </Text></Text> 
+                  <Text style={styles.title}>TRIP - <Text style={styles.numberText}>{item.tripId.slice(0,8)} </Text></Text> 
                 </View>
                 <View style={styles.tripList}>
                   <View style={{flex: 2}}>
