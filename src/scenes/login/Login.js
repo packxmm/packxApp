@@ -60,6 +60,9 @@ export default function Login({route, navigation}) {
   return (
     <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
       <StatusBar barStyle="light-content" />  
+      <KeyboardAwareScrollView
+        style={{ flex: 1, width: '90%' }}
+        keyboardShouldPersistTaps="always"> 
       <View style={styles.logo}>
         <Image source={require('../../../assets/images/PackXLogo.png')}/>
       </View> 
@@ -72,9 +75,6 @@ export default function Login({route, navigation}) {
               <Image source={require('../../../assets/images/UserSignIn.png')}/>
             </View> 
         )}
-      <KeyboardAwareScrollView
-        style={{ flex: 1, width: '90%' }}
-        keyboardShouldPersistTaps="always"> 
         <Text style={styles.inputLabel}>Email</Text>
         <TextInput
           placeholder='E-mail'

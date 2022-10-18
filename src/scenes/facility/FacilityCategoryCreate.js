@@ -57,7 +57,6 @@ const currency = [
 
 function FacilityCategoryForm(props){ 
   const userData = props.extraData;
-  console.log(userData)
   const [spinner, setSpinner] = useState(false)
   const scheme = useColorScheme();
   const tripInformation = props.route.params;  
@@ -112,7 +111,7 @@ function FacilityCategoryForm(props){
  
   function goToTrips(){ 
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');
+    const getUuid = generateUuid.replace('-', '');
     console.log("getUuid " + getUuid)
     setSpinner(true)
     const data = { 
@@ -130,7 +129,7 @@ function FacilityCategoryForm(props){
       .doc(getUuid)
       .set(data)
       .then(() => {
-        props.navigation.navigate('TRIPS')
+        props.navigation.navigate('MY TRIP')
       })
       .catch((error) => {
         setSpinner(false)

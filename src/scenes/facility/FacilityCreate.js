@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
 
 function FacilityCreateScreen(props){ 
+  console.log(props.navigation)
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
