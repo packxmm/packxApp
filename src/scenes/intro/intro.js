@@ -11,7 +11,7 @@ export default function intro({navigation}) {
 
   return (
     <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
-    <StatusBar barStyle="light-content" /> 
+    <StatusBar /> 
       <View style={styles.logoBox}>
         <Image source={require('../../../assets/images/PackXLogo.png')}/>
       </View>

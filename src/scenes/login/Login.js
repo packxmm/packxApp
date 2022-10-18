@@ -58,8 +58,8 @@ export default function Login({route, navigation}) {
   }
 
   return (
-    <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
-      <StatusBar barStyle="light-content" />  
+    <View style={[styles.container]}>
+      <StatusBar />  
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '90%' }}
         keyboardShouldPersistTaps="always"> 

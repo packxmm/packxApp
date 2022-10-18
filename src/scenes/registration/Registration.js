@@ -73,7 +73,7 @@ export default function Registration({route, navigation}) {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar />
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always"> 
