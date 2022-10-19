@@ -1,5 +1,5 @@
 import React, {  useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity} from 'react-native';  
+import { View, Text, Platform, TouchableOpacity} from 'react-native';  
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay' 
@@ -12,7 +12,7 @@ export default function AmountDue(props) {
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => props.navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => props.navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 5, fontSize: 18}}>Back</Text>
         </TouchableOpacity>

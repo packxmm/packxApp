@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react' 
 import Icon from 'react-native-vector-icons/Ionicons'; 
 import Feather from 'react-native-vector-icons/Feather';
-import { View, Text, Image, TouchableOpacity, StatusBar, ScrollView, useColorScheme } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
@@ -10,9 +10,11 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import { Restart } from '../../components/reload/reload'
 
 export default function Profile(props) {
-  const userData = props.extraData
-  const scheme = useColorScheme()
+  const userData = props.extraData 
   const [spinner, setSpinner] = useState(false)
+  const [totalPackages, setPackageTotal] = useState(); 
+  const [packagesLists, setPackageLists] = useState(); 
+  const [totalTrip, setTripTotal] = useState(); 
   console.log(props.route)
   const goDetail = () => {
     props.navigation.navigate('Detail', { userData: userData })
@@ -21,6 +23,42 @@ export default function Profile(props) {
   const gotToHistory = () => {
     props.navigation.navigate('History', { userData: userData })
   }
+
+  useEffect(() => {    
+    const tripsRef = firebase.firestore().collection('trips') 
+    tripsRef
+    .where('facilityId', '==', userData.id) 
+    .get().then((querySnapshot) => {
+      const dataArr = [];
+      let total = 0;
+      querySnapshot.forEach(doc => { 
+        const data = doc.data();
+        dataArr.push(data);   
+        total += data.packageLists.length;
+      })  
+      setPackageTotal(total);
+      setTripTotal(dataArr.length); 
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });  
+
+
+    firebase.firestore()
+      .collection('package') 
+      .where('userId', '==', userData.id) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          const data = doc.data();
+          dataArr.push(data);   
+        })  
+        setPackageLists(dataArr.length); 
+        setSpinner(false); 
+        getData();
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });  
+  }, []); 
 
   const signOut = () => {
     console.log("sign out")
@@ -56,9 +94,8 @@ export default function Profile(props) {
   }
   
   return ( 
-    <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
-      <StatusBar barStyle= { scheme.dark ? "light-content" : "dark-content" }/>
-      <ScrollView style={{marginTop: "8%"}}>
+      <ScrollView style={styles.container}>
+      <StatusBar/>
       <View style={styles.item}> 
           <View style={{flex: 2, alignContent: "center"}}>  
               <Avatar
@@ -73,15 +110,24 @@ export default function Profile(props) {
               <Text style={styles.subtitle}>{userData.fullName}</Text>  
               <Text style={styles.text}>{userData.email}</Text>
           </View>
-          <View style={{flex: 1 ,flexDirection: "column" }}>
-              <View style={styles.itemCount}>
-                <Text style={styles.count}>21</Text>
-                <Image source={require('../../../assets/images/Package.png')}/> 
-              </View> 
-              <View style={styles.itemCount}>
-                <Text style={styles.count}>13</Text>
-                <Image source={require('../../../assets/images/plane.png')}/> 
-              </View> 
+          <View style={{flex: 1 ,flexDirection: "column", paddingTop: "2%" }}>
+            { userData.type === "facility" ? (
+                <> 
+                  <View style={styles.itemCount}>
+                    <Text style={styles.count}>{totalPackages}</Text>
+                    <Image source={require('../../../assets/images/Package.png')}/> 
+                  </View> 
+                  <View style={styles.itemCount}>
+                    <Text style={styles.count}>{totalTrip}</Text>
+                    <Image source={require('../../../assets/images/plane.png')}/> 
+                  </View> 
+                </>
+              ) : (  
+                <View style={styles.itemCount}>
+                  <Text style={styles.count}>{packagesLists}</Text>
+                  <Image source={require('../../../assets/images/Package.png')}/> 
+                </View> 
+            )}
           </View>
       </View> 
       <View style={styles.account}> 
@@ -143,7 +189,6 @@ export default function Profile(props) {
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
       />
-      </ScrollView>
-</View>
+    </ScrollView> 
   )
 }

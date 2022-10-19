@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text,TextInput, Image, TouchableOpacity, ScrollView, useColorScheme, StatusBar} from 'react-native'; 
+import { View, Text,TextInput, Image, TouchableOpacity, ScrollView, useColorScheme, StatusBar, Platform} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
@@ -22,7 +22,7 @@ export default function Detail({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 7, fontSize: 17}}>Back To Profile</Text>
         </TouchableOpacity>

@@ -6,6 +6,7 @@ import { firebase } from '../../firebase/config'
 import { Calendar } from 'react-native-calendars';
 import Lists from '../../components/Lists'
 import Spinner from 'react-native-loading-spinner-overlay' 
+import moment from "moment";
 
 export default function Home(props) {
   // console.log(props.route)
@@ -112,9 +113,8 @@ export default function Home(props) {
   }
 
   return (
-    <View style={[styles.container , {paddingTop: StatusBar.currentHeight}]}>
-      <StatusBar barStyle= { scheme.dark ? "light-content" : "dark-content" }/>
       <ScrollView>
+      <StatusBar />
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <SafeAreaView style={styles.container}>
             <TouchableOpacity onPress={() =>  props.navigation.navigate('CreateFacility')} style={styles.createBtn}>
@@ -158,18 +158,17 @@ export default function Home(props) {
             <View>
             {tripsData.map((trip, index) => (
               <View key={index}> 
-                <Text style={styles.header}> Trip Activity - {new Date(trip.timestamp).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.timestamp).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.timestamp).toLocaleDateString("en-US", { year: 'numeric'})}</Text>  
+                <Text style={styles.header}> Trip Activity - {moment(new Date(trip.timestamp)).format("MMM Do YY")}</Text>  
                 <Lists data={trip} key={index}/>
             </View>
             ))} 
             </View>
         </SafeAreaView>
+        <Spinner
+          visible={spinner}
+          textStyle={{ color: "#fff" }}
+          overlayColor="rgba(0,0,0,0.5)"
+        /> 
       </ScrollView>
-      <Spinner
-        visible={spinner}
-        textStyle={{ color: "#fff" }}
-        overlayColor="rgba(0,0,0,0.5)"
-      />
-    </View>
   )
 }

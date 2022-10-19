@@ -1,5 +1,5 @@
 import React, {  useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image , ScrollView, Linking} from 'react-native';
+import { View, Text, TouchableOpacity, Image , ScrollView, Linking, Platform} from 'react-native';
 import styles from './PackageDetailsSyles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import { firebase } from '../../firebase/config'
@@ -20,7 +20,7 @@ export default function PackageDetails({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 5, fontSize: 18}}>Back to Packages</Text>
         </TouchableOpacity>

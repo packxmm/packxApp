@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, ScrollView, Image} from 'react-native'; 
+import { View, Text, TouchableOpacity, ScrollView, Image, Platform} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -16,7 +16,7 @@ export default function HistoryDetails({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 7, fontSize: 17}}>Back to Transaction History</Text>
         </TouchableOpacity>

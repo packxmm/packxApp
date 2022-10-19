@@ -1,5 +1,5 @@
 import React, {  useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, Image , ScrollView, Linking} from 'react-native'; 
+import { View, Text, TouchableOpacity, Image , ScrollView, Linking, Platform} from 'react-native'; 
 import styles from './styles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,18 +8,20 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
+import moment from "moment";
 
 export default function TripInfo({ route, navigation }) { 
   const [spinner, setSpinner] = useState(false);
   const tripData = route.params.tripInfo;  
   const userData = route.params.user;   
-  const [total, setTotal] = useState(); 
+  const [totalPackages, setPackageTotal] = useState(); 
+  const [totalTrip, setTripTotal] = useState(); 
   const [facilityInfo, setfacilityInfo] = useState({});
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 5, fontSize: 18}}>Back</Text>
         </TouchableOpacity>
@@ -28,23 +30,23 @@ export default function TripInfo({ route, navigation }) {
   }, [navigation]);
 
     
-useEffect(() => {   
-    const packageRef = firebase.firestore().collection('package') 
-    packageRef
-        .where('tripId', '==', tripData.tripId) 
-        .get().then((querySnapshot) => {
-          const dataArr = [];
-          let total = 0;
-          querySnapshot.forEach(doc => { 
-            let data = doc.data();
-            total += data.items.length;
-            dataArr.push(data);   
-          })  
-          setTotal(total);
-          setSpinner(false); 
+  useEffect(() => {    
+      const tripsRef = firebase.firestore().collection('trips') 
+      tripsRef
+      .where('facilityId', '==', tripData.facilityId) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        let total = 0;
+        querySnapshot.forEach(doc => { 
+          const data = doc.data();
+          dataArr.push(data);   
+          total += data.packageLists.length;
+        })  
+        setPackageTotal(total);
+        setTripTotal(dataArr.length); 
       }).catch((error) => {
           console.log("Error getting document:", error);
-      }); 
+      });  
     
       firebase.firestore()
         .collection('users')
@@ -69,12 +71,8 @@ useEffect(() => {
             <View style={{flex: 3, marginBottom: "2%", flexDirection: 'column'  }}>
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>From</Text>
-                <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text> 
-                {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
-                  <Text style={styles.triplabel}>{new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
-                ) : ( 
-                  <Text style={styles.triplabel}>{tripData.tripInfo.dropOffDate}</Text>
-                )}
+                <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text>  
+                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.dropOffDate)).format("MMM Do YY")} </Text>
               </View>
               <View style={{flex: 1, paddingTop: "5%"}}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> DROP OFF ADDRESSS</Text>
@@ -88,11 +86,7 @@ useEffect(() => {
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>To</Text>
                 <Text style={styles.tripname}>{tripData.tripInfo.desVal}</Text> 
-                {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
-                  <Text style={styles.triplabel}>{new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
-                ) : ( 
-                  <Text style={styles.triplabel}>{tripData.tripInfo.pickUpDate}</Text>
-                )}
+                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.pickUpDate)).format("MMM Do YY")} </Text>
               </View>  
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> PICK UP ADDRESS</Text>
@@ -110,21 +104,21 @@ useEffect(() => {
                   source={{ uri: facilityInfo.avatar }}
                 />  
             </View> 
-            <View style={{flex: 4, alignItems: 'flex-start'}}>
+            <View style={{flex: 4}}>
                 <Text style={styles.title}>{facilityInfo.facilityName !== undefined ? facilityInfo.facilityName : facilityInfo.fullName}</Text>  
                 <Text>{facilityInfo.email}</Text>  
                 <TouchableOpacity style={{flexDirection: 'row'}} onPress={ ()=>{ Linking.openURL('viber://contact?number='+facilityInfo.phone+'/')}}> 
-                  <Fontisto style={{color: '#169393', margin: 5}} name="viber" size={16} /> 
+                  <Fontisto style={{color: '#169393', marginVertical: 5, marginEnd: 5}} name="viber" size={16} /> 
                   <Text style={styles.link} >{facilityInfo.phone}</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{flexDirection: "column" }}>
+            <View style={{flexDirection: "column", paddingTop: "2%" }}>
                 <View style={styles.itemCount}>
-                  <Text style={styles.numberText}>{total}</Text>
+                  <Text style={styles.numberText}>{totalPackages}</Text>
                   <Image source={require('../../../assets/images/Package.png')} style={{ marginBottom: 5 }}/> 
                 </View> 
                 <View style={styles.itemCount}>
-                  <Text style={styles.numberText}>{tripData.packageLists !== undefined ? tripData.packageLists.length : 0 }</Text>
+                  <Text style={styles.numberText}>{totalTrip}</Text>
                   <Image source={require('../../../assets/images/plane.png')}/> 
                 </View> 
             </View>

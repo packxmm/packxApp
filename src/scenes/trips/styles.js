@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({ 
   container: {
     flex: 1,
-    marginHorizontal: "3%"
+    marginHorizontal: "3%",
+    marginTop: Platform.OS === 'android' ? "2%" : 0  
   },
   header: { 
     flexDirection: 'column',
@@ -81,7 +82,6 @@ export default StyleSheet.create({
   },
   dateText: {
     fontSize: 12,
-    textTransform: "uppercase",
     fontFamily: "UbuntuMedium",
     color: "#185354",
   }

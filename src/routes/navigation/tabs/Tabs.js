@@ -1,7 +1,7 @@
 import React , {useState, useEffect }from 'react'; 
 import { createStackNavigator } from '@react-navigation/stack' ; 
 import { NavigationContainer } from '@react-navigation/native'
-import {  Text, View, TouchableOpacity, Image} from 'react-native';
+import {  Text, View, TouchableOpacity, Image, Platform} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
 import { firebase } from '../../../firebase/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -62,24 +62,37 @@ const HomeTabs = (props) => {
             <Ionicons name={iconName} size={size} color={color} style={{ paddingTop: 5 }}/>
             <Text style={{fontFamily: "UbuntuMedium",fontSize: 12, color: color, paddingTop: 5 }} color={color}>{route.name} </Text>
             </View>;
-          },       
-          tabBarItemStyle:{
-            height: 62,
-            padding: 10,
-            borderRadius: 10 
-          },
-          tabBarStyle: {
-            marginHorizontal : 10,
-            marginBottom: 20,
-            borderRadius: 10,
-            backgroundColor: "#E5F1F2",
-            height: 62,
-          },
+          },  
+          tabBarStyle: [
+            {
+              tabBarShowLabel: false,
+              position: "absolute",
+              bottom: 25,
+              left: 30,
+              right: 30,
+              elevation: 0,
+              backgroundColor: "#16006d",
+              borderRadius: 15,
+              height: 90,
+            },
+          ],  
+          // tabBarItemStyle:{
+          //   height: 70,
+          //   padding: 10,
+          //   marginBottom: "2%",
+          //   borderRadius: 10 
+          // },
+          // tabBarStyle: {
+          //   marginHorizontal : 10,
+          //   borderRadius: 10,
+          //   backgroundColor: "#E5F1F2",
+          //   height: 82,
+          // },
           tabBarActiveTintColor: '#ffffff',
           tabBarInactiveTintColor: '#085252',
           tabBarActiveBackgroundColor: "#1B9494",
           headerLeft: () => (
-            <TouchableOpacity style={{flex:1, flexDirection: 'row'}} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
               <Image source={require('../../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10, }}/>
               <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back to Home</Text>
             </TouchableOpacity>

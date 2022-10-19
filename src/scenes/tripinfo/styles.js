@@ -29,7 +29,7 @@ export default StyleSheet.create({
     fontSize: 13,
     fontFamily: "UbuntuMedium",
     paddingTop: "2%",
-    paddingHorizontal: "3%"
+    paddingHorizontal: "1%"
   },
   tripHeader:{ 
     display: "flex",
@@ -126,5 +126,10 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     margin: 0,
     height: 20
+  },
+  dateText: {
+    fontSize: 12,
+    fontFamily: "UbuntuMedium",
+    color: "#185354",
   }
 })

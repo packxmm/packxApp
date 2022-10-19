@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Text, TextInput, TouchableOpacity, View, Linking, StatusBar } from 'react-native'
+import { Image, Text, TextInput, TouchableOpacity, View, Linking, Platform} from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles';
@@ -21,7 +21,7 @@ export default function Registration({route, navigation}) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"chevron-back"} size={30} />
           <Text style={{color: "#c8c8c8", paddingTop: 5, fontSize: 18}}>Back</Text>
         </TouchableOpacity>
@@ -72,8 +72,7 @@ export default function Registration({route, navigation}) {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar />
+    <View style={styles.container}> 
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always"> 

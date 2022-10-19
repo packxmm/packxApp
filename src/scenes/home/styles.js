@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet , Platform} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: "3%"
+    marginHorizontal: "3%", 
+    marginVertical: Platform.OS === 'android' ? "2%" : 0  
   },
   createBtn:{
     flex: 1,

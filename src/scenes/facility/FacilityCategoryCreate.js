@@ -9,7 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { View, Text, TextInput, TouchableOpacity, Image,ScrollView , StatusBar, useColorScheme} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Platform,ScrollView , StatusBar, useColorScheme} from 'react-native';
 
 const data = [
   { category: 'General Item', value: '1' , itemname:'box'},
@@ -66,7 +66,7 @@ function FacilityCategoryForm(props){
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => props.navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => props.navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 5, fontSize: 18}}>Back</Text>
         </TouchableOpacity>

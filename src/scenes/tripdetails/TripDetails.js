@@ -1,5 +1,5 @@
 import React, {  useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, Image, RefreshControl} from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Image, RefreshControl , Platform} from 'react-native';
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay' 
@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements'
 import Button from '../../components/Button'
 import Dialog from "react-native-dialog";
+import moment from "moment";
 
 export default function TripDetails({ route, navigation }) {
   const [tripData, setTripData] = useState(route.params.tripInfo);  
@@ -22,7 +23,7 @@ export default function TripDetails({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 7, fontSize: 17}}>Back To Trips</Text>
         </TouchableOpacity>
@@ -156,21 +157,13 @@ export default function TripDetails({ route, navigation }) {
           <Text style={styles.triplabel}>From</Text>
           <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text>
           <Text style={styles.datelabel}>Last Drop Off</Text>
-          {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? ( 
-            <Text style={styles.dateText}>{new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
-          ) : ( 
-            <Text style={styles.dateText}>{tripData.tripInfo.dropOffDate}</Text>
-          )}
+          <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.dropOffDate)).format("MMM Do YY")}</Text>
         </View>
         <View style={{flex: 2}}>
           <Text style={styles.triplabel}>To</Text>
           <Text style={styles.tripname}>{tripData.tripInfo.desVal}</Text>
-          <Text style={styles.datelabel}>Est. Arrival</Text>
-          {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' }) !== "Invalid Date" ? (
-            <Text style={styles.dateText}>{new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
-          ) : ( 
-            <Text style={styles.dateText}>{tripData.tripInfo.pickUpDate}</Text>
-          )}
+          <Text style={styles.datelabel}>Est. Arrival</Text> 
+          <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.pickUpDate)).format("MMM Do YY")}</Text>
         </View>
         <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}> 
           <Text style={styles.title}>TOTAL {total}</Text>

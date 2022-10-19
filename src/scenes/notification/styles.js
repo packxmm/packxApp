@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container:{
       flex: 1, 
       paddingHorizontal: "8%", 
-      marginTop: "15%" 
+      marginTop: "10%" 
   }, 
   header: {
     fontSize: 18,

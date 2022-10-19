@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import { Text, View, StatusBar, Image, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, Image, TextInput, TouchableOpacity, Platform } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles' 
 import Button from '../../components/Button'
@@ -16,7 +16,7 @@ export default function Login({route, navigation}) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
           <Icon style={{color: "#1B9494"}} name={"chevron-back"} size={30} />
           <Text style={{color: "#c8c8c8", paddingTop: 5, fontSize: 18}}>Back</Text>
         </TouchableOpacity>
@@ -59,7 +59,6 @@ export default function Login({route, navigation}) {
 
   return (
     <View style={[styles.container]}>
-      <StatusBar />  
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '90%' }}
         keyboardShouldPersistTaps="always"> 

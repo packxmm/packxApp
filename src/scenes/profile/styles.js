@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet , Platform} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1, 
-    padding : "3%", 
+    paddingHorizontal : "3%", 
+    paddingTop: Platform.OS === 'ios' ? "10%" : "2%" ,
     backgroundColor: '#FAFAFA', 
     fontFamily: "Ubuntu",
   },
@@ -13,10 +14,10 @@ export default StyleSheet.create({
     fontFamily: "UbuntuMedium",  
   },
   count: { 
-    fontSize: 12,  
+    fontSize: 13,  
     textTransform: 'capitalize',
     fontFamily: "UbuntuMedium", 
-    lineHeight: 30
+    lineHeight: 28
   },
   title: { 
     color: "#185354",
