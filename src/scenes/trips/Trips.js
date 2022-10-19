@@ -71,13 +71,13 @@ export default function Trips(props) {
                   <Text style={styles.triplabel}>From</Text>
                   <Text style={styles.tripname}>{item.tripInfo.dropOff}</Text>
                   <Text style={styles.datelabel}>Last Drop Off</Text>  
-                  <Text style={styles.dateText}> {moment(new Date(item.tripInfo.dropOffDate)).format("MMM Do YY")} </Text>
+                  <Text style={styles.dateText}> {moment(new Date(item.tripInfo.dropOffDate)).format("MMM Do YYYY")} </Text>
                 </View>
                 <View style={{flex: 2}}>
                   <Text style={styles.triplabel}>To</Text>
                   <Text style={styles.tripname}>{item.tripInfo.desVal}</Text>
                   <Text style={styles.datelabel}>Est. Arrival</Text>
-                  <Text style={styles.dateText}> {moment(new Date(item.tripInfo.pickUpDate)).format("MMM Do YY")} </Text>
+                  <Text style={styles.dateText}> {moment(new Date(item.tripInfo.pickUpDate)).format("MMM Do YYYY")} </Text>
                 </View>
                 <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}>
                   <Text style={styles.title}>{item.packageLists.length}</Text>

@@ -95,7 +95,6 @@ export default StyleSheet.create({
   },
   dateText: {
     fontSize: 12,
-    textTransform: "uppercase",
     fontFamily: "UbuntuMedium",
     color: "#185354",
   },

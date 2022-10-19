@@ -72,7 +72,7 @@ export default function TripInfo({ route, navigation }) {
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>From</Text>
                 <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text>  
-                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.dropOffDate)).format("MMM Do YY")} </Text>
+                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.dropOffDate)).format("MMM Do YYYY")} </Text>
               </View>
               <View style={{flex: 1, paddingTop: "5%"}}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> DROP OFF ADDRESSS</Text>
@@ -86,7 +86,7 @@ export default function TripInfo({ route, navigation }) {
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>To</Text>
                 <Text style={styles.tripname}>{tripData.tripInfo.desVal}</Text> 
-                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.pickUpDate)).format("MMM Do YY")} </Text>
+                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.pickUpDate)).format("MMM Do YYYY")} </Text>
               </View>  
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> PICK UP ADDRESS</Text>

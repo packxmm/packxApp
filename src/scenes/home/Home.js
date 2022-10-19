@@ -158,7 +158,7 @@ export default function Home(props) {
             <View>
             {tripsData.map((trip, index) => (
               <View key={index}> 
-                <Text style={styles.header}> Trip Activity - {moment(new Date(trip.timestamp)).format("MMM Do YY")}</Text>  
+                <Text style={styles.header}> Trip Activity - {moment(new Date(trip.timestamp)).format("MMM Do YYYY")}</Text>  
                 <Lists data={trip} key={index}/>
             </View>
             ))} 

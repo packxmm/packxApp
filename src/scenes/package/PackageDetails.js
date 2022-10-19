@@ -6,6 +6,7 @@ import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements'
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import moment from "moment";
 
 export default function PackageDetails({ route, navigation }) { 
   const [spinner, setSpinner] = useState(false);
@@ -75,8 +76,8 @@ export default function PackageDetails({ route, navigation }) {
             <View style={{flex: 3, marginBottom: "2%", flexDirection: 'column'  }}>
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>From</Text>
-                <Text style={styles.tripname}>{tripData.tripInfo.dropOffDate}</Text>
-                <Text style={styles.triplabel}>{new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                <Text style={styles.tripname}>{tripData.tripInfo.dropOff}</Text>
+                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.dropOffDate)).format("MMM Do YYYY")}</Text> 
               </View>
               <View style={{flex: 1, paddingTop: "5%"}}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> DROP OFF ADDRESSS</Text>
@@ -90,7 +91,7 @@ export default function PackageDetails({ route, navigation }) {
               <View style={{flex: 1 }}>
                 <Text style={styles.triplabel}>To</Text>
                 <Text style={styles.tripname}>{tripData.tripInfo.desVal}</Text> 
-                <Text style={styles.triplabel}>{new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(tripData.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                <Text style={styles.dateText}>{moment(new Date(tripData.tripInfo.pickUpDate)).format("MMM Do YYYY")}</Text> 
               </View>  
               <View style={{flex: 1, paddingTop: "5%"}}>
                 <Text style={styles.triplabel}><Icon style={styles.icon} name='location-sharp' size={14} /> PICK UP ADDRESS</Text>
@@ -116,7 +117,7 @@ export default function PackageDetails({ route, navigation }) {
                   <Text style={styles.link} >{facilityInfo.phone}</Text>
                 </TouchableOpacity> 
             </View>
-            <View style={{flex: 1 ,flexDirection: "column" }}>
+            <View style={{flex: 1 ,flexDirection: "column", paddingTop: "2%"}}>
                 <View style={styles.itemCount}>
                   <Text style={styles.numberText}>{packageCount}</Text>
                   <Image source={require('../../../assets/images/Package.png')} style={{ marginBottom: 5 }}/> 

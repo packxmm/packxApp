@@ -93,7 +93,7 @@ export default function History({ route, navigation }) {
             ))}
           </View>
           <View style={{flexDirection: "row" ,alignContent: "center", paddingTop: "2%"}}>
-              <Text style={styles.date}>{moment(new Date(item.timestamp)).format("MMM Do YY")}</Text> 
+              <Text style={styles.date}>{moment(new Date(item.timestamp)).format("MMM Do YYYY")}</Text> 
               <Icon style={{color: "#085252"}} name={"chevron-forward"} size={25} />
           </View>
         </TouchableOpacity>

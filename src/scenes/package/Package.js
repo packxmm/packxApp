@@ -5,6 +5,7 @@ import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from "moment";
 
 export default function Package(props) {
   const userData = props.extraData
@@ -127,7 +128,7 @@ export default function Package(props) {
                             <View style={{flex: 3}}>
                               <Text style={styles.triplabel}>From</Text>
                               <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text> 
-                              <Text style={styles.dateText}>{new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                              <Text style={styles.dateText}>{moment(new Date(trip.tripInfo.dropOffDate)).format("MMM Do YYYY")}</Text> 
                             </View>
                             <View style={{flex: 2, justifyContent: 'center', alignItems:"center"}}>  
                               <Image source={require('../../../assets/images/stopFlight.png')} style={{ width: 43, height: 40}}/>  
@@ -135,7 +136,7 @@ export default function Package(props) {
                             <View style={{flex: 3 }}>
                               <Text style={styles.triplabel}>To</Text>
                               <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text> 
-                              <Text style={styles.dateText}>{new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                              <Text style={styles.dateText}>{moment(new Date(trip.tripInfo.pickUpDate)).format("MMM Do YYYY")}</Text> 
                             </View>
                             <View style={{flex: 1, justifyContent: "center", alignItems:"center" }}>
                               <Ionicons name="md-chevron-forward-outline" size={30} style={{marginLeft: 10, color: '#94A0A0' }}/> 

@@ -12,6 +12,7 @@ export default StyleSheet.create({
     fontSize: 12,  
     color: "#7B6F72",
     fontFamily: "UbuntuMedium",  
+    paddingTop: "2%"
   },
   count: { 
     fontSize: 13,  

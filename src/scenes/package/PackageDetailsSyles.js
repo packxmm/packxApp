@@ -228,6 +228,12 @@ export default StyleSheet.create({
         marginTop: 5,
         marginBottom: 15
       },
+      dateText: {
+        fontSize: 12,
+        fontFamily: "UbuntuMedium",
+        color: "#185354",
+        marginVertical: 8,
+      },
       statusTitle: { 
         fontSize: 14,
         color: "#2797A6",  

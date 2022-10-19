@@ -106,13 +106,16 @@ export default function Profile(props) {
               />
           </View> 
           <View style={{flex: 4, alignItems: 'flex-start'}}>
-              <Text style={styles.title}>{userData.facilityName}</Text>
-              <Text style={styles.subtitle}>{userData.fullName}</Text>  
-              <Text style={styles.text}>{userData.email}</Text>
-          </View>
-          <View style={{flex: 1 ,flexDirection: "column", paddingTop: "2%" }}>
             { userData.type === "facility" ? (
-                <> 
+              <Text style={styles.title}>{userData.facilityName}</Text>
+            ) : ( 
+              <Text style={[styles.title, {paddingTop: "3%" }]}>{userData.fullName}</Text>  
+            )}
+              <Text style={styles.text}>{userData.email}</Text>
+              <Text style={styles.text}>{userData.address}</Text>
+          </View>
+            { userData.type === "facility" ? (
+                <View style={{flex: 1 ,flexDirection: "column", paddingTop: "2%" }}>
                   <View style={styles.itemCount}>
                     <Text style={styles.count}>{totalPackages}</Text>
                     <Image source={require('../../../assets/images/Package.png')}/> 
@@ -121,14 +124,15 @@ export default function Profile(props) {
                     <Text style={styles.count}>{totalTrip}</Text>
                     <Image source={require('../../../assets/images/plane.png')}/> 
                   </View> 
-                </>
+               </View>
               ) : (  
-                <View style={styles.itemCount}>
-                  <Text style={styles.count}>{packagesLists}</Text>
-                  <Image source={require('../../../assets/images/Package.png')}/> 
-                </View> 
+                <View style={{flex: 1 ,flexDirection: "column", paddingTop: "3%"}}>
+                  <View style={styles.itemCount}>
+                    <Text style={styles.count}>{packagesLists}</Text>
+                    <Image source={require('../../../assets/images/Package.png')}/> 
+                  </View> 
+               </View>
             )}
-          </View>
       </View> 
       <View style={styles.account}> 
           <Text style={styles.accountTitle}>Account</Text> 
