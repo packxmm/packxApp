@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20 ,
+    paddingHorizontal: "4%",
     backgroundColor: '#FAFAFA', 
   },
   mainText: {
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     fontSize: 14,
     backgroundColor: "#E5F1F2",
     borderRadius: 20,
-    paddingHorizontal: "5%",
+    paddingHorizontal: "3%",
     paddingVertical: "5%",
   },
   itemCount : {

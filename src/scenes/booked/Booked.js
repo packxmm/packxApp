@@ -75,7 +75,7 @@ export default function Booked({route, navigation}) {
   const confirmBooking = () => {  
     setSpinner(true);
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');  
+    const getUuid = generateUuid.replace('-', '');  
     const updatePackages = { 
       trackingStatus : "confirmed"
     } 
@@ -118,10 +118,24 @@ export default function Booked({route, navigation}) {
     )}
   }
 
+  const removeItem = (index) => {  
+    const remainItem = packageData.items.filter(data => {
+      return data.item !== packageData.items[index].item 
+    })
+    setPackageData(prevState => ({
+        ...prevState, items : remainItem
+    })); 
+    const updatePackages = {  
+      items : remainItem
+    } 
+    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    getPackages.update(updatePackages);
+  }
+
   const saveData = () => {   
     setSpinner(true);
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');  
+    const getUuid = generateUuid.replace('-', '');  
     const updatePackages = { 
       status : isEnabled === true ? "Paid" : "Unpaid",
       items : packageData.items,
@@ -153,7 +167,7 @@ export default function Booked({route, navigation}) {
   const checkOut = () => {  
     setVisible(false) 
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');  
+    const getUuid = generateUuid.replace('-', '');  
     const updatePackages = { 
       trackingStatus : "Checkout"
     } 
@@ -183,7 +197,7 @@ export default function Booked({route, navigation}) {
   const refeseBooking = () => {  
     setSpinner(true);
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');  
+    const getUuid = generateUuid.replace('-', '');  
     const updatePackages = { 
       trackingStatus : "refused"
     } 
@@ -272,7 +286,9 @@ export default function Booked({route, navigation}) {
                         <TextInput style={[styles.input, {flex: 1, textAlign: "right"}]} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="number-pad" 
                     returnKeyType="done" placeholder="Wgt"/>
                         <TextInput style={[styles.input, {flex: 1, textAlign: "center"}]} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="number-pad"                   returnKeyType="done" placeholder="$"/>
-                        <Text style={[styles.text, {flex: 1, textAlign: "right",color: "#990404"}]}>Remove</Text> 
+                        <TouchableOpacity onPress={() => removeItem(index)} >
+                          <Text style={[styles.text, {flex: 1, textAlign: "right",color: "#990404"}]}>Remove</Text> 
+                        </TouchableOpacity>
                       </>
                     ) : (
                       <>
@@ -304,22 +320,19 @@ export default function Booked({route, navigation}) {
                   )}
             </View>
         </View>     
-      </KeyboardAvoidingView>
-      {packageData.trackingStatus !== "reserved" ? ( 
-        <>
-          {tripData.trackingStatus === "Arrive" && (
-              <View  style={{marginBottom: "5%"}}>
-                <Button title={"Check Out"} children={'caret-square-right'} onPress={showDialog}/> 
-              </View> 
-          )}
-          {tripData.trackingStatus === "confirmed" && (
-            <View  style={{marginBottom: "5%"}}>
-              <Button title={"Save"} children={'save'} onPress={saveData}/> 
-            </View>
-          )}
-        </>
-        ) :
-        (
+      </KeyboardAvoidingView> 
+
+      {tripData.trackingStatus === "Arrive" && (
+          <View  style={{marginBottom: "5%"}}>
+            <Button title={"Check Out"} children={'caret-square-right'} onPress={showDialog}/> 
+          </View> 
+      )}
+      {packageData.trackingStatus === "confirmed" && (
+        <View  style={{marginBottom: "5%"}}>
+          <Button title={"Save"} children={'save'} onPress={saveData}/> 
+        </View>
+      )}
+      {packageData.trackingStatus === "reserved" && ( 
           <>
             {confirmed === false && (
               <View  style={{marginBottom: "10%"}}>

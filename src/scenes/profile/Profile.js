@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react' 
 import Icon from 'react-native-vector-icons/Ionicons'; 
 import Feather from 'react-native-vector-icons/Feather';
-import { View, Text, Image, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
@@ -54,7 +54,6 @@ export default function Profile(props) {
         })  
         setPackageLists(dataArr.length); 
         setSpinner(false); 
-        getData();
     }).catch((error) => {
         console.log("Error getting document:", error);
     });  
@@ -94,8 +93,8 @@ export default function Profile(props) {
   }
   
   return ( 
-      <ScrollView style={styles.container}>
-      <StatusBar/>
+    <SafeAreaView style={styles.container}> 
+      <ScrollView style={styles.scrollView}> 
       <View style={styles.item}> 
           <View style={{flex: 2, alignContent: "center"}}>  
               <Avatar
@@ -106,11 +105,11 @@ export default function Profile(props) {
               />
           </View> 
           <View style={{flex: 4, alignItems: 'flex-start'}}>
-            { userData.type === "facility" ? (
-              <Text style={styles.title}>{userData.facilityName}</Text>
-            ) : ( 
-              <Text style={[styles.title, {paddingTop: "3%" }]}>{userData.fullName}</Text>  
-            )}
+              { userData.type === "facility" ? (
+                <Text style={styles.title}>{userData.facilityName}</Text>
+              ) : ( 
+                <Text style={[styles.title, {paddingTop: "3%" }]}>{userData.fullName}</Text>  
+              )}
               <Text style={styles.text}>{userData.email}</Text>
               <Text style={styles.text}>{userData.address}</Text>
           </View>
@@ -141,11 +140,6 @@ export default function Profile(props) {
             <Text style={styles.accountText}>Personal Information</Text>  
             <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity> 
-          {/* <TouchableOpacity style={styles.accountLabel}>
-            <Icon style={styles.icon} name='person-outline' size={16} />
-            <Text style={styles.accountText}>Facility Information</Text>  
-            <Icon style={styles.righticon} name='chevron-forward' size={18} />
-          </TouchableOpacity> */}
           <TouchableOpacity style={styles.accountLabel} onPress={gotToHistory}>  
             <Icon style={styles.icon} name='reader-outline' size={16} />
             <Text style={styles.accountText}>Transaction History</Text> 
@@ -194,5 +188,6 @@ export default function Profile(props) {
         overlayColor="rgba(0,0,0,0.5)"
       />
     </ScrollView> 
+    </SafeAreaView>
   )
 }

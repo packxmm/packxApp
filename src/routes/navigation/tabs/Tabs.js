@@ -45,6 +45,17 @@ const HomeTabs = (props) => {
   console.log(notiData)
   return (
       <Tab.Navigator
+        tabBarOptions={{
+          style: {
+            bottom: 10,
+            left: 10,
+            right: 10,
+            elevation: 0,
+            backgroundColor: 'none',
+            borderRadius: 10,
+            height: 70
+          }
+        }}
         screenOptions={({ route , navigation}) => ({
           tabBarIcon: ({focused, color, size }) => {
             let iconName;
@@ -57,42 +68,14 @@ const HomeTabs = (props) => {
             } else if (route.name === 'PROFILE') {
               iconName = 'person-outline';
             }
-            color = focused ? '#085252' : colors.gray;
-            return <View  style={{ marginTop: 15, alignItems: "center" }}>
-            <Ionicons name={iconName} size={size} color={color} style={{ paddingTop: 5 }}/>
+            color = focused ? '#ffffff' : '#085252'; 
+            return <View  style={{ alignItems: "center", backgroundColor : focused ? '#085252' : "#E5F1F2", height: 65, width: 98, borderTopLeftRadius: route.name === 'HOME' ? 10 : 0, borderBottomLeftRadius: route.name === 'HOME' ? 10 : 0, borderTopEndRadius: route.name === 'PROFILE' ? 10 : 0, borderBottomEndRadius: route.name === 'PROFILE' ? 10 : 0}}>
+            <Ionicons name={iconName} size={size} color={color} style={{ paddingTop: 10 }}/>
             <Text style={{fontFamily: "UbuntuMedium",fontSize: 12, color: color, paddingTop: 5 }} color={color}>{route.name} </Text>
             </View>;
-          },  
-          tabBarStyle: [
-            {
-              tabBarShowLabel: false,
-              position: "absolute",
-              bottom: 25,
-              left: 30,
-              right: 30,
-              elevation: 0,
-              backgroundColor: "#16006d",
-              borderRadius: 15,
-              height: 90,
-            },
-          ],  
-          // tabBarItemStyle:{
-          //   height: 70,
-          //   padding: 10,
-          //   marginBottom: "2%",
-          //   borderRadius: 10 
-          // },
-          // tabBarStyle: {
-          //   marginHorizontal : 10,
-          //   borderRadius: 10,
-          //   backgroundColor: "#E5F1F2",
-          //   height: 82,
-          // },
-          tabBarActiveTintColor: '#ffffff',
-          tabBarInactiveTintColor: '#085252',
-          tabBarActiveBackgroundColor: "#1B9494",
+          },
           headerLeft: () => (
-            <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={{flex:1, flexDirection: 'row'}} onPress={() => navigation.goBack()}>
               <Image source={require('../../../../assets/images/back-arrow.png')} style={{ width: 28,resizeMode: 'center', height: 28, marginLeft: 10, }}/>
               <Text style={{color: "#c8c8c8", paddingLeft: 10, paddingTop: 2, fontSize: 18}}>Back to Home</Text>
             </TouchableOpacity>
@@ -124,7 +107,7 @@ const HomeTabs = (props) => {
             <Tab.Screen
             name="INBOX"
             children={()=> <Notification {...props} noti={notiData}/>}
-            options={{headerShown: false, title:  '', tabBarBadge: notiData.length, tabBarBadgeStyle: {backgroundColor: "#085252", color: "#ffffff"}}}  /> )
+            options={{headerShown: false, title:  '', tabBarBadge: notiData.length, tabBarBadgeStyle: {backgroundColor: "#ffffff", color: "#085252", marginBottom: 10}}}  /> )
           : ( 
             <Tab.Screen
             name="INBOX"

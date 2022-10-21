@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container:{
       flex: 1, 
       justifyContent: 'flex-start',
-      paddingHorizontal: "8%", 
+      paddingHorizontal: "3%", 
       backgroundColor: "#FAFAFA"
   }, 
   header: {

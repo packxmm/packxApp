@@ -63,12 +63,10 @@ export default function Package(props) {
     }
   }
   // console.log(packageData);
-  return (  
-    <View style={{ flex: 1 }}>
-    <StatusBar barStyle= { scheme === "dark" ? "light-content" : "dark-content" }/>
-      <ScrollView>
+  return (   
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollView}> 
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.mainText}> My Package </Text> 
         </View>
@@ -146,13 +144,12 @@ export default function Package(props) {
                 ))} 
             </View> 
           ))} 
-        </SafeAreaView> 
         <Spinner
             visible={spinner}
             textStyle={{ color: "#fff" }}
             overlayColor="rgba(0,0,0,0.5)"
           />
       </ScrollView>
-    </View>
+    </SafeAreaView> 
   )
 }

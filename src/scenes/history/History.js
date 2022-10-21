@@ -79,8 +79,8 @@ export default function History({ route, navigation }) {
           <View style={{flex: 3, marginLeft: 15}}>
             <Text style={[styles.title]}>E-Receipt </Text>  
             <Text style={[styles.text, {marginTop: "5%"}]}>Package ID - {item.id.slice(0,8)} </Text> 
-            {tripData.filter((data) => data.tripId === item.tripId).map((trip) => (
-              <View style={{flexDirection: "row" ,justifyContent: 'space-between', marginTop: "2%"}}>
+            {tripData.filter((data) => data.tripId === item.tripId).map((trip , tripIndex) => (
+              <View style={{flexDirection: "row" ,justifyContent: 'space-between', marginTop: "2%"}} key={tripIndex}>
                 <View style={{flex: 2}}>
                   <Text style={styles.triplabel}>From</Text>
                   <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text> 

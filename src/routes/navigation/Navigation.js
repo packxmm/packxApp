@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { firebase } from '../../firebase/config'
 import { NavigationContainer } from '@react-navigation/native'
 import * as Notifications from 'expo-notifications'
-import { DefaultTheme, DarkTheme } from '@react-navigation/native' 
 import { LoginNavigator } from './stacks'
 import TabNavigator from './tabs'
 import {decode, encode} from 'base-64'
@@ -67,7 +66,7 @@ export default function App() {
   return(
     <NavigationContainer>
       { user ? (
-            <TabNavigator user={user} navigationProps={navigationProps}/>
+          <TabNavigator user={user} navigationProps={navigationProps}/>
         ) : (
           <LoginNavigator  navigationProps={navigationProps}/>
       )}

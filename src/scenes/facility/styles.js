@@ -26,7 +26,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     borderRadius: 20,
-    height: 250,
+    maxHeight: 250,
     marginBottom: "5%",
   }, 
   addAddress: {

@@ -55,24 +55,6 @@ export default function UserHome(props) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getData()
-    // try {
-    //   firebase.firestore()
-    //     .collection('trips') 
-    //     .get().then((querySnapshot) => {
-    //       const dataArr = [];
-    //       querySnapshot.forEach(doc => { 
-    //         const data = doc.data();
-    //         dataArr.push(data);   
-    //       })  
-    //       setTripData(dataArr); 
-    //       storeData(dataArr)
-    //       setRefreshing(false);
-    //     }).catch((error) => {
-    //         console.log("Error getting document:", error);
-    //     });  
-    // } catch (error) {
-    //   console.error(error);
-    // }
   }, []);
   
   const searchTrip = (val) => {
@@ -89,11 +71,9 @@ export default function UserHome(props) {
     }
   }; 
   return (
-    <View style={{ flex: 1 }}>
-      <StatusBar barStyle= { scheme === "dark" ? "light-content" : "dark-content" }/>
-      <ScrollView>
+    <SafeAreaView style={styles.container}>  
+    <ScrollView>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        <SafeAreaView style={styles.container}> 
         <View style={styles.searchBar}> 
           <Image source={require('../../../assets/images/sm-logoWhite.png')} style={{ width: 40,resizeMode: 'center', height: 38}}/> 
           <View style={{ flexDirection: 'row'}}> 
@@ -137,13 +117,12 @@ export default function UserHome(props) {
             </TouchableOpacity> 
           ))} 
         </View> 
-        </SafeAreaView>
+        <Spinner
+            visible={spinner}
+            textStyle={{ color: "#fff" }}
+            overlayColor="rgba(0,0,0,0.5)"
+          />
       </ScrollView> 
-      <Spinner
-          visible={spinner}
-          textStyle={{ color: "#fff" }}
-          overlayColor="rgba(0,0,0,0.5)"
-        />
-    </View>
+    </SafeAreaView>
   )
 }

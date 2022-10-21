@@ -49,12 +49,10 @@ export default function Trips(props) {
       console.error(error);
     }
   }, []);
-  return (
-    <View style={styles.container}>
-      <StatusBar />
-      <ScrollView>
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        <SafeAreaView style={styles.container}>
+  return ( 
+    <SafeAreaView style={styles.container}>
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      <ScrollView > 
         <View style={styles.header}>
           <Text style={styles.mainText}> Your Trips </Text>
           <Text style={styles.text}> TRIP LIST  </Text>
@@ -87,13 +85,12 @@ export default function Trips(props) {
             </TouchableOpacity> 
           ))} 
         </View> 
-        </SafeAreaView>
+        <Spinner
+          visible={spinner}
+          textStyle={{ color: "#fff" }}
+          overlayColor="rgba(0,0,0,0.5)"
+        /> 
       </ScrollView>
-      <Spinner
-        visible={spinner}
-        textStyle={{ color: "#fff" }}
-        overlayColor="rgba(0,0,0,0.5)"
-      />
-    </View>
+    </SafeAreaView>
   )
 }

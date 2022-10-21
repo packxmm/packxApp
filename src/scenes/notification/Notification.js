@@ -1,9 +1,8 @@
 import React, {  useState } from 'react';
-import {ScrollView, View, Text, RefreshControl, Image} from 'react-native'; 
+import {ScrollView, View, Text, RefreshControl, Image, SafeAreaView} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-// import notifee from '@notifee/react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'; 
 import Button from '../../components/Button'
 import { StatusBar } from 'expo-status-bar';
 
@@ -32,10 +31,9 @@ export default function Notification(props) {
       console.error(error);
     }
   }, []);
-  console.log(notiData)
+  // console.log(notiData)
   return ( 
-    <View style={styles.container}>
-      <StatusBar />
+    <SafeAreaView style={styles.container}> 
       <ScrollView >
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <View>
@@ -64,6 +62,6 @@ export default function Notification(props) {
           </>
         }
       </ScrollView>
-    </View>
+    </SafeAreaView>
   )
 }

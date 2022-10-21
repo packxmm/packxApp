@@ -113,10 +113,10 @@ export default function Home(props) {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
       <ScrollView>
       <StatusBar />
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        <SafeAreaView style={styles.container}>
             <TouchableOpacity onPress={() =>  props.navigation.navigate('CreateFacility')} style={styles.createBtn}>
               <Ionicons name="add-circle-outline" size={35}/>
               <Text style={styles.text}>
@@ -163,12 +163,12 @@ export default function Home(props) {
             </View>
             ))} 
             </View>
-        </SafeAreaView>
         <Spinner
           visible={spinner}
           textStyle={{ color: "#fff" }}
           overlayColor="rgba(0,0,0,0.5)"
         /> 
       </ScrollView>
+    </SafeAreaView>
   )
 }

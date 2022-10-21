@@ -1,11 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: "3%",
-    marginHorizontal: "4%", 
+    paddingTop: StatusBar.currentHeight,
     backgroundColor: "#FAFAFA"
+  },
+  scrollView:{
+    marginHorizontal: "3%",
   },
   header: { 
     flexDirection: 'column',

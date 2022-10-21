@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, ScrollView, Image, Platform} from 'react-
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons';
-import Spinner from 'react-native-loading-spinner-overlay'    
+import Spinner from 'react-native-loading-spinner-overlay' 
+import moment from 'moment';   
 
 export default function HistoryDetails({ route, navigation }) {
   const userData = route.params.user;
@@ -62,7 +63,7 @@ export default function HistoryDetails({ route, navigation }) {
             <Text style={[styles.title]}>Package ID - {packageData.id.slice(0,8)}</Text>  
           </View>
           <View style={{flexDirection: "row" ,alignContent: "center"}}>
-              <Text style={styles.date}>{new Date(packageData.timestamp).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(packageData.timestamp).toLocaleDateString("en-US", { month: 'short' })} {new Date(packageData.timestamp).toLocaleDateString("en-US", { year: 'numeric'})}</Text> 
+              <Text style={styles.date}>{moment(new Date(packageData.timestamp)).format("MMM Do YYYY")}</Text> 
           </View>
         </View>  
         {tripData.filter((data) => data.tripId === packageData.tripId).map((trip,index) => (
@@ -72,7 +73,7 @@ export default function HistoryDetails({ route, navigation }) {
               <View style={{flex: 2}}>
                 <Text style={styles.triplabel}>From</Text>
                 <Text style={styles.tripname}>{trip.tripInfo.dropOff}</Text> 
-                <Text style={styles.datelabel}>{new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.dropOffDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                <Text style={styles.datelabel}>{moment(new Date(trip.tripInfo.dropOffDate)).format("MMM Do YYYY")}</Text>
               </View>
               <View style={{flex: 1, justifyContent: 'center'}}>  
                 <Image source={require('../../../assets/images/stopFlight.png')} style={{ width: 43, height: 50}}/>  
@@ -80,7 +81,7 @@ export default function HistoryDetails({ route, navigation }) {
               <View style={{flex: 2}}>
                 <Text style={styles.triplabel}>To</Text>
                 <Text style={styles.tripname}>{trip.tripInfo.desVal}</Text> 
-                <Text style={styles.datelabel}>{new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { month: 'short' })} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { day: 'numeric'})} {new Date(trip.tripInfo.pickUpDate).toLocaleDateString("en-US", { year: 'numeric'})}</Text>
+                <Text style={styles.datelabel}>{moment(new Date(trip.tripInfo.pickUpDate)).format("MMM Do YYYY")}</Text>
               </View>
             </View> 
           </View>

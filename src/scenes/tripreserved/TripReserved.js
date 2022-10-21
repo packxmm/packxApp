@@ -61,7 +61,7 @@ export default function TripReserved(props) {
     setVisible(false);
     setSpinner(true); 
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replaceAll('-', '');  
+    const getUuid = generateUuid.replace('-', '');  
     const data = { 
       id: getUuid,
       tripId : tripData.tripId,

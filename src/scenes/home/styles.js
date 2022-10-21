@@ -1,10 +1,10 @@
-import { StyleSheet , Platform} from 'react-native';
+import { StyleSheet , StatusBar} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: "3%", 
-    marginVertical: Platform.OS === 'android' ? "2%" : 0  
+    paddingTop: StatusBar.currentHeight, 
   },
   createBtn:{
     flex: 1,

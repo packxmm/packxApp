@@ -1,18 +1,21 @@
-import { StyleSheet , Platform} from 'react-native';
+import { StyleSheet , StatusBar} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1, 
-    paddingHorizontal : "3%", 
-    paddingTop: Platform.OS === 'ios' ? "10%" : "2%" ,
     backgroundColor: '#FAFAFA', 
     fontFamily: "Ubuntu",
+    paddingTop: StatusBar.currentHeight,
+  },
+  scrollView:{ 
+    paddingHorizontal : "3%",  
   },
   text:{ 
     fontSize: 12,  
     color: "#7B6F72",
-    fontFamily: "UbuntuMedium",  
-    paddingTop: "2%"
+    fontFamily: "UbuntuMedium", 
+    paddingTop : "3%", 
+    paddingEnd : "1%", 
   },
   count: { 
     fontSize: 13,  
@@ -25,7 +28,6 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: "UbuntuMedium", 
     textTransform: 'uppercase',
-    paddingTop: "2%"
   }, 
   subtitle: { 
     color: "#1D1617",
@@ -41,7 +43,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     color: "#185354",
     fontSize: 14, 
-    padding: "5%" 
+    padding: "5%"
   },
   icon: {
     color: "#185354",
