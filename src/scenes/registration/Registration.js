@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Text, TextInput, TouchableOpacity, View, Linking, Platform} from 'react-native'
-import { CheckBox } from 'react-native-elements'
+import { Image, Text, TextInput, TouchableOpacity, View, Linking, Platform, StatusBar} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles';
 import { firebase } from '../../firebase/config'
@@ -73,6 +72,7 @@ export default function Registration({route, navigation}) {
 
   return (
     <View style={styles.container}> 
+    <StatusBar barStyle="dark-content" />
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always"> 

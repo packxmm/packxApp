@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import { Text, View, Image, TextInput, TouchableOpacity, Platform } from 'react-native'
+import { Text, View, Image, TextInput, TouchableOpacity, Platform, StatusBar } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles' 
 import Button from '../../components/Button'
@@ -59,6 +59,7 @@ export default function Login({route, navigation}) {
 
   return (
     <View style={[styles.container]}>
+    <StatusBar barStyle="dark-content" />
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '90%' }}
         keyboardShouldPersistTaps="always"> 

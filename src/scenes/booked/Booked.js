@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import { View, Text, TouchableOpacity, Image, TextInput , Switch, KeyboardAvoidingView, Platform} from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput , Switch, KeyboardAvoidingView, Platform, StatusBar} from 'react-native';
 import styles from './styles' 
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements' 
@@ -223,7 +223,8 @@ export default function Booked({route, navigation}) {
     setConfiremd(true);
   }
   return ( 
-    <View style={styles.container}> 
+    <View style={styles.container}>  
+      <StatusBar barStyle="dark-content" />
       <View style={styles.tripHeader}> 
           <Text style={styles.mainText}>BOOKED TRIP</Text> 
       </View> 

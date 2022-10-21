@@ -1,5 +1,5 @@
 import React, {  useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, Image , ScrollView, Linking, Platform} from 'react-native'; 
+import { View, Text, TouchableOpacity, Image , ScrollView, Linking, Platform, StatusBar} from 'react-native'; 
 import styles from './styles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -65,6 +65,7 @@ export default function TripInfo({ route, navigation }) {
 
   return ( 
     <ScrollView style={styles.container}> 
+    <StatusBar barStyle="dark-content" />
         <View style={styles.tripList}> 
           <Text style={styles.mainText}>TRIP - {tripData.tripId.slice(0,8)}</Text> 
           <View style={{flex: 4, flexDirection: 'row' }}> 

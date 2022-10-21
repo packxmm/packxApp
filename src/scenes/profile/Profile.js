@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react' 
 import Icon from 'react-native-vector-icons/Ionicons'; 
 import Feather from 'react-native-vector-icons/Feather';
-import { View, Text, Image, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
@@ -94,6 +94,7 @@ export default function Profile(props) {
   
   return ( 
     <SafeAreaView style={styles.container}> 
+      <StatusBar barStyle="dark-content" />
       <ScrollView style={styles.scrollView}> 
       <View style={styles.item}> 
           <View style={{flex: 2, alignContent: "center"}}>  

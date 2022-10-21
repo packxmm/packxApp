@@ -1,5 +1,5 @@
 import React from 'react';
-import { View , Image, Pressable, Text} from 'react-native';
+import { View , Image, Pressable, Text, StatusBar} from 'react-native';
 import styles from './styles';
 import Slider from './slider'
 import WhiteButton from '../../components/Button/WhiteButton'
@@ -11,6 +11,7 @@ export default function intro({navigation}) {
 
   return (
     <View style={[styles.container]}>
+    <StatusBar barStyle="dark-content" />
       <View style={styles.logoBox}>
         <Image source={require('../../../assets/images/PackXLogo.png')}/>
       </View>

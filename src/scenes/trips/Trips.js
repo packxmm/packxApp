@@ -52,6 +52,7 @@ export default function Trips(props) {
   return ( 
     <SafeAreaView style={styles.container}>
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      <StatusBar barStyle="dark-content" />
       <ScrollView > 
         <View style={styles.header}>
           <Text style={styles.mainText}> Your Trips </Text>

@@ -9,7 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { View, Text, TextInput, TouchableOpacity, Platform,ScrollView , StatusBar, useColorScheme} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Platform,ScrollView , StatusBar, useColorScheme, SafeAreaView} from 'react-native';
 
 const data = [
   { category: 'General Item', value: '1' , itemname:'box'},
@@ -138,9 +138,10 @@ function FacilityCategoryForm(props){
   } 
 
   return (
+    <SafeAreaView style={[styles.container , {marginTop: StatusBar.currentHeight}]}>
     <ScrollView> 
-      <StatusBar barStyle= { scheme.dark ? "light-content" : "dark-content" }/>
-      <View style={[styles.container , {marginTop: StatusBar.currentHeight}]}>
+    <StatusBar barStyle="dark-content" />
+      <View>
       <View style={styles.header}>
         <Text style={styles.text}> Create New Trip </Text>
         <Text style={styles.text}> 2 of 2 </Text>
@@ -346,6 +347,7 @@ function FacilityCategoryForm(props){
       />
     </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

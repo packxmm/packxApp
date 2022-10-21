@@ -115,7 +115,7 @@ export default function Home(props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-      <StatusBar />
+      <StatusBar barStyle="dark-content" />
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             <TouchableOpacity onPress={() =>  props.navigation.navigate('CreateFacility')} style={styles.createBtn}>
               <Ionicons name="add-circle-outline" size={35}/>

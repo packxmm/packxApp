@@ -1,5 +1,5 @@
 import React, {  useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, Image, RefreshControl , Platform} from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Image, RefreshControl , Platform, StatusBar} from 'react-native';
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay' 
@@ -149,6 +149,7 @@ export default function TripDetails({ route, navigation }) {
     <>
     <ScrollView style={styles.container}>  
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+     <StatusBar barStyle="dark-content" />
       <View style={styles.tripHeader}> 
         <Text style={styles.mainText}>TRIP - {tripData.tripId.slice(0,8)}</Text> 
       </View>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, ScrollView, Image, Platform} from 'react-native'; 
+import { View, Text, TouchableOpacity, ScrollView, Image, Platform, SafeAreaView, StatusBar} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import moment from 'moment';   
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HistoryDetails({ route, navigation }) {
   const userData = route.params.user;
@@ -52,8 +53,10 @@ export default function HistoryDetails({ route, navigation }) {
   },[])
   // console.log(userInfo)
   return (
+    <SafeAreaView style={styles.container}>
     <ScrollView>
-    <View style={styles.container}> 
+    <StatusBar barStyle="dark-content" />
+    <View> 
       <Text style={styles.header}> E-Receipt </Text> 
         <View style={[styles.item]}>
           <View style={{alignContent: "center"}}>  
@@ -149,5 +152,6 @@ export default function HistoryDetails({ route, navigation }) {
       overlayColor="rgba(0,0,0,0.5)"
     />
     </ScrollView>
+    </SafeAreaView>
   )
 }

@@ -66,6 +66,7 @@ export default function Package(props) {
   return (   
     <SafeAreaView style={styles.container}>
     <ScrollView style={styles.scrollView}> 
+    <StatusBar barStyle="dark-content" />
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <View style={styles.header}>
           <Text style={styles.mainText}> My Package </Text> 

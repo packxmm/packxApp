@@ -1,5 +1,5 @@
 import React, {  useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image , ScrollView, Linking, Platform} from 'react-native';
+import { View, Text, TouchableOpacity, Image , ScrollView, Linking, Platform, SafeAreaView, StatusBar} from 'react-native';
 import styles from './PackageDetailsSyles';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import { firebase } from '../../firebase/config'
@@ -69,7 +69,9 @@ export default function PackageDetails({ route, navigation }) {
       });
   }, []);
   return ( 
-    <ScrollView style={styles.container}> 
+    <SafeAreaView style={styles.container}>
+    <ScrollView> 
+    <StatusBar barStyle="dark-content" />
         <View style={styles.tripDetails}> 
           <Text style={styles.title}>TRIP - {tripData.tripId.slice(0,8)}</Text> 
           <View style={{flex: 4, flexDirection: 'row' }}> 
@@ -233,5 +235,6 @@ export default function PackageDetails({ route, navigation }) {
             overlayColor="rgba(0,0,0,0.5)"
           />
       </ScrollView>
+    </SafeAreaView>
   )
 }

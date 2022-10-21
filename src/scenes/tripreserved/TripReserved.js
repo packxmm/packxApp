@@ -112,6 +112,7 @@ export default function TripReserved(props) {
     <>
     {isConfirmed === false ? (
       <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always"> 

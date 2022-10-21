@@ -1,10 +1,11 @@
 import React , { useState } from 'react'; 
 import DatePicker from 'react-native-datepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { View, Text, TouchableOpacity , ScrollView, TextInput, StatusBar, useColorScheme, Platform} from 'react-native';
+import { View, Text, TouchableOpacity , ScrollView, TextInput, StatusBar, useColorScheme, Platform, SafeAreaView} from 'react-native';
 import styles from './styles' 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
+import { SafeAreaView } from 'react-native';
 
 function FacilityCreateScreen(props){ 
   console.log(props.navigation)
@@ -47,8 +48,9 @@ function FacilityCreateScreen(props){
   } 
 
   return (
+    <SafeAreaView>
     <ScrollView>
-    <StatusBar barStyle= { scheme.dark ? "light-content" : "dark-content" }/>
+    <StatusBar barStyle="dark-content" />
       <View style={[styles.container , {marginTop: StatusBar.currentHeight}]}>
         <View style={styles.header}>
           <Text style={styles.text}> Create New Trip </Text>
@@ -164,6 +166,7 @@ function FacilityCreateScreen(props){
         </KeyboardAwareScrollView>
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

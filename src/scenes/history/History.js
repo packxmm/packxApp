@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, ScrollView, RefreshControl, Platform} from 'react-native'; 
+import { View, Text, TouchableOpacity, ScrollView, RefreshControl, Platform, SafeAreaView, StatusBar} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons'; 
@@ -67,8 +67,9 @@ export default function History({ route, navigation }) {
   }
   // console.log(packageData)
   return (
-    <View style={styles.container}> 
+    <SafeAreaView style={styles.container}> 
       <ScrollView>
+      <StatusBar barStyle="dark-content" />
       <Text style={styles.header}> TRANSACTION HISTORY </Text> 
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       {packageData.map((item, index) => (
@@ -104,6 +105,6 @@ export default function History({ route, navigation }) {
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
       />
-    </View>
+    </SafeAreaView>
   )
 }

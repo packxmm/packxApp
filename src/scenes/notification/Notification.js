@@ -1,10 +1,8 @@
 import React, {  useState } from 'react';
-import {ScrollView, View, Text, RefreshControl, Image, SafeAreaView} from 'react-native'; 
+import {ScrollView, View, Text, RefreshControl, Image, SafeAreaView, StatusBar} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'; 
-import Button from '../../components/Button'
-import { StatusBar } from 'expo-status-bar';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';  
 
 export default function Notification(props) {
   const [refreshing, setRefreshing] = React.useState(false); 
@@ -34,8 +32,9 @@ export default function Notification(props) {
   // console.log(notiData)
   return ( 
     <SafeAreaView style={styles.container}> 
+      <StatusBar barStyle="dark-content" />
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       <ScrollView >
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <View>
           <Text style={styles.header}> INBOX  </Text>
           <Text style={styles.title}> Notification </Text>
