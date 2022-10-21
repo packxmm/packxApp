@@ -5,7 +5,6 @@ import { View, Text, TouchableOpacity , ScrollView, TextInput, StatusBar, useCol
 import styles from './styles' 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
-import { SafeAreaView } from 'react-native';
 
 function FacilityCreateScreen(props){ 
   console.log(props.navigation)

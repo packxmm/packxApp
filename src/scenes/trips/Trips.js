@@ -51,9 +51,9 @@ export default function Trips(props) {
   }, []);
   return ( 
     <SafeAreaView style={styles.container}>
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      <StatusBar barStyle="dark-content" />
       <ScrollView > 
+      <StatusBar barStyle="dark-content" />
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <View style={styles.header}>
           <Text style={styles.mainText}> Your Trips </Text>
           <Text style={styles.text}> TRIP LIST  </Text>

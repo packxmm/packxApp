@@ -48,12 +48,12 @@ const HomeTabs = (props) => {
         tabBarOptions={{
           style: {
             bottom: 10,
-            left: 10,
+            left: 12,
             right: 10,
             elevation: 0,
             backgroundColor: 'none',
-            borderRadius: 10,
-            height: 70
+            height: 70,
+            width: "94%"
           }
         }}
         screenOptions={({ route , navigation}) => ({
@@ -69,7 +69,7 @@ const HomeTabs = (props) => {
               iconName = 'person-outline';
             }
             color = focused ? '#ffffff' : '#085252'; 
-            return <View  style={{ alignItems: "center", backgroundColor : focused ? '#085252' : "#E5F1F2", height: 65, width: 100, borderTopLeftRadius: route.name === 'HOME' ? 10 : 0, borderBottomLeftRadius: route.name === 'HOME' ? 10 : 0, borderTopEndRadius: route.name === 'PROFILE' ? 10 : 0, borderBottomEndRadius: route.name === 'PROFILE' ? 10 : 0}}>
+            return <View  style={{ alignItems: "center", backgroundColor : focused ? '#085252' : "#E5F1F2", height: 65, width: "100%", borderTopLeftRadius: route.name === 'HOME' ? 10 : 0, borderBottomLeftRadius: route.name === 'HOME' ? 10 : 0, borderTopEndRadius: route.name === 'PROFILE' ? 10 : 0, borderBottomEndRadius: route.name === 'PROFILE' ? 10 : 0}}>
             <Ionicons name={iconName} size={size} color={color} style={{ paddingTop: 10 }}/>
             <Text style={{fontFamily: "UbuntuMedium",fontSize: 12, color: color, paddingTop: 5 }} color={color}>{route.name} </Text>
             </View>;

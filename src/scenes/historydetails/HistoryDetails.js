@@ -4,8 +4,7 @@ import styles from './styles'
 import { firebase } from '../../firebase/config'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spinner from 'react-native-loading-spinner-overlay' 
-import moment from 'moment';   
-import { SafeAreaView } from 'react-native-safe-area-context';
+import moment from 'moment';    
 
 export default function HistoryDetails({ route, navigation }) {
   const userData = route.params.user;

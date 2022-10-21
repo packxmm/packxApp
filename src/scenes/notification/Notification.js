@@ -32,9 +32,9 @@ export default function Notification(props) {
   // console.log(notiData)
   return ( 
     <SafeAreaView style={styles.container}> 
+    <ScrollView>
       <StatusBar barStyle="dark-content" />
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      <ScrollView >
         <View>
           <Text style={styles.header}> INBOX  </Text>
           <Text style={styles.title}> Notification </Text>
