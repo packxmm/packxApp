@@ -1,5 +1,5 @@
 import React, {  useState, useEffect } from 'react';
-import { View, Text, Platform, TouchableOpacity} from 'react-native';  
+import { View, Text, Platform, TouchableOpacity, StatusBar} from 'react-native';  
 import styles from './styles'
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay' 
@@ -74,6 +74,7 @@ export default function AmountDue(props) {
   }, []);
   return (
     <View style={styles.container}>
+    <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
       <View style={styles.amountDue}>
         <Text style={styles.header}> PAYMENT BREAKDOWN  </Text>
         <View style={styles.Row}> 

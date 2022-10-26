@@ -224,7 +224,7 @@ export default function Booked({route, navigation}) {
   }
   return ( 
     <View style={styles.container}>  
-      <StatusBar barStyle="dark-content" />
+    <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
       <View style={styles.tripHeader}> 
           <Text style={styles.mainText}>BOOKED TRIP</Text> 
       </View> 

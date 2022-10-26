@@ -70,8 +70,8 @@ export default function PackageDetails({ route, navigation }) {
   }, []);
   return ( 
     <SafeAreaView style={styles.container}>
-    <ScrollView> 
-    <StatusBar barStyle="dark-content" />
+    <ScrollView  style={styles.scrollView}>
+    <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
         <View style={styles.tripDetails}> 
           <Text style={styles.title}>TRIP - {tripData.tripId.slice(0,8)}</Text> 
           <View style={{flex: 4, flexDirection: 'row' }}> 

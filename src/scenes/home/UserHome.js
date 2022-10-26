@@ -71,10 +71,9 @@ export default function UserHome(props) {
     }
   }; 
   return (
-    <SafeAreaView style={styles.container}>  
-    <ScrollView>
-        <StatusBar barStyle="dark-content" />
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}> 
+    <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
         <View style={styles.searchBar}> 
           <Image source={require('../../../assets/images/sm-logoWhite.png')} style={{ width: 40,resizeMode: 'center', height: 38}}/> 
           <View style={{ flexDirection: 'row'}}> 

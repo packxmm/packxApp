@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text,TextInput, Image, TouchableOpacity, ScrollView, useColorScheme, StatusBar, Platform} from 'react-native'; 
+import { View, Text,TextInput, Image, TouchableOpacity, ScrollView, useColorScheme, StatusBar, Platform, SafeAreaView} from 'react-native'; 
 import styles from './styles'
 import { firebase } from '../../firebase/config'
 import { Avatar } from 'react-native-elements'
@@ -95,12 +95,12 @@ export default function Detail({ route, navigation }) {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
     <ScrollView>
-    <View style={styles.container}>
       <KeyboardAwareScrollView
         style={{ flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always">
-        <StatusBar barStyle="dark-content" />
+        <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
           <View style={{ flex: 1 , justifyContent: 'center' , alignItems: 'center'  }}>
             <Avatar
               containerStyle={{borderColor: "#ffffff", borderWidth: 5}}
@@ -142,7 +142,7 @@ export default function Detail({ route, navigation }) {
           </View>
           <Button title={"Save"} onPress={profileUpdate} />
       </KeyboardAwareScrollView>
-    </View>
       </ScrollView> 
+    </SafeAreaView>
   )
 }

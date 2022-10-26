@@ -1,10 +1,12 @@
 import { StyleSheet , StatusBar} from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    marginHorizontal: "3%", 
-    paddingTop: StatusBar.currentHeight, 
+  container: { 
+    flex: 1, 
+    backgroundColor: "#FAFAFA"
+  },
+  scrollView:{
+    marginHorizontal: "3%",
   },
   createBtn:{
     flex: 1,

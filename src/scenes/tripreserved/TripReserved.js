@@ -1,5 +1,5 @@
 import React, {useState} from 'react'; 
-import { StatusBar, View, Text, Image , TouchableOpacity, TextInput, ScrollView} from 'react-native';  
+import { StatusBar, View, Text, Image , TouchableOpacity, TextInput, ScrollView, SafeAreaView} from 'react-native';  
 import uuid from 'react-native-uuid';
 import Spinner from 'react-native-loading-spinner-overlay' 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -111,14 +111,14 @@ export default function TripReserved(props) {
   return (  
     <>
     {isConfirmed === false ? (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <KeyboardAwareScrollView
-        style={{ flex: 1, width: '100%'}}
+        style={{ minHeight: "30%", width: '100%'}}
         keyboardShouldPersistTaps="always"> 
         <Text style={styles.title}>Reserve your package </Text> 
         <Text style={styles.subtitle}>Package Summary</Text> 
-        <View style={{ minHeight: "50%", flexDirection: "column" }}>  
+        <View style={{flex: 3, flexDirection: "column" ,paddingHorizontal: 20  }}>  
             <View style={styles.itemHeader} > 
               <Text style={styles.itemTitle}>Item Description</Text>
               <Text style={styles.itemTitle}>Qty</Text>
@@ -142,7 +142,7 @@ export default function TripReserved(props) {
               <Text style={styles.addlabel}> Add </Text> 
             </TouchableOpacity>   
         </View> 
-        <View style={{ flex: 6, flexDirection: "column", justifyContent: "center" }}>
+        <View style={{ flex: 4, flexDirection: "column", justifyContent: "center",paddingHorizontal: 20 }}>
             <Text style={styles.inputLabel}>Receiver Name</Text>
             <TextInput style={styles.input}  
               placeholder="Receiver Name"
@@ -165,7 +165,7 @@ export default function TripReserved(props) {
           <WhiteButton title={"Cancel"} onPress={() => props.navigation.navigate('TripInfo')} children={'remove'}/>
         </View>
       </KeyboardAwareScrollView>
-      </View>
+      </SafeAreaView>
     ) : ( 
       <View style={{ flex: 1 }}>
         <StatusBar barStyle= {"dark-content"}/>

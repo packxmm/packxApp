@@ -65,7 +65,7 @@ export default function TripInfo({ route, navigation }) {
 
   return ( 
     <ScrollView style={styles.container}> 
-    <StatusBar barStyle="dark-content" />
+    <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
         <View style={styles.tripList}> 
           <Text style={styles.mainText}>TRIP - {tripData.tripId.slice(0,8)}</Text> 
           <View style={{flex: 4, flexDirection: 'row' }}> 

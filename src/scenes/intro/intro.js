@@ -11,7 +11,7 @@ export default function intro({navigation}) {
 
   return (
     <View style={[styles.container]}>
-    <StatusBar barStyle="dark-content" />
+    <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
       <View style={styles.logoBox}>
         <Image source={require('../../../assets/images/PackXLogo.png')}/>
       </View>
