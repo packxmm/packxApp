@@ -33,7 +33,7 @@ export default function Trips(props) {
     try {  
       firebase.firestore()
       .collection('trips') 
-      .where('facilityId', '==', userData.id) 
+      .where('facilityId', '==', userData.id)   
       .get().then((querySnapshot) => {
         const dataArr = [];
         querySnapshot.forEach(doc => { 
@@ -54,11 +54,11 @@ export default function Trips(props) {
     <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}> 
     <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
         <View style={styles.header}>
-          <Text style={styles.mainText}> Your Trips </Text>
+          <Text style={styles.mainText}> My Trips </Text>
           <Text style={styles.text}> TRIP LIST  </Text>
         </View>
         <View style={styles.itemLists}>
-          {tripData.map((item, index) => (
+        {tripData.filter((data) => data.trackingStatus !== "Arrive").map((item , index) => ( 
             <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripDetails', { tripInfo: item, user: userData })}> 
               <View style={styles.tripHeader}> 
                 <Text style={styles.title}>TRIP - <Text style={styles.numberText}>{item.tripId.slice(0,8).toUpperCase()} | </Text></Text>

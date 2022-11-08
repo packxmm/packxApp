@@ -111,7 +111,12 @@ function FacilityCategoryForm(props){
  
   function goToTrips(){ 
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replace('-', '');
+    let getUuid;
+    if(Platform.OS === 'android'){ 
+      getUuid = generateUuid.replace('-', '');
+    }else{ 
+      getUuid = generateUuid.replaceAll('-', '');
+    }
     console.log("getUuid " + getUuid)
     setSpinner(true)
     const data = { 
@@ -138,9 +143,9 @@ function FacilityCategoryForm(props){
   } 
 
   return (
-    <SafeAreaView style={[styles.container , {marginTop: StatusBar.currentHeight}]}>
-    <ScrollView> 
-    <StatusBar barStyle="dark-content" />
+    <SafeAreaView style={styles.container}>
+    <ScrollView>  
+      <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/> 
       <View>
       <View style={styles.header}>
         <Text style={styles.text}> Create New Trip </Text>

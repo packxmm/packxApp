@@ -7,8 +7,9 @@ import Button from '../../components/Button'
 import WhiteButton from '../../components/Button/WhiteButton'
 import Spinner from 'react-native-loading-spinner-overlay' 
 import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import uuid from 'react-native-uuid';
-import Dialog from "react-native-dialog";
+import Dialog from "react-native-dialog"; 
 
 export default function Booked({route, navigation}) {
   const userData = route.params.user;  
@@ -21,11 +22,17 @@ export default function Booked({route, navigation}) {
   const [isEnabled, setIsEnabled] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [dialogTitle, setdialogTitle] = useState(''); 
+  const [dialogTitle, setdialogTitle] = useState('');   
+  const [itemList,setItemLists] = useState(packageData.items);
+  const [item, setItem] = useState(null);
+  const [qty, setQty] = useState(null);
+  const [showInput, setShowInput] = useState(false);
+  const [validation, setValidation] = useState(false);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{flex:1, flexDirection: 'row', paddingLeft: 15, paddingTop: Platform.OS === 'android' ? 10 : 0}} onPress={goBackPage}>
           <Icon style={{color: "#1B9494"}} name={"arrow-back-circle-sharp"} size={35} />
           <Text style={{color: "#c8c8c8", paddingLeft: 5, marginTop: 7, fontSize: 17}}>Back To Lists</Text>
         </TouchableOpacity>
@@ -44,10 +51,20 @@ export default function Booked({route, navigation}) {
 
     if(packageData.status === "Paid"){
       setIsEnabled(true)
-    }
+    } 
+    itemList.forEach(item => {  
+      if(item.wgt !== undefined && item.price !== undefined){
+        setValidation(true)
+      }
+    })
   }, [navigation]);
 
+  const goBackPage = () => {
+    navigation.goBack(); 
+  }
+
   const setWeight = (text, index) => {
+    setValidation(true)
     let newItem = packageData.items[index];
     newItem.wgt = text;
     setPackageData(prevState => ({
@@ -57,6 +74,7 @@ export default function Booked({route, navigation}) {
   }
 
   const setPrice = (text, index) => {
+    setValidation(true)
     let newItem = packageData.items[index];
     newItem.price = text;
     setPackageData(prevState => ({
@@ -72,10 +90,14 @@ export default function Booked({route, navigation}) {
     setTotalAmount(total);
   }
 
-  const confirmBooking = () => {  
-    setSpinner(true);
+  const confirmBooking = () => {   
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replace('-', '');  
+    let getUuid;
+    if(Platform.OS === 'android'){ 
+      getUuid = generateUuid.replace('-', '');
+    }else{ 
+      getUuid = generateUuid.replaceAll('-', '');
+    }
     const updatePackages = { 
       trackingStatus : "confirmed"
     } 
@@ -95,8 +117,8 @@ export default function Booked({route, navigation}) {
     .set(msgData)
     .catch((error) => {
       alert(error)
-    }); 
-    setSpinner(false); 
+    });  
+    navigation.navigate('TripDetails'); 
     setConfiremd(true);
   }
 
@@ -111,9 +133,10 @@ export default function Booked({route, navigation}) {
 
   const showDialog = () => { 
     setVisible(true) 
+    setShowInput(false)
     {tripData.trackingStatus === "Arrive" ? (
       setdialogTitle("The package has been picked up!") 
-    ): ( 
+    ): (
       setdialogTitle("Are you sure to refuse the trip reservation?")
     )}
   }
@@ -133,41 +156,56 @@ export default function Booked({route, navigation}) {
   }
 
   const saveData = () => {   
-    setSpinner(true);
-    const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replace('-', '');  
-    const updatePackages = { 
-      status : isEnabled === true ? "Paid" : "Unpaid",
-      items : packageData.items,
-      total : totalAmount,
-      trackingStatus : "received"
-    } 
-    console.log(updatePackages)
-    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
-    getPackages.update(updatePackages);
-    navigation.navigate('TripDetails');
-
-    const msgData = { 
-      id: getUuid,
-      user : userData.id,
-      msg :  "Your reserved package "+ packageData.id.slice(0,8) + " is now received.",
-      type : "receive",
-      timestamp : new Date().toLocaleString('en-US')
+    if(validation === false){
+      showDialog(); 
+      setdialogTitle("Missing your item's Price or Weight")
+    }else{   
+      setSpinner(true);
+      const generateUuid = uuid.v4();
+      let getUuid;
+      if(Platform.OS === 'android'){ 
+        getUuid = generateUuid.replace('-', '');
+      }else{ 
+        getUuid = generateUuid.replaceAll('-', '');
+      }
+      const updatePackages = { 
+        status : isEnabled === true ? "Paid" : "Unpaid",
+        items : itemList,
+        total : totalAmount,
+        trackingStatus : "received"
+      } 
+      
+      const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+      getPackages.update(updatePackages);
+      navigation.navigate('TripDetails');
+  
+      const msgData = { 
+        id: getUuid,
+        user : userData.id,
+        msg :  userData.name + "'s package "+ packageData.id.slice(0,8).toUpperCase() + " is now received.",
+        type : "receive",
+        timestamp : new Date().toLocaleString('en-US')
+      }
+      const notiRef = firebase.firestore().collection('notification')
+      notiRef
+      .doc(getUuid)
+      .set(msgData)
+      .catch((error) => {
+        alert(error)
+      }); 
+      setSpinner(false); 
     }
-    const notiRef = firebase.firestore().collection('notification')
-    notiRef
-    .doc(getUuid)
-    .set(msgData)
-    .catch((error) => {
-      alert(error)
-    }); 
-    setSpinner(false); 
   }
 
   const checkOut = () => {  
     setVisible(false) 
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replace('-', '');  
+    let getUuid;
+    if(Platform.OS === 'android'){ 
+      getUuid = generateUuid.replace('-', '');
+    }else{ 
+      getUuid = generateUuid.replaceAll('-', '');
+    } 
     const updatePackages = { 
       trackingStatus : "Checkout"
     } 
@@ -176,7 +214,7 @@ export default function Booked({route, navigation}) {
     const msgData = { 
       id: getUuid,
       user : userData.id,
-      msg :  "Your package from "+ packageData.id.slice(0,8) + " has been picked-up.",
+      msg :  userData.name + "'s package " + packageData.id.slice(0,8).toUpperCase() + " has been picked-up.",
       type : "checkout",
       timestamp : new Date().toLocaleString('en-US')
     }
@@ -222,6 +260,21 @@ export default function Booked({route, navigation}) {
     setSpinner(false); 
     setConfiremd(true);
   }
+
+  const addList = () => {
+    setVisible(true)
+    setShowInput(true)
+    setdialogTitle("Please add the item and quantity.")
+  }
+
+  const addItemData = () => {
+    setItemLists(itemList => [{  
+      item : item, 
+      qty : qty
+    },...itemList]); 
+    setVisible(false)
+  }
+
   return ( 
     <View style={styles.container}>  
     <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
@@ -258,6 +311,13 @@ export default function Booked({route, navigation}) {
         <View style={{flex: 6}}>
             <View style={styles.tripHeader}> 
                 <Text style={styles.mainText}>RESERVED ITEMS</Text> 
+
+                {packageData.trackingStatus === "confirmed" && ( 
+                  <TouchableOpacity onPress={addList} style={{ flexDirection: "row", alignItems: "center" }}> 
+                  <Text style={styles.addlabel}> Add Items</Text> 
+                    <FontAwesome5 style={styles.addicon} name="plus-circle" size={18} />
+                  </TouchableOpacity> 
+                )}
             </View>
             <View style={styles.itemList}> 
                 <View style={styles.tableTitle}> 
@@ -278,22 +338,22 @@ export default function Booked({route, navigation}) {
                     )}
                 </View>
             </View> 
-            {packageData.items.map((val, index) => (
+            {itemList.map((val, index) => (
                 <View key={index} style={styles.tableRow}>  
                     <Text style={styles.dectext}>{val.item}</Text>   
                     { confirmed === true || packageData.trackingStatus === "reserved" ? ( 
                       <>
                         <Text style={[styles.text, {flex: 1, textAlign: "right"}]}>{val.qty} x</Text>
                         <TextInput style={[styles.input, {flex: 1, textAlign: "right"}]} value={val.wgt} onChangeText={text => setWeight(text, index)} keyboardType="number-pad" 
-                    returnKeyType="done" placeholder="Wgt"/>
-                        <TextInput style={[styles.input, {flex: 1, textAlign: "center"}]} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="number-pad"                   returnKeyType="done" placeholder="$"/>
+                    returnKeyType="done" placeholder={weight} placeholderTextColor='#C2C1D1'/>
+                        <TextInput style={[styles.input, {flex: 1, textAlign: "center"}]} value={val.price} onChangeText={text => setPrice(text, index)} keyboardType="number-pad" returnKeyType="done" placeholder={currency}  placeholderTextColor='#C2C1D1'/>
                         <TouchableOpacity onPress={() => removeItem(index)} >
                           <Text style={[styles.text, {flex: 1, textAlign: "right",color: "#990404"}]}>Remove</Text> 
                         </TouchableOpacity>
                       </>
                     ) : (
                       <>
-                      <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.qty} x</Text>
+                        <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.qty} x</Text>
                         <Text style={[styles.text, {flex: 1, textAlign: "center"}]}>{val.wgt} {weight}</Text>  
                         <Text style={[styles.text, {flex: 2, textAlign: "right"}]}>{val.price} {currency}</Text>  
                       </>
@@ -349,18 +409,39 @@ export default function Booked({route, navigation}) {
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0,0,0,0.5)"
       />
-        {tripData.trackingStatus === "Arrive" ? ( 
+       {showInput === true ? ( 
           <Dialog.Container visible={visible}>
-              <Dialog.Title>{dialogTitle}</Dialog.Title> 
-              <Dialog.Button label="Ok" onPress={checkOut} />
-          </Dialog.Container>
-        ) : ( 
-          <Dialog.Container visible={visible}>
-            <Dialog.Title>{dialogTitle}</Dialog.Title> 
-            <Dialog.Button label="Yes" onPress={refeseBooking} /> 
-            <Dialog.Button label="No" onPress={handleCancel} />
-         </Dialog.Container>
-        )}
+            <Dialog.Title>{dialogTitle}</Dialog.Title>
+            <Dialog.Input label="Item" onChangeText={setItem}/>
+            <Dialog.Input label="Qty" onChangeText={setQty}/>
+            <Dialog.Button label="Add" onPress={addItemData} />  
+            <Dialog.Button label="Cancel" onPress={handleCancel} />  
+        </Dialog.Container>
+      ): (
+        <> 
+          {tripData.trackingStatus === "Arrive" ? ( 
+            <Dialog.Container visible={visible}>
+                <Dialog.Title>{dialogTitle}</Dialog.Title> 
+                <Dialog.Button label="Ok" onPress={checkOut} />
+            </Dialog.Container>
+          ) : (  
+            <> 
+              {validation === false ? ( 
+                <Dialog.Container visible={visible}>
+                  <Dialog.Title>{dialogTitle}</Dialog.Title> 
+                <Dialog.Button label="Ok" onPress={handleCancel} /> 
+              </Dialog.Container>  
+            ) : ( 
+              <Dialog.Container visible={visible}>
+                <Dialog.Title>{dialogTitle}</Dialog.Title> 
+                <Dialog.Button label="Yes" onPress={refeseBooking} /> 
+                <Dialog.Button label="No" onPress={handleCancel} />
+              </Dialog.Container>
+            )}  
+            </>
+          )} 
+        </>
+      )}
     </View>
   )
 }

@@ -67,11 +67,10 @@ export default function History({ route, navigation }) {
   }
   // console.log(packageData)
   return (
-    <SafeAreaView style={styles.container}> 
-      <ScrollView>
-      <StatusBar barStyle="dark-content" />
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}> 
+    <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/> 
       <Text style={styles.header}> TRANSACTION HISTORY </Text> 
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       {packageData.map((item, index) => (
         <TouchableOpacity style={[styles.item]} key={index} onPress={() => navigation.navigate('HistoryDetails', { user: userData, package: item , trip: tripData})}>
           <View style={{alignContent: "center"}}>  

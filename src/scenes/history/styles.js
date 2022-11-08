@@ -3,10 +3,12 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container:{
       flex: 1, 
-      justifyContent: 'flex-start',
-      paddingHorizontal: "3%", 
+      justifyContent: 'flex-start', 
       backgroundColor: "#FAFAFA"
   }, 
+  scrollView:{ 
+    paddingHorizontal : "3%",  
+  },
   header: {
     fontSize: 16,
     fontFamily: 'UbuntuBold',

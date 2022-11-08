@@ -24,19 +24,26 @@ export default function TripReserved(props) {
   const [dialogTitle, setdialogTitle] = useState('');
   const [dialogDes, setdialogDes] = useState('');
   const [showConfirm, setShowConfirmed] = useState(false);
+  const [showInput, setShowInput] = useState(false);
   
-  function addList(){
+  const addList = () => {
+    setVisible(true)
+    setShowInput(true)
+    setShowConfirmed(true)
+    setdialogTitle("Please add the item and quantity.")
+  }
+
+  const addItemData = () => {
     setItemLists(itemList => [{  
       item : item, 
       qty : qty
     },...itemList]); 
-    setItem("");
-    setQty("");
+    setVisible(false)
   }
 
   const showDialog = () => {
-    console.log(recName)
-    console.log(itemList.length)
+    console.log(itemList)
+    setShowInput(false)
     setVisible(true)
     if(itemList.length === 0){
       setdialogTitle("Please add the items")
@@ -45,6 +52,7 @@ export default function TripReserved(props) {
       if(recName === null || recContact === null){ 
         setdialogTitle("Receiver Information")
         setdialogDes("Please add the receiver information for your package reserved.")
+        setShowConfirmed(false)
       }else{ 
         setdialogTitle("Confirm Your Package")
         setdialogDes("Please confirm your package reserved.")
@@ -61,7 +69,12 @@ export default function TripReserved(props) {
     setVisible(false);
     setSpinner(true); 
     const generateUuid = uuid.v4();
-    const getUuid = generateUuid.replace('-', '');  
+    let getUuid;
+    if(Platform.OS === 'android'){ 
+      getUuid = generateUuid.replace('-', '');
+    }else{ 
+      getUuid = generateUuid.replaceAll('-', '');
+    }
     const data = { 
       id: getUuid,
       tripId : tripData.tripId,
@@ -96,7 +109,7 @@ export default function TripReserved(props) {
       const msgData = { 
         id: getUuid,
         user : tripData.facilityId,
-        msg :  "PackX Id "+ tripData.tripId.slice(0,8) + " has reserved a trip.",
+        msg :  "PackX Id "+ tripData.tripId.slice(0,8).toUpperCase() + " has reserved a trip.",
         type : "reserved",
         timestamp : new Date().toLocaleString('en-US')
       }
@@ -113,17 +126,15 @@ export default function TripReserved(props) {
     {isConfirmed === false ? (
       <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <KeyboardAwareScrollView
-        style={{ minHeight: "30%", width: '100%'}}
-        keyboardShouldPersistTaps="always"> 
         <Text style={styles.title}>Reserve your package </Text> 
         <Text style={styles.subtitle}>Package Summary</Text> 
-        <View style={{flex: 3, flexDirection: "column" ,paddingHorizontal: 20  }}>  
-            <View style={styles.itemHeader} > 
-              <Text style={styles.itemTitle}>Item Description</Text>
-              <Text style={styles.itemTitle}>Qty</Text>
-            </View>   
-            {itemList.length != 0  &&
+        <View style={{flex: 2, flexDirection: "column" ,paddingHorizontal: 20  }}>  
+           {itemList.length != 0 ? (
+            <>
+              <View style={styles.itemHeader} > 
+                <Text style={styles.itemTitle}>Item Description</Text>
+                <Text style={styles.itemTitle}>Qty</Text>
+              </View>   
               <ScrollView>
               {itemList.map((data, index ) => (
                 <View style={styles.itemRow} key={index}>
@@ -132,18 +143,32 @@ export default function TripReserved(props) {
                 </View>
               ))}
               </ScrollView>
-            }
-            <View style={styles.itemRow} > 
-              <TextInput style={styles.itemInputLg} value={item} placeholder="Input Your Item Here ...." onChangeText={setItem}/>
-              <TextInput style={styles.itemInputXs} value={qty} placeholder="Qty" onChangeText={setQty}/>
-            </View>    
-            <TouchableOpacity onPress={addList} style={{ flexDirection: "row", justifyContent: 'center' }}> 
-              <FontAwesome5 style={styles.addicon} name="plus-circle" size={23} />
-              <Text style={styles.addlabel}> Add </Text> 
-            </TouchableOpacity>   
+              <TouchableOpacity onPress={addList} style={{ flexDirection: "row", justifyContent: 'center' }}> 
+                <FontAwesome5 style={styles.addicon} name="plus-circle" size={23} />
+                <Text style={styles.addlabel}> Add Items</Text> 
+              </TouchableOpacity> 
+            </>
+            ) : ( 
+              <View style={{flex: 3, flexDirection: "column" , alignItems: 'center' , justifyContent: 'center' }}>
+                <FontAwesome5 style={styles.addicon} name="box-open" size={50} />
+                <Text style={[styles.itemTitle, {textAlign: 'center'}]}>Your Package is Empty!</Text>
+                <Text style={[styles.deslabel, {textAlign: 'center'} ]}>Please add the items and quantity Here.</Text>
+                <TouchableOpacity onPress={addList} style={{ flexDirection: "row", justifyContent: 'center', marginTop: 20 }}> 
+                  <FontAwesome5 style={styles.addicon} name="plus-circle" size={23} />
+                  <Text style={styles.addlabel}> Add Items</Text> 
+                </TouchableOpacity> 
+              </View>
+            )}
+            {/* <View style={styles.itemRow} > 
+              <TextInput style={styles.itemInputLg} value={item} placeholder="Input Your Item Here ...." />
+              <TextInput style={styles.itemInputXs} value={qty} placeholder="Qty" />
+            </View>     */}  
         </View> 
-        <View style={{ flex: 4, flexDirection: "column", justifyContent: "center",paddingHorizontal: 20 }}>
+        <View style={{ flexDirection: "column", justifyContent: "center", paddingHorizontal: 20}}>
             <Text style={styles.inputLabel}>Receiver Name</Text>
+            <KeyboardAwareScrollView
+            style={{ width: '100%'}}
+            keyboardShouldPersistTaps="always"> 
             <TextInput style={styles.input}  
               placeholder="Receiver Name"
               placeholderTextColor="#aaaaaa"
@@ -161,10 +186,10 @@ export default function TripReserved(props) {
               underlineColorAndroid="transparent"
               autoCapitalize="none"
             />
+            </KeyboardAwareScrollView>
           <Button title={"Confirm"} onPress={showDialog} children={'check'} /> 
           <WhiteButton title={"Cancel"} onPress={() => props.navigation.navigate('TripInfo')} children={'remove'}/>
         </View>
-      </KeyboardAwareScrollView>
       </SafeAreaView>
     ) : ( 
       <View style={{ flex: 1 }}>
@@ -188,17 +213,27 @@ export default function TripReserved(props) {
       textStyle={{ color: "#fff" }}
       overlayColor="rgba(0,0,0,0.5)"
     /> 
-      <Dialog.Container visible={visible}>
-        <Dialog.Title>{dialogTitle}</Dialog.Title>
-        <Dialog.Description>
-        {dialogDes} 
-        </Dialog.Description>
-        {showConfirm === false ? ( 
-          <Dialog.Button label="Cancel" onPress={handleCancel} /> 
-        ):(
-          <Dialog.Button label="Confirm" onPress={confirmData} /> 
+        {showInput === true ? ( 
+          <Dialog.Container visible={visible}>
+            <Dialog.Title>{dialogTitle}</Dialog.Title>
+            <Dialog.Input label="Item" onChangeText={setItem}/>
+            <Dialog.Input label="Qty" onChangeText={setQty}/>
+            <Dialog.Button label="Add" onPress={addItemData} />  
+            <Dialog.Button label="Cancel" onPress={handleCancel} />  
+        </Dialog.Container>
+        ): ( 
+          <Dialog.Container visible={visible}>
+            <Dialog.Title>{dialogTitle}</Dialog.Title>
+            <Dialog.Description>
+            {dialogDes} 
+            </Dialog.Description>  
+            {showConfirm === false ? ( 
+              <Dialog.Button label="Cancel" onPress={handleCancel} /> 
+            ):( 
+              <Dialog.Button label="Confirm" onPress={confirmData} />  
+            )}
+        </Dialog.Container>
         )}
-      </Dialog.Container>
     </>
   )
 }

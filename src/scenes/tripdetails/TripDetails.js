@@ -32,6 +32,7 @@ export default function TripDetails({ route, navigation }) {
   }, [navigation]);
     
   useEffect(() => {    
+    setSpinner(true);  
       const packageRef = firebase.firestore().collection('package')
       const usersRef = firebase.firestore().collection('users')
       usersRef 

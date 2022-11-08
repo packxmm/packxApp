@@ -26,6 +26,8 @@ export default StyleSheet.create({
   tripHeader:{  
     display: 'flex',
     marginVertical: "1%",
+    flexDirection: 'row',
+    justifyContent:"space-between"
   },
   item: { 
     display: 'flex',
@@ -117,5 +119,15 @@ export default StyleSheet.create({
   switchBtn : {
     marginRight: "3%",
     transform: [{ scaleX: .7 }, { scaleY: .7 }]
+  },
+  addicon: {
+    color: "#085252", 
+    marginLeft: 5
+  },
+  addlabel: {
+    fontSize: 16,
+    color: "#169393",
+    textTransform: "uppercase",
+    fontFamily: 'UbuntuBold',
   }
 })

@@ -47,10 +47,10 @@ function FacilityCreateScreen(props){
   } 
 
   return (
-    <SafeAreaView>
-    <ScrollView>
-    <StatusBar barStyle="dark-content" />
-      <View style={[styles.container , {marginTop: StatusBar.currentHeight}]}>
+    <SafeAreaView style={styles.container}>
+    <ScrollView> 
+      <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/> 
+      <View>
         <View style={styles.header}>
           <Text style={styles.text}> Create New Trip </Text>
           <Text style={styles.text}> 1 of 2 </Text>
