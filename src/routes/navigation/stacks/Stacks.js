@@ -34,16 +34,22 @@ export const LoginNavigator = (props) => {
   )
 }
 
-export const FacilityNavigator= (props) => {
+export const FacilityNavigator= (props) => { 
   const user = props.user
   const navigationProps = props.navigationProps;
+  let tripData;
+  if(props.route.params === undefined){
+    tripData = undefined;
+  }else{ 
+    tripData = props.route.params.tripInfo;
+  }
   return (
     <Stack.Navigator headerMode="screen" screenOptions={navigationProps}> 
       <Stack.Screen name="CreateFacility" options={{title: ''}}>
-        {props => <FacilityCreate {...props} extraData={user} navigationProps={navigationProps}/>}
+        {props => <FacilityCreate {...props} extraData={user} tripInfo={tripData}/>}
       </Stack.Screen>
       <Stack.Screen name="CreateCategory" options={{title: ''}}>
-        {props => <FacilityCategoryCreate {...props} extraData={user}  navigationProps={navigationProps}/>}
+        {props => <FacilityCategoryCreate {...props} extraData={user} tripInfo={tripData}/>}
       </Stack.Screen>
     </Stack.Navigator>
   );

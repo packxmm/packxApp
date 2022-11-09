@@ -86,5 +86,13 @@ export default StyleSheet.create({
     fontSize: 12,
     fontFamily: "UbuntuMedium",
     color: "#185354",
+  },
+  icon: {
+    marginBottom: 5,
+    color: '#434343'
+  },
+  editTrip: {
+    display: 'flex', 
+    alignItems: 'center'
   }
 })

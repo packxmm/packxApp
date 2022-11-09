@@ -6,9 +6,7 @@ import styles from './styles'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
 
-function FacilityCreateScreen(props){ 
-  console.log(props.navigation)
-
+function FacilityCreateScreen(props){  
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerLeft: () => (
@@ -20,16 +18,17 @@ function FacilityCreateScreen(props){
     });
   }, [props.navigation]);
 
+  const [tripData, setTripData] = useState(props.tripInfo); 
   const scheme = useColorScheme(); 
-  const [dropOffVal, setDropOffCity] = useState("");
-  const [desVal, setDesCity] = useState("");
-  const [locDropOff, setLocDropOff] = useState("");
-  const [seclocDropOff, setSecLocDropOff] = useState("");
-  const [locPickUp, setLocPickUp] = useState("");
-  const [seclocPickUp, setSecLocPickUp] = useState("");
-  const [facilityInfo, setFacilityInfo] = useState("");
-  const [dropOffDate, setdropOffDate] = useState(new Date().toLocaleDateString("en-US"));
-  const [pickUpDate, setpickUpDate] = useState(new Date().toLocaleDateString("en-US"));
+  const [dropOffVal, setDropOffCity] = useState(props.tripInfo === undefined ? "" : tripData.tripInfo.dropOff);
+  const [desVal, setDesCity] = useState(props.tripInfo === undefined ? "" : tripData.tripInfo.desVal);
+  const [locDropOff, setLocDropOff] = useState(props.tripInfo === undefined ? "" : tripData.tripInfo.dropOffAddress);
+  const [seclocDropOff, setSecLocDropOff] = useState(props.tripInfo === undefined ? "" : tripData.tripInfo.secdropOffAddress);
+  const [locPickUp, setLocPickUp] = useState(props.tripInfo === undefined ? "" : tripData.tripInfo.pickUpAddress);
+  const [seclocPickUp, setSecLocPickUp] = useState(props.tripInfo === undefined ? "" : tripData.tripInfo.secpickUpAddress);
+  const [facilityInfo, setFacilityInfo] = useState(props.tripInfo === undefined ? "" : tripData.tripInfo.facilityInfo);
+  const [dropOffDate, setdropOffDate] = useState(props.tripInfo === undefined ? new Date().toLocaleDateString("en-US") : tripData.tripInfo.dropOffDate);
+  const [pickUpDate, setpickUpDate] = useState(props.tripInfo === undefined ? new Date().toLocaleDateString("en-US") : tripData.tripInfo.pickUpDate);
   const goToNext =  () => {  
     props.navigation.navigate('CreateCategory', { 
       otherParam: {
@@ -59,9 +58,9 @@ function FacilityCreateScreen(props){
         keyboardShouldPersistTaps="always">
           <View style={styles.addRoute}>
               <Text style={styles.inputLabel} >From</Text>
-              <TextInput style={styles.input} onChangeText={setDropOffCity} placeholder="Drop Off City" multiline={true}/>
+              <TextInput style={styles.input} value={dropOffVal} onChangeText={setDropOffCity} placeholder="Drop Off City" multiline={true}/>
               <Text style={styles.inputLabel}>To</Text>
-              <TextInput style={styles.input} onChangeText={setDesCity} placeholder="Destination City"  multiline={true}/>
+              <TextInput style={styles.input} value={desVal} onChangeText={setDesCity} placeholder="Destination City"  multiline={true}/>
               <View style={styles.dateList}>
                 <View style={styles.dateBox}>
                   <Text style={styles.inputLabel}>Last Drop-Off Date</Text>  
@@ -147,17 +146,17 @@ function FacilityCreateScreen(props){
           <View style={styles.addAddress}>
               <View style={{flex: 2}}>
                 <Text style={styles.inputLabel}>Drop-Off Address</Text>
-                <TextInput style={styles.input} onChangeText={setLocDropOff} placeholder="Location To Drop-Off Package" multiline={true}/>
-                <TextInput style={styles.input} onChangeText={setSecLocDropOff} placeholder="2nd Address Line ( Optional )" multiline={true}/>
+                <TextInput style={styles.input} value={locDropOff} onChangeText={setLocDropOff} placeholder="Location To Drop-Off Package" multiline={true}/>
+                <TextInput style={styles.input} value={seclocDropOff} onChangeText={setSecLocDropOff} placeholder="2nd Address Line ( Optional )" multiline={true}/>
               </View>
               <View style={{flex: 2}}>
                 <Text style={styles.inputLabel}>Pick-Up Address</Text>
-                <TextInput style={styles.input} onChangeText={setLocPickUp} placeholder="Location To Pick-Up Package" multiline={true}/>
-                <TextInput style={styles.input} onChangeText={setSecLocPickUp} placeholder="2nd Address Line ( Optional )" multiline={true}/>
+                <TextInput style={styles.input} value={locPickUp} onChangeText={setLocPickUp} placeholder="Location To Pick-Up Package" multiline={true}/>
+                <TextInput style={styles.input} value={seclocPickUp} onChangeText={setSecLocPickUp} placeholder="2nd Address Line ( Optional )" multiline={true}/>
               </View>
               <View style={{flex: 2}}>
                 <Text style={styles.inputLabel}>Facility Information</Text>
-                <TextInput style={[styles.input, {height: 150}]} onChangeText={setFacilityInfo} placeholder="Describe The Annoucements" multiline={true}
+                <TextInput style={[styles.input, {height: 150}]} value={facilityInfo} onChangeText={setFacilityInfo} placeholder="Describe The Annoucements" multiline={true}
     numberOfLines={10}/>
               </View>
           </View>  

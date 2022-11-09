@@ -4,6 +4,7 @@ import styles from './styles';
 import { firebase } from '../../firebase/config' 
 import Spinner from 'react-native-loading-spinner-overlay' 
 import moment from "moment";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function Trips(props) {
   const userData = props.extraData  
@@ -49,6 +50,7 @@ export default function Trips(props) {
       console.error(error);
     }
   }, []);
+ 
   return ( 
     <SafeAreaView style={styles.container}>
     <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}> 
@@ -78,8 +80,23 @@ export default function Trips(props) {
                   <Text style={styles.dateText}> {moment(new Date(item.tripInfo.pickUpDate)).format("MMM Do YYYY")} </Text>
                 </View>
                 <View style={{flex: 2 ,flexDirection: "row",justifyContent: "center", alignItems:"center" }}>
-                  <Text style={styles.title}>{item.packageLists.length}</Text>
-                  <Image source={require('../../../assets/images/Supplier.png')}/>
+                  {item.packageLists.length === 0 ? (
+                      <>
+                      <TouchableOpacity style={styles.editTrip} onPress={() => props.navigation.navigate('CreateFacility', {tripInfo : item})}> 
+                        <FontAwesome style={styles.icon} name="pencil" size={18} />
+                        <Text style={styles.dateText}>Edit</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={[styles.editTrip,{marginLeft: 15}]}> 
+                        <FontAwesome style={styles.icon} name="trash" size={18} />
+                        <Text style={styles.dateText}>Delete</Text>
+                      </TouchableOpacity>
+                      </>
+                  ):(
+                    <> 
+                      <Text style={styles.title}>{item.packageLists.length}</Text>
+                      <Image source={require('../../../assets/images/Supplier.png')}/>
+                    </>
+                  )}
                 </View>
               </View> 
             </TouchableOpacity> 

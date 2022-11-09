@@ -82,10 +82,10 @@ export default function UserHome(props) {
           </View> 
           {/* <MaterialIcons name="microsoft-xbox-controller-menu" size={30} style={{ paddingTop: '1%', color: '#169393' }}/> */}
       </View>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.mainText}> Welcome to PackX </Text>
           <Text style={styles.text}> Pack & Send Everything Simply with PackX </Text>
-        </View>
+        </View> */}
         <View style={styles.itemLists}>
           {searchData.map((item, index) => (
             <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripInfo', { tripInfo: item , user: userData})}>

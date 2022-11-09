@@ -57,11 +57,10 @@ const currency = [
 
 function FacilityCategoryForm(props){ 
   const userData = props.extraData;
-  const [spinner, setSpinner] = useState(false)
-  const scheme = useColorScheme();
-  const tripInformation = props.route.params;  
-  console.log("Facility Category Form")
-  console.log(tripInformation.otherParam)
+  const [tripData] = useState(props.tripInfo); 
+  const [spinner, setSpinner] = useState(false) 
+  const tripInformation = props.route.params.otherParam;  
+  console.log(tripInformation)
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -74,23 +73,24 @@ function FacilityCategoryForm(props){
     });
   }, [props.navigation]);
 
-  const [categoryLists,setCategoryLists] = useState([]);
+  const [categoryLists,setCategoryLists] = useState(props.tripInfo === undefined ? [] : tripData.categoryLists);
   const [value, setValue] = useState(null);
   const [category, setCategory] = useState(null);
   const [categoryItem, setCategoryItem] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const [weightItem , setWeight] = useState(null);
+  const [weightItem , setWeight] = useState(props.tripInfo === undefined ? null : tripData.categoryLists[0].weight);
   const [weightVal , setWeightVal] = useState(null);
   const [isFocusWeight, setIsFocusWeight] = useState(false); 
   const [currencyItem , setCurrency] = useState(null);
   const [currencyVal , setCurrencyVal] = useState(null);
   const [isFocusCur, setIsFocusCur ] = useState(false); 
   const [priceVal, onChangePrice] = useState("");
-  const [prohibitedLists,setProLists] = useState([]);
+  const [prohibitedLists,setProLists] = useState(props.tripInfo === undefined ? [] : tripData.prohibitedLists);
   const [prohibitedVal, setprohibitedVal] = useState(null); 
   const [prohibitedName,setprohibitedName] = useState([]);
   const [prohibitedItem, setProhibitedItem] = useState(null);
   const [isPHFocus, setIsPHFocus] = useState(false);
+  const [isEdit] = useState(props.tripInfo === undefined ? false : true);
 
   function addList(){
     setCategoryLists(countryList => [{ 
@@ -116,30 +116,45 @@ function FacilityCategoryForm(props){
       getUuid = generateUuid.replace('-', '');
     }else{ 
       getUuid = generateUuid.replaceAll('-', '');
-    }
-    console.log("getUuid " + getUuid)
-    setSpinner(true)
-    const data = { 
-      tripId : getUuid,
-      facilityId : userData.id,
-      tripInfo : tripInformation.otherParam,
-      categoryLists : categoryLists,
-      prohibitedLists : prohibitedLists,
-      trackingStatus : "Reserved",
-      packageLists: [],
-      timestamp : new Date().toLocaleString('en-US')
     } 
-    const usersRef = firebase.firestore().collection('trips')
-    usersRef
-      .doc(getUuid)
-      .set(data)
+    setSpinner(true)
+    if(isEdit === true){
+      const updateData = {   
+        tripInfo : tripInformation,
+        categoryLists : categoryLists,
+        prohibitedLists : prohibitedLists, 
+        timestamp : new Date().toLocaleString('en-US')
+      }  
+      const updateTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
+      updateTrip
+      .update(updateData)
       .then(() => {
-        props.navigation.navigate('MY TRIP')
-      })
-      .catch((error) => {
+        props.navigation.navigate('MY TRIP');
         setSpinner(false)
-        alert(error)
       });
+    }else{ 
+      const data = { 
+        tripId : getUuid,
+        facilityId : userData.id,
+        tripInfo : tripInformation,
+        categoryLists : categoryLists,
+        prohibitedLists : prohibitedLists,
+        trackingStatus : "reserved",
+        packageLists: [],
+        timestamp : new Date().toLocaleString('en-US')
+      }  
+      const usersRef = firebase.firestore().collection('trips')
+      usersRef
+        .doc(getUuid)
+        .set(data)
+        .then(() => {
+          props.navigation.navigate('MY TRIP')
+        })
+        .catch((error) => {
+          setSpinner(false)
+          alert(error)
+        });
+    }
   } 
 
   return (
@@ -208,11 +223,11 @@ function FacilityCategoryForm(props){
         <View style={styles.addcategory}>
           <View style={styles.category}> 
             <Text style={styles.inputLabel}>Category</Text>
-            <TextInput style={styles.input} defaultValue={category} onChangeText={setCategory} placeholder="Custom Category"/>
+            <TextInput style={styles.input}  value={category} onChangeText={setCategory} placeholderTextColor="#D9D9D9" placeholder="Custom Category"/>
           </View>
           <View style={styles.amount}> 
             <Text style={styles.inputLabel}>Price</Text>
-            <TextInput style={styles.input} placeholder="Amount" onChangeText={onChangePrice}/>
+            <TextInput style={styles.input} placeholderTextColor="#D9D9D9" placeholder="Amount" onChangeText={onChangePrice}/>
           </View>
         </View>
         <View style={styles.dateList}>
@@ -337,7 +352,7 @@ function FacilityCategoryForm(props){
         /> 
         <View style={{ flex: 1 }}> 
           <Text style={styles.inputLabel}>Prohitbited item</Text>
-          <TextInput style={styles.input} defaultValue={prohibitedName} placeholder="Custom Item"/>
+          <TextInput style={styles.input} value={prohibitedItem} placeholderTextColor="#D9D9D9" placeholder="Custom Prohitbited Item"/>
         </View>   
         <TouchableOpacity style={styles.dateList} onPress={addProList} > 
           <FontAwesome style={styles.icon} name="plus-circle" size={23} />
