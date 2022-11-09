@@ -20,7 +20,7 @@ export default StyleSheet.create({
     color: "#185354",
     fontSize: 16,
     fontFamily: "UbuntuBold",
-    padding: 10,
+    paddingVertical: 10,
   },
   text: {
     fontSize: 18,

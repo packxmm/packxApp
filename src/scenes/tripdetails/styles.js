@@ -76,6 +76,7 @@ export default StyleSheet.create({
     fontSize: 12,
     paddingLeft: 5 ,
     fontFamily: 'Ubuntu',
+    lineHeight: 18
   },
   item: {
     flex: 1,

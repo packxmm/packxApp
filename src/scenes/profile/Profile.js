@@ -149,7 +149,6 @@ export default function Profile(props) {
           <TouchableOpacity style={styles.accountLabel} onPress={signOut}>
             <Feather style={styles.icon} name='settings' size={16} />
             <Text style={styles.accountText} >Sign Out</Text>
-            <Icon style={styles.righticon} name='chevron-forward' size={18} />
           </TouchableOpacity>
       </View> 
       <View style={styles.account}> 

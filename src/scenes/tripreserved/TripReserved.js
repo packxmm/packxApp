@@ -158,11 +158,7 @@ export default function TripReserved(props) {
                   <Text style={styles.addlabel}> Add Items</Text> 
                 </TouchableOpacity> 
               </View>
-            )}
-            {/* <View style={styles.itemRow} > 
-              <TextInput style={styles.itemInputLg} value={item} placeholder="Input Your Item Here ...." />
-              <TextInput style={styles.itemInputXs} value={qty} placeholder="Qty" />
-            </View>     */}  
+            )} 
         </View> 
         <View style={{ flexDirection: "column", justifyContent: "center", paddingHorizontal: 20}}>
             <Text style={styles.inputLabel}>Receiver Name</Text>
@@ -201,7 +197,7 @@ export default function TripReserved(props) {
           <Image source={require('../../../assets/images/successPack.png')} style={styles.introImg}/>
           <Text style={styles.title}>Your package</Text>
           <Text style={styles.title}>has been reserved</Text>
-          <Text style={styles.text}>You will receive an amount due upon the confirmation of your package by the facility.</Text>
+          <Text style={styles.text}>You will receive an amount due upon the confirmation of your package by the facility when you drop off your packages at the address of facility.</Text>
           <View>
               <Button title={"Package"}  onPress={() => props.navigation.navigate('PACKAGE')} children={'cubes'} /> 
             </View> 

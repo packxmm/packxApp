@@ -173,11 +173,11 @@ export default function TripDetails({ route, navigation }) {
         </View>
       </View> 
       <View style={styles.tripList}>
-        <View style={{flex: 4}}>
+        <View style={{flex: 4, paddingEnd: 10}}>
           <Text style={styles.locLabel}><Icon style={styles.icon} name='location-sharp' size={14} /> DROP OFF ADDRESSS</Text>
           <Text style={styles.locText}>{tripData.tripInfo.dropOffAddress}</Text> 
         </View>
-        <View style={{flex: 4}}>
+        <View style={{flex: 4, paddingEnd: 10}}>
           <Text style={styles.locLabel}><Icon style={styles.icon} name='location-sharp' size={14} /> PICK UP ADDRESS</Text>
           <Text style={styles.locText}>{tripData.tripInfo.pickUpAddress}</Text> 
         </View>

@@ -17,6 +17,8 @@ export default function Home(props) {
   const [token, setToken] = useState('')
   const [refreshing, setRefreshing] = useState(false);
   const scheme = useColorScheme()
+  const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString("en-US"));
+  const [newDate, setNewDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [spinner, setSpinner] = useState(true);
   
   useEffect(() => {
@@ -110,7 +112,12 @@ export default function Home(props) {
       }).catch((error) => {
           console.log("Error getting document:", error);
       });  
-  }
+  }  
+
+  let markedDay = {};
+  markedDay[newDate] = {
+    selected: true
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -134,11 +141,13 @@ export default function Home(props) {
             </TouchableOpacity>
             <Calendar
               style={styles.facilityCalendar}
-              initialDate={new Date().toLocaleDateString()}
+              initialDate={currentDate}
+              markedDates={markedDay}
               minDate={'2021-12-31'}
               maxDate={'2022-12-31'}
               onDayPress={day => {
-                console.log('selected day', day);
+                setCurrentDate(new Date(day.dateString).toLocaleDateString("en-US"))
+                setNewDate(moment(new Date(day.dateString)).format("YYYY-MM-DD"))
               }}
               onDayLongPress={day => {
                 console.log('selected day', day);
@@ -146,7 +155,8 @@ export default function Home(props) {
               monthFormat={'MMMM yyyy'}
               onMonthChange={month => {
                 console.log('month changed', month);
-              }}hideExtraDays={true}
+              }}
+              hideExtraDays={true}
               disableMonthChange={true}
               firstDay={1}
               onPressArrowLeft={subtractMonth => subtractMonth()}
@@ -155,11 +165,12 @@ export default function Home(props) {
               enableSwipeMonths={true}
             />
             <View>
-            {tripsData.map((trip, index) => (
+
+            {tripsData.filter((data) => new Date(data.tripInfo.dropOffDate).toLocaleDateString("en-US") === currentDate).map((trip, index) => (
               <View key={index}> 
-                <Text style={styles.header}> Trip Activity - {moment(new Date(trip.timestamp)).format("MMM Do YYYY")}</Text>  
+                <Text style={styles.header}> Trip Activity - {moment(new Date(trip.tripInfo.dropOffDate)).format("MMM Do YYYY")}</Text>  
                 <Lists data={trip} key={index}/>
-            </View>
+              </View>
             ))} 
             </View>
         <Spinner
