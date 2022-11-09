@@ -109,7 +109,7 @@ export default function TripReserved(props) {
       const msgData = { 
         id: getUuid,
         user : tripData.facilityId,
-        msg :  "PackX Id "+ tripData.tripId.slice(0,8).toUpperCase() + " has reserved a trip.",
+        msg :  userData.name.toUpperCase() + "has reserved her packages at "+ tripData.tripId.slice(0,8).toUpperCase() + " trip.",
         type : "reserved",
         timestamp : new Date().toLocaleString('en-US')
       }
