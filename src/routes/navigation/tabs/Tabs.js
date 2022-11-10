@@ -42,7 +42,7 @@ const HomeTabs = (props) => {
         console.log("Error getting document:", error);
     }); 
   }, []);  
-  console.log(notiData)
+  
   return (
       <Tab.Navigator
         tabBarOptions={{

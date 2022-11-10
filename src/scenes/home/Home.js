@@ -20,6 +20,10 @@ export default function Home(props) {
   const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString("en-US"));
   const [newDate, setNewDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [spinner, setSpinner] = useState(true);
+  const [markedDays, setMarkedDay] = useState({});
+  const bluedot = {key: 'bluedot', color: 'blue', selectedDotColor: 'blue'};
+  const greendot = {key: 'greendot', color: 'green'};
+  const reddot = {key: 'reddot', color: 'red'};
   
   useEffect(() => {
     getData();
@@ -65,16 +69,42 @@ export default function Home(props) {
       .get().then((querySnapshot) => {
         const dataArr = [];
         const finishedArr = []
+        const arrDate = []
+        let newMarkDate = {}
         querySnapshot.forEach(doc => { 
           const data = doc.data();
           if(data.trackingStatus === "Arrive"){
             finishedArr.push(data);    
           }else{
-            dataArr.push(data);
+            dataArr.push(data); 
+            newMarkDate[moment(new Date(data.tripInfo.dropOffDate)).format("YYYY-MM-DD")] = {
+              date: moment(new Date(data.tripInfo.dropOffDate)).format("YYYY-MM-DD"),
+              dots: [bluedot, greendot]
+            } 
+            arrDate.push(newMarkDate[moment(new Date(data.tripInfo.dropOffDate)).format("YYYY-MM-DD")])
           }
-        })  
+        })   
+
+        console.log(arrDate)
+        const groupByDate = arrDate.reduce((group, value) => {
+          const { date } = value;
+          group[date] = group[date] ?? [];
+          group[date].push(value); 
+          return group;
+        }, {}); 
+
+        let finalDates = {};
+        const dotsArr = [ [bluedot], [bluedot, greendot], [bluedot, greendot, reddot]]
+        Object.entries(groupByDate).map(([key, val] = entry) =>{ 
+          finalDates[key] = {
+            dots : dotsArr[val.length - 1]
+          };
+        });
+
+        setMarkedDay(finalDates) 
         setFinishedTripsData(finishedArr)
         setTripsData(dataArr); 
+
         const packageRef = firebase.firestore().collection('package') 
         packageRef
           .get().then((querySnapshot) => {
@@ -83,7 +113,6 @@ export default function Home(props) {
               let data = doc.data();
               packdataArr.push(data);   
             })  
-            console.log(finishedArr)
             setSpinner(false); 
             let convertTotal = 0; 
             finishedArr.forEach((trip,index) => { 
@@ -114,10 +143,12 @@ export default function Home(props) {
       });  
   }  
 
-  let markedDay = {};
-  markedDay[newDate] = {
-    selected: true
+  let newObj = {};
+  newObj[newDate] = {
+    selected: true,
+    marked: true
   };
+  let markedDay = {...markedDays, ...newObj};  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -141,6 +172,7 @@ export default function Home(props) {
             </TouchableOpacity>
             <Calendar
               style={styles.facilityCalendar}
+              markingType={'multi-dot'}
               initialDate={currentDate}
               markedDates={markedDay}
               minDate={'2021-12-31'}
