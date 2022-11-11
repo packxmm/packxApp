@@ -109,10 +109,11 @@ export default function TripReserved(props) {
       const msgData = { 
         id: getUuid,
         user : tripData.facilityId,
-        msg :  userData.name.toUpperCase() + "has reserved her packages at "+ tripData.tripId.slice(0,8).toUpperCase() + " trip.",
+        msg :  userData.fullName.toUpperCase() + " has reserved her packages at "+ tripData.tripId.slice(0,8).toUpperCase() + " trip.",
         type : "reserved",
         timestamp : new Date().toLocaleString('en-US')
       }
+      console.log(msgData)
       const notiRef = firebase.firestore().collection('notification')
       notiRef
       .doc(getUuid)

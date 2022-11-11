@@ -107,7 +107,7 @@ export default function Booked({route, navigation}) {
     const msgData = { 
       id: getUuid,
       user : userData.id,
-      msg :  "Your reserved package "+ packageData.id.slice(0,8) + " is now confirmed.",
+      msg :  "Your reserved package "+ packageData.id.slice(0,8).toUpperCase() + " is now confirmed.",
       type : "confirmed",
       timestamp : new Date().toLocaleString('en-US')
     }
@@ -182,7 +182,7 @@ export default function Booked({route, navigation}) {
       const msgData = { 
         id: getUuid,
         user : userData.id,
-        msg :  userData.name + "'s package "+ packageData.id.slice(0,8).toUpperCase() + " is now received.",
+        msg : userData.fullName.toUpperCase() + "'s package "+ packageData.id.slice(0,8).toUpperCase() + " is now received.",
         type : "receive",
         timestamp : new Date().toLocaleString('en-US')
       }
@@ -200,6 +200,7 @@ export default function Booked({route, navigation}) {
   const checkOut = () => {  
     setVisible(false) 
     const generateUuid = uuid.v4();
+    const generateFacilityUuid = uuid.v4();
     let getUuid;
     if(Platform.OS === 'android'){ 
       getUuid = generateUuid.replace('-', '');
@@ -214,17 +215,61 @@ export default function Booked({route, navigation}) {
     const msgData = { 
       id: getUuid,
       user : userData.id,
-      msg :  userData.name + "'s package " + packageData.id.slice(0,8).toUpperCase() + " has been picked-up.",
+      msg :  "Your package " + packageData.id.slice(0,8).toUpperCase() + " has been picked-up.",
       type : "checkout",
       timestamp : new Date().toLocaleString('en-US')
     }
+    console.log(msgData)
     const notiRef = firebase.firestore().collection('notification')
     notiRef
     .doc(getUuid)
     .set(msgData)
     .catch((error) => {
       alert(error)
+    });  
+
+    let getUuidFacility;
+    if(Platform.OS === 'android'){ 
+      getUuidFacility = generateFacilityUuid.replace('-', '');
+    }else{ 
+      getUuidFacility = generateFacilityUuid.replaceAll('-', '');
+    } 
+    const msgDataFacility = { 
+      id: getUuidFacility,
+      user : tripData.facilityId,
+      msg :  userData.fullName.toUpperCase() + "'s package " + tripData.tripId.slice(0,8).toUpperCase() + " has been picked-up.",
+      type : "checkout",
+      timestamp : new Date().toLocaleString('en-US')
+    }
+    console.log(msgDataFacility)
+    notiRef
+    .doc(getUuidFacility)
+    .set(msgDataFacility)
+    .catch((error) => {
+      alert(error)
     }); 
+
+    const checkPackageRef = firebase.firestore().collection('package')
+    checkPackageRef
+      .where('tripId', '==', tripData.tripId) 
+      .get().then((querySnapshot) => {
+        const dataArr = [];
+        querySnapshot.forEach(doc => { 
+          const data = doc.data(); 
+          dataArr.push(data.trackingStatus);   
+        })  
+        const allEqual = arr => arr.every( v => v === arr[0] )
+        console.log(allEqual(dataArr))
+        if(allEqual(dataArr) === true){
+          const updateTrip = { 
+            trackingStatus : "Checkout"
+          }  
+          const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
+          getTrip.update(updateTrip)
+        }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      }); 
     navigation.navigate('TripDetails'); 
   }
 

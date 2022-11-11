@@ -107,11 +107,12 @@ export default function TripInfo({ route, navigation }) {
             </View> 
             <View style={{flex: 4}}>
                 <Text style={styles.title}>{facilityInfo.facilityName !== undefined ? facilityInfo.facilityName : facilityInfo.fullName}</Text>  
-                <Text>{facilityInfo.email}</Text>  
-                <TouchableOpacity style={{flexDirection: 'row'}} onPress={ ()=>{ Linking.openURL('viber://contact?number='+facilityInfo.phone+'/')}}> 
+                <Text style={{marginBottom: 8}}>{facilityInfo.email}</Text>  
+                <Text>{facilityInfo.phone}</Text>
+                {/* <TouchableOpacity style={{flexDirection: 'row'}} onPress={ ()=>{ Linking.openURL('viber://contact?number='+facilityInfo.phone+'/')}}> 
                   <Fontisto style={{color: '#169393', marginVertical: 5, marginEnd: 5}} name="viber" size={16} /> 
                   <Text style={styles.link} >{facilityInfo.phone}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <View style={{flexDirection: "column", paddingTop: "2%" }}>
                 <View style={styles.itemCount}>

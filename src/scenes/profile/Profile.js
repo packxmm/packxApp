@@ -15,7 +15,7 @@ export default function Profile(props) {
   const [totalPackages, setPackageTotal] = useState(); 
   const [packagesLists, setPackageLists] = useState(); 
   const [totalTrip, setTripTotal] = useState(); 
-  console.log(props.route)
+  
   const goDetail = () => {
     props.navigation.navigate('Detail', { userData: userData })
   } 

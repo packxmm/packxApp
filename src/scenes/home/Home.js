@@ -94,7 +94,7 @@ export default function Home(props) {
         }, {}); 
 
         let finalDates = {};
-        const dotsArr = [ [bluedot], [bluedot, greendot], [bluedot, greendot, reddot]]
+        const dotsArr = [ [bluedot], [bluedot, greendot], [bluedot, greendot, reddot], [bluedot, greendot, reddot, bluedot]]
         Object.entries(groupByDate).map(([key, val] = entry) =>{ 
           finalDates[key] = {
             dots : dotsArr[val.length - 1]

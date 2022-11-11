@@ -17,6 +17,9 @@ export default StyleSheet.create({
     fontFamily: "UbuntuMedium", 
   },
   icon: {
+    color: "#7C7C7C",
+  }, 
+  greenicon: {
     color: "#185354",
   }, 
   itembox: {
