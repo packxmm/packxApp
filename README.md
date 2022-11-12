@@ -1,6 +1,6 @@
 # React Native Expo with Firebase
 
-- [Expo link](https://expo.io/@votepurchase/reactnative-expo-firebase-boilerplate)
+- [Expo link](git@github.com:packxmm/packxApp.git)
 
 ## Infrastructure
 
@@ -41,8 +41,8 @@
 ### 1. Install
 
 ```
-git clone https://github.com/kiyohken2000/reactnative-expo-firebase-boilerplate.git
-cd reactnative-expo-firebase-boilerplate
+git clone git@github.com:packxmm/packxApp.git
+cd packxApp
 yarn install
 ```
 
