@@ -41,9 +41,6 @@
         "CAMERA"
       ]
     },
-    "plugins": [
-      "@notifee/react-native"
-    ],
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [

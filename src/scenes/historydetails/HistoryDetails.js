@@ -52,17 +52,17 @@ export default function HistoryDetails({ route, navigation }) {
   },[])
   // console.log(userInfo)
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
     <ScrollView>
     <StatusBar barStyle="dark-content" />
-    <View> 
+    <View style={styles.container}> 
       <Text style={styles.header}> E-Receipt </Text> 
         <View style={[styles.item]}>
           <View style={{alignContent: "center"}}>  
             <Icon style={{color: "#085252"}} name={"ios-document-text"} size={20} />
           </View> 
           <View style={{flex: 3, marginLeft: 10}}>
-            <Text style={[styles.title]}>Package ID - {packageData.id.slice(0,8)}</Text>  
+            <Text style={[styles.title]}>Package ID - {packageData.id.slice(0,8).toUpperCase()}</Text>  
           </View>
           <View style={{flexDirection: "row" ,alignContent: "center"}}>
               <Text style={styles.date}>{moment(new Date(packageData.timestamp)).format("MMM Do YYYY")}</Text> 
@@ -70,7 +70,7 @@ export default function HistoryDetails({ route, navigation }) {
         </View>  
         {tripData.filter((data) => data.tripId === packageData.tripId).map((trip,index) => (
           <View style={styles.tripItem} key={index}>
-            <Text style={styles.tripTitle}> TRIP - {trip.tripId.slice(0,8)}</Text>
+            <Text style={styles.tripTitle}> TRIP - {trip.tripId.slice(0,8).toUpperCase()}</Text>
             <View style={styles.tripList}>
               <View style={{flex: 2}}>
                 <Text style={styles.triplabel}>From</Text>
@@ -89,7 +89,7 @@ export default function HistoryDetails({ route, navigation }) {
           </View>
         ))} 
 
-        <View style={{ flex: 2, flexDirection: "column", marginTop: "5%" }}>   
+        <View style={{ flex: 2, flexDirection: "column", marginTop: "5%", marginHorizontal: "2%" }}>   
             <Text style={styles.mainText}>SHIPMENT COST</Text> 
             <View style={styles.itemHeader} > 
               <Text style={[styles.itemTitle, {flex: 4}]}>Item Description</Text>
@@ -111,14 +111,17 @@ export default function HistoryDetails({ route, navigation }) {
               <View style={styles.itemRow}>
                 <Text style={[styles.deslabel, {flex: 1}]}></Text>  
                 <Text style={[styles.deslabel, {flex: 1}]}></Text>  
-                <Text style={[styles.tripname, {flex: 4, textAlign: "right", fontSize: 14}]}> Total Amount </Text>  
-                <Text style={[styles.tripname, {flex: 2, textAlign: "right", fontSize: 14}]}> {packageData.total ? packageData.total : "-" } {currency}</Text>  
+                <Text style={[styles.tripname, {flex: 4, textAlign: "right", fontSize: 13}]}> Total Amount </Text>  
+                <Text style={[styles.tripname, {flex: 2, textAlign: "right", fontSize: 13}]}> {packageData.total ? packageData.total : "-" } {currency}</Text>  
               </View>
         </View> 
         {userInfo !== null && (
           <View style={styles.tripItem}> 
             <Text style={styles.tripTitle}>Sender Information</Text> 
-            <Text style={[styles.userId, {flex: 1}]}>User ID : {userInfo.id.slice(0,8)}</Text> 
+            <View style={{flexDirection: "row", marginVertical: 5}}> 
+            <Text style={[styles.userId, {flex: 1}]}>User ID : </Text> 
+              <Text style={[styles.deslabel, {flex: 3, paddingTop: 5}]}>{userInfo.id.slice(0,8).toUpperCase()}</Text> 
+            </View>
             <View style={{flexDirection: "row", marginVertical: 5}}> 
               <Text style={[styles.deslabel, {flex: 1}]}>Name :</Text> 
               <Text style={[styles.tripname, {flex: 3, paddingTop: 5}]}>{userInfo.fullName}</Text> 

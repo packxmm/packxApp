@@ -224,7 +224,11 @@ export default function TripDetails({ route, navigation }) {
         {tripData.trackingStatus === "On Route" ? (
           <Button title={"Arrive"} children={'plane-arrival'}  onPress={showDialog}/> 
         ): ( 
-          <Button title={"Ship"} children={'plane-departure'}  onPress={showDialog}/> 
+          <>
+          {tripData.trackingStatus !== "Checkout" && (
+            <Button title={"Ship"} children={'plane-departure'}  onPress={showDialog}/> 
+          )}
+          </>
         )}
         </>
       )}

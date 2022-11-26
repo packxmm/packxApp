@@ -50,7 +50,7 @@ export default function Notification(props) {
                   <MaterialCommunityIcons style={styles.greenicon} name="check-circle-outline" size={25} />
                  )}
                  {data.type === "checkout" && ( 
-                   <MaterialCommunityIcons style={styles.greenicon} name="account-box-multiple-outline" size={25} />
+                   <MaterialCommunityIcons style={styles.greenicon} name="archive-check-outline" size={25} />
                   )}
                 </View> 
                 <View style={{flex: 6, justifyContent: "center"}}> 
