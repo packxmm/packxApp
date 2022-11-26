@@ -352,7 +352,7 @@ function FacilityCategoryForm(props){
         /> 
         <View style={{ flex: 1 }}> 
           <Text style={styles.inputLabel}>Prohitbited item</Text>
-          <TextInput style={styles.input} value={prohibitedItem} placeholderTextColor="#D9D9D9" placeholder="Custom Prohitbited Item"/>
+          <TextInput style={styles.input} value={prohibitedName} placeholderTextColor="#D9D9D9" placeholder="Custom Prohitbited Item"/>
         </View>   
         <TouchableOpacity style={styles.dateList} onPress={addProList} > 
           <FontAwesome style={styles.icon} name="plus-circle" size={23} />

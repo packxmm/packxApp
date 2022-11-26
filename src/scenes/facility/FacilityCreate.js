@@ -107,6 +107,7 @@ function FacilityCreateScreen(props){
                     style={styles.datePickerStyle} 
                     date={pickUpDate}
                     mode="date"
+                    minDate={new Date(dropOffDate)} 
                     placeholder="Pick The Date"
                     format="MM/DD/YYYY"
                     confirmBtnText="Confirm"

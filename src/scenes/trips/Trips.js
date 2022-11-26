@@ -5,12 +5,15 @@ import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay' 
 import moment from "moment";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Dialog from "react-native-dialog"; 
 
 export default function Trips(props) {
   const userData = props.extraData  
   const [tripData, setTripData] = useState([]);
   const [spinner, setSpinner] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [delTripId, setTripId] = useState("");
 
   useEffect(() => {  
     firebase.firestore()
@@ -50,6 +53,24 @@ export default function Trips(props) {
       console.error(error);
     }
   }, []);
+
+  const deleteTrip = () => { 
+    try {  
+      firebase.firestore().collection('trips').doc(delTripId).delete().then(() => { 
+        setVisible(false);
+      }); 
+    } catch (error) {
+      console.error(error);
+    } 
+  }
+
+  const handleCancel = () => {
+    setVisible(false)
+  }
+  const showDialog = (tripId) => { 
+    setTripId(tripId)
+    setVisible(true) 
+  }
  
   return ( 
     <SafeAreaView style={styles.container}>
@@ -86,7 +107,7 @@ export default function Trips(props) {
                         <FontAwesome style={styles.icon} name="pencil" size={18} />
                         <Text style={styles.dateText}>Edit</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity style={[styles.editTrip,{marginLeft: 15}]}> 
+                      <TouchableOpacity style={[styles.editTrip,{marginLeft: 15}]} onPress={() => showDialog(item.tripId)}> 
                         <FontAwesome style={styles.icon} name="trash" size={18} />
                         <Text style={styles.dateText}>Delete</Text>
                       </TouchableOpacity>
@@ -106,7 +127,12 @@ export default function Trips(props) {
           visible={spinner}
           textStyle={{ color: "#fff" }}
           overlayColor="rgba(0,0,0,0.5)"
-        /> 
+        />  
+        <Dialog.Container visible={visible}>
+          <Dialog.Title>Are you sure you want to delete Trip?</Dialog.Title> 
+          <Dialog.Button label="Yes" onPress={deleteTrip} /> 
+          <Dialog.Button label="No" onPress={handleCancel} />
+        </Dialog.Container>
       </ScrollView>
     </SafeAreaView>
   )
