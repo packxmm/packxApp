@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
       color: "#185354",
       fontSize: 17, 
       fontFamily: "Ubuntu",
+      textTransform: "capitalize"
     },
     triplabel: {
       fontSize: 12,

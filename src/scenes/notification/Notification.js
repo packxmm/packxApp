@@ -31,7 +31,7 @@ export default function Notification(props) {
       console.error(error);
     }
   }, []);
-  console.log(notiData)
+  
   return ( 
     <SafeAreaView style={styles.container}> 
     <ScrollView>

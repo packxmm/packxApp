@@ -17,10 +17,10 @@ export default StyleSheet.create({
     paddingEnd : "1%", 
   },
   count: { 
-    fontSize: 13,  
+    fontSize: 12,  
     textTransform: 'capitalize',
     fontFamily: "UbuntuMedium", 
-    lineHeight: 28
+    lineHeight: 27
   },
   title: { 
     color: "#185354",

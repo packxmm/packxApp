@@ -12,12 +12,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Detail({ route, navigation }) {
   const [fullName, setFullName] = useState('')
+  const [facilityName, setFacilityName] = useState('')
   const [email, setEmail] = useState('')
   const [phoneNo, setPhone] = useState('')
   const [progress, setProgress] = useState('')
+  const [address, setAddress] = useState('')
   const [avatar, setAvatar] = useState("https://firebasestorage.googleapis.com/v0/b/packx-e600f.appspot.com/o/profileImage%2FphotoFrame.png?alt=media&token=4e8a2851-abbf-4e9e-9ce7-5fc861a95004")
   const userData = route.params.userData
-  const scheme = useColorScheme()
+  
+  console.log(userData)
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -35,6 +38,8 @@ export default function Detail({ route, navigation }) {
     setFullName(userData.fullName)
     setEmail(userData.email)
     setPhone(userData.phone)
+    setAddress(userData.address)
+    setFacilityName(userData.facilityName)
   },[])
 
   const ImageChoiceAndUpload = async () => {
@@ -88,6 +93,8 @@ export default function Detail({ route, navigation }) {
       fullName: fullName,
       avatar: avatar,
       phone: phoneNo,
+      address: address,
+      facilityName: facilityName
     }
     const userRef = firebase.firestore().collection('users').doc(userData.id)
     userRef.update(data)
@@ -122,6 +129,9 @@ export default function Detail({ route, navigation }) {
               value={fullName}
               underlineColorAndroid="transparent"
               autoCapitalize="none"/>
+              <Text style={styles.inputLabel}>Facility Name</Text>
+              <TextInput style={styles.input} value={facilityName} 
+              onChangeText={(text) => setFacilityName(text)}/>
               <Text style={styles.inputLabel}>Email</Text>
               <TextInput style={styles.input}  
               placeholder={email} 
@@ -133,12 +143,8 @@ export default function Detail({ route, navigation }) {
               onChangeText={(text) => setPhone(text)}
               value={phoneNo}
               />
-              <Text style={styles.inputLabel}>Gender</Text>
-              <TextInput style={styles.input}  placeholder="Gender"/>
-              <Text style={styles.inputLabel}>Birth Date</Text>
-              <TextInput style={styles.input}  placeholder="Birth Date"/>
-              <Text style={styles.inputLabel}>Phone Number </Text>
-              <TextInput style={styles.input}  placeholder="+957xxxxxxxx"/>
+              <Text style={styles.inputLabel}>Address </Text>
+              <TextInput style={styles.input} value={address} onChangeText={(text) => setAddress(text)} multiline={true}/>
           </View>
           <Button title={"Save"} onPress={profileUpdate} />
       </KeyboardAwareScrollView>
