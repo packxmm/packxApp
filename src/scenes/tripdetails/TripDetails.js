@@ -219,18 +219,12 @@ export default function TripDetails({ route, navigation }) {
             ))} 
           </View>
       ))} 
-      {tripData.trackingStatus !== "Arrive" && (
-        <>
-        {tripData.trackingStatus === "On Route" ? (
-          <Button title={"Arrive"} children={'plane-arrival'}  onPress={showDialog}/> 
-        ): ( 
-          <>
-          {tripData.trackingStatus !== "Checkout" && (
-            <Button title={"Ship"} children={'plane-departure'}  onPress={showDialog}/> 
-          )}
-          </>
-        )}
-        </>
+
+      {tripData.trackingStatus === "Reserved" && (
+        <Button title={"Ship"} children={'plane-departure'}  onPress={showDialog}/> 
+      )}
+      {tripData.trackingStatus === "On Route" && (
+        <Button title={"Arrive"} children={'plane-arrival'}  onPress={showDialog}/> 
       )}
       <Dialog.Container visible={visible}>
         <Dialog.Title>{dialogTitle}</Dialog.Title>

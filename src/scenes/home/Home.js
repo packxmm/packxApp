@@ -45,7 +45,6 @@ export default function Home(props) {
       .doc(userData.id)
       .get().then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
             const data = doc.data()
             setToken(data)
         } else {
@@ -73,7 +72,7 @@ export default function Home(props) {
         let newMarkDate = {}
         querySnapshot.forEach(doc => { 
           const data = doc.data();
-          if(data.trackingStatus === "Arrive"){
+          if(data.trackingStatus === "Checkout"){
             finishedArr.push(data);    
           }else{
             dataArr.push(data); 
@@ -85,7 +84,6 @@ export default function Home(props) {
           }
         })   
 
-        console.log(arrDate)
         const groupByDate = arrDate.reduce((group, value) => {
           const { date } = value;
           group[date] = group[date] ?? [];

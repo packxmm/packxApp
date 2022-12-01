@@ -38,7 +38,9 @@ export default function AmountDue(props) {
           let data = doc.data();
           dataArr.push(data);   
         })  
-        let finishedTrip = tripData.filter((trip) => trip.trackingStatus === "Arrive");
+        console.log(tripData)
+        let finishedTrip = tripData.filter((trip) => trip.trackingStatus === "Checkout");
+        console.log(finishedTrip)
         let convertTotal = 0;
         finishedTrip.forEach((trip,index) => { 
           let total = 0;
@@ -62,7 +64,8 @@ export default function AmountDue(props) {
               })
               .catch(error => console.log('error', error));
           }else{ 
-            convertTotal += total;
+            convertTotal += total
+            finishedTrip[index].convAmount = total;
             setTotalAmount(convertTotal)
             setSpinner(false); 
           }
@@ -81,7 +84,7 @@ export default function AmountDue(props) {
           <Text style={styles.title}> FINISHED TRIPS </Text>
           <Text style={styles.title}> REVENUE </Text>
         </View> 
-        {tripData.filter((data) => data.trackingStatus === "Arrive").map((trip, index) => (
+        {tripData.filter((data) => data.trackingStatus === "Checkout").map((trip, index) => (
             // <Lists data={trip} key={index} showStatus={false}/> 
             <View style={styles.item} key={index}>
               <Text style={styles.title}>TRIP - {trip.tripId.slice(0,8)}</Text>

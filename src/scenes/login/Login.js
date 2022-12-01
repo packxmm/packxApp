@@ -61,7 +61,7 @@ export default function Login({route, navigation}) {
     <View style={[styles.container]}>
     <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
       <KeyboardAwareScrollView
-        style={{ flex: 1, width: '90%' }}
+        style={{ flex: 1, width: '100%' }}
         keyboardShouldPersistTaps="always"> 
       <View style={styles.logo}>
         <Image source={require('../../../assets/images/PackXLogo.png')}/>

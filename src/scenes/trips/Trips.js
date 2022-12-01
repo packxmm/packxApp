@@ -81,7 +81,7 @@ export default function Trips(props) {
           <Text style={styles.text}> TRIP LIST  </Text>
         </View>
         <View style={styles.itemLists}>
-        {tripData.filter((data) => data.trackingStatus !== "Checkout").map((item , index) => (
+        {tripData.filter((data) => data.trackingStatus !== "Done").map((item , index) => (
             <TouchableOpacity style={styles.item} key={index} onPress={() => props.navigation.navigate('TripDetails', { tripInfo: item, user: userData })}> 
               <View style={styles.tripHeader}> 
                 <Text style={styles.title}>TRIP - <Text style={styles.numberText}>{item.tripId.slice(0,8).toUpperCase()} | </Text></Text>
