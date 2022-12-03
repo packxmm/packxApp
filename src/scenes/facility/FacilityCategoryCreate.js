@@ -8,7 +8,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button'
-import Spinner from 'react-native-loading-spinner-overlay'
+import Spinner from 'react-native-loading-spinner-overlay' 
+import Dialog from "react-native-dialog"
 import { View, Text, TextInput, TouchableOpacity, Platform,ScrollView , StatusBar, useColorScheme, SafeAreaView} from 'react-native';
 
 const data = [
@@ -59,7 +60,8 @@ const currency = [
 function FacilityCategoryForm(props){ 
   const userData = props.extraData;
   const [tripData] = useState(props.tripInfo); 
-  const [spinner, setSpinner] = useState(false) 
+  const [spinner, setSpinner] = useState(false);
+  const [visible, setVisible] = useState(false);
   const tripInformation = props.route.params.otherParam;   
 
   React.useLayoutEffect(() => {
@@ -88,18 +90,35 @@ function FacilityCategoryForm(props){
   const [prohibitedLists,setProLists] = useState(props.tripInfo === undefined ? [] : tripData.prohibitedLists);
   const [prohibitedVal, setprohibitedVal] = useState(null); 
   const [prohibitedName,setprohibitedName] = useState([]);
-  const [prohibitedItem, setProhibitedItem] = useState(null);
+  const [prohibitedItem, setProhibitedItem] = useState(null); 
+  const [dialogTitle, setdialogTitle] = useState('');
   const [isPHFocus, setIsPHFocus] = useState(false);
   const [isEdit] = useState(props.tripInfo === undefined ? false : true);
 
   function addList(){ 
-    setCategoryLists(categoryList => [{ 
-      category: category,
-      item : categoryItem,
-      weight: weightVal,
-      price: priceVal,
-      currency: currencyVal  
-    },...categoryList]);
+    if(weightVal === null){
+      showDialog();
+      setdialogTitle("Please add the weight for your category!")
+    }else if(currencyVal === null){
+      showDialog();
+      setdialogTitle("Please add the currency for your category!") 
+    }else{ 
+      setCategoryLists(categoryList => [{ 
+        category: category,
+        item : categoryItem,
+        weight: weightVal,
+        price: priceVal,
+        currency: currencyVal  
+      },...categoryList]);
+    }
+  }
+
+  const handleCancel = () => {
+    setVisible(false)
+  }
+
+  const showDialog = () => { 
+    setVisible(true) 
   }
 
   function removeCategory(data){
@@ -389,6 +408,10 @@ function FacilityCategoryForm(props){
       />
     </View>
     </ScrollView>
+    <Dialog.Container visible={visible}>
+        <Dialog.Title>{dialogTitle}</Dialog.Title> 
+        <Dialog.Button label="Ok" onPress={handleCancel} />
+    </Dialog.Container>
     </SafeAreaView>
   );
 };
