@@ -101,7 +101,7 @@ export default function Booked({route, navigation}) {
     const updatePackages = { 
       trackingStatus : "confirmed"
     } 
-    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    const getPackages = firebase.firestore().collection('packages').doc(packageData.id);
     getPackages.update(updatePackages);
 
     const msgData = { 
@@ -127,7 +127,7 @@ export default function Booked({route, navigation}) {
     const updatePackages = { 
       status : !isEnabled === true ? "Paid" : "Unpaid"
     }
-    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    const getPackages = firebase.firestore().collection('packages').doc(packageData.id);
     getPackages.update(updatePackages);
   };
 
@@ -151,7 +151,7 @@ export default function Booked({route, navigation}) {
     const updatePackages = {  
       items : remainItem
     } 
-    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    const getPackages = firebase.firestore().collection('packages').doc(packageData.id);
     getPackages.update(updatePackages);
   }
 
@@ -175,7 +175,7 @@ export default function Booked({route, navigation}) {
         trackingStatus : "received"
       } 
       
-      const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+      const getPackages = firebase.firestore().collection('packages').doc(packageData.id);
       getPackages.update(updatePackages);
       navigation.navigate('TripDetails');
   
@@ -210,7 +210,7 @@ export default function Booked({route, navigation}) {
     const updatePackages = { 
       trackingStatus : "Checkout"
     } 
-    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    const getPackages = firebase.firestore().collection('packages').doc(packageData.id);
     getPackages.update(updatePackages);
     const msgData = { 
       id: getUuid,
@@ -249,7 +249,7 @@ export default function Booked({route, navigation}) {
       alert(error)
     }); 
 
-    const checkPackageRef = firebase.firestore().collection('package')
+    const checkPackageRef = firebase.firestore().collection('packages')
     checkPackageRef
       .where('tripId', '==', tripData.tripId) 
       .get().then((querySnapshot) => {
@@ -284,7 +284,7 @@ export default function Booked({route, navigation}) {
     const updatePackages = { 
       trackingStatus : "refused"
     } 
-    const getPackages = firebase.firestore().collection('package').doc(packageData.id);
+    const getPackages = firebase.firestore().collection('packages').doc(packageData.id);
     getPackages.update(updatePackages);
     navigation.navigate('TripDetails');
 

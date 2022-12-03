@@ -38,7 +38,7 @@ export default function History({ route, navigation }) {
 
   const getData = () => { 
     setSpinner(true); 
-    const packageRef = firebase.firestore().collection('package')
+    const packageRef = firebase.firestore().collection('packages')
     const tripRef = firebase.firestore().collection('trips')
     tripRef
       .get().then((querySnapshot) => {

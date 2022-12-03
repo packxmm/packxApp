@@ -86,7 +86,7 @@ export default function TripReserved(props) {
       status: "Unpaid",
       timestamp : new Date().toLocaleString('en-US')
     } 
-    const packageRef = firebase.firestore().collection('package');
+    const packageRef = firebase.firestore().collection('packages');
     packageRef
       .doc(getUuid)
       .set(data)

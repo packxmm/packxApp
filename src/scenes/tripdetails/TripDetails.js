@@ -33,7 +33,7 @@ export default function TripDetails({ route, navigation }) {
     
   useEffect(() => {    
     setSpinner(true);  
-      const packageRef = firebase.firestore().collection('package')
+      const packageRef = firebase.firestore().collection('packages')
       const usersRef = firebase.firestore().collection('users')
       usersRef 
         .get()
@@ -69,7 +69,7 @@ export default function TripDetails({ route, navigation }) {
 
     const onRefresh = React.useCallback(() => {
       setRefreshing(true); 
-      const packageRef = firebase.firestore().collection('package')
+      const packageRef = firebase.firestore().collection('packages')
       packageRef
         .where('tripId', '==', tripData.tripId) 
         .get().then((querySnapshot) => {
@@ -111,7 +111,7 @@ export default function TripDetails({ route, navigation }) {
     const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
     getTrip.update(updateTrip).then(() => {
       tripData.packageLists.forEach(packageId => { 
-        const getPackages = firebase.firestore().collection('package').doc(packageId);
+        const getPackages = firebase.firestore().collection('packages').doc(packageId);
         getPackages.update(updateTrip);
       }) 
       setTimeout(function(){
@@ -134,7 +134,7 @@ export default function TripDetails({ route, navigation }) {
     getTrip.update(updateTrip).then(() => {
       tripData.packageLists.forEach(packageId => { 
         console.log(packageId)
-        const getPackages = firebase.firestore().collection('package').doc(packageId);
+        const getPackages = firebase.firestore().collection('packages').doc(packageId);
         getPackages.update(updateTrip);
       })  
       setTimeout(function(){

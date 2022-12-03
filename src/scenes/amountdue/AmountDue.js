@@ -30,7 +30,7 @@ export default function AmountDue(props) {
        }
     };
 
-    const packageRef = firebase.firestore().collection('package') 
+    const packageRef = firebase.firestore().collection('packages') 
     packageRef
       .get().then((querySnapshot) => {
         const dataArr = [];

@@ -18,7 +18,7 @@ export default function Package(props) {
   useEffect(() => {   
     setSpinner(true);
     firebase.firestore()
-      .collection('package') 
+      .collection('packages') 
       .where('userId', '==', userData.id) 
       .get().then((querySnapshot) => {
         const dataArr = [];
@@ -37,7 +37,7 @@ export default function Package(props) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true); 
     firebase.firestore()
-      .collection('package') 
+      .collection('packages') 
       .where('userId', '==', userData.id) 
       .get().then((querySnapshot) => {
         const dataArr = [];

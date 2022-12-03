@@ -44,7 +44,7 @@ export default function Profile(props) {
 
 
     firebase.firestore()
-      .collection('package') 
+      .collection('packages') 
       .where('userId', '==', userData.id) 
       .get().then((querySnapshot) => {
         const dataArr = [];

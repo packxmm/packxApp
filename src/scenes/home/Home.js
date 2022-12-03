@@ -103,7 +103,7 @@ export default function Home(props) {
         setFinishedTripsData(finishedArr)
         setTripsData(dataArr); 
 
-        const packageRef = firebase.firestore().collection('package') 
+        const packageRef = firebase.firestore().collection('packages') 
         packageRef
           .get().then((querySnapshot) => {
             const packdataArr = [];
