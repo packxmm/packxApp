@@ -96,6 +96,20 @@ export default function Detail({ route, navigation }) {
       address: address,
       facilityName: facilityName
     }
+    const facilityRef = firebase.firestore().collection('users').doc(userData.id)
+    facilityRef.update(data)
+    navigation.goBack()
+  }
+
+  const userprofileUpdate = () => {
+    const data = {
+      id: userData.id,
+      email: userData.email,
+      fullName: fullName,
+      avatar: avatar,
+      phone: phoneNo,
+      address: address
+    }
     const userRef = firebase.firestore().collection('users').doc(userData.id)
     userRef.update(data)
     navigation.goBack()
@@ -146,7 +160,11 @@ export default function Detail({ route, navigation }) {
               <Text style={styles.inputLabel}>Address </Text>
               <TextInput style={styles.input} value={address} onChangeText={(text) => setAddress(text)} multiline={true}/>
           </View>
-          <Button title={"Save"} onPress={profileUpdate} />
+            { userData.type === "facility" ? ( 
+                <Button title={"Save"} onPress={profileUpdate} />
+              ) : (  
+                <Button title={"Save"} onPress={userprofileUpdate} />
+            )}
       </KeyboardAwareScrollView>
       </ScrollView> 
     </SafeAreaView>
