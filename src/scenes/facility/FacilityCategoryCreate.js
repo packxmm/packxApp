@@ -28,7 +28,8 @@ const prohibitedData = [
   { category: 'Explosive stuffs', value: '3' , itemname:'bahai'},
   { category: 'Cash or Money', value: '4' , itemname:'money-bill-alt'},
   { category: 'Classified Documents', value: '5' , itemname:'folder-minus'},
-  { category: 'Alcholic Beverages', value: '6' , itemname:'glass-cheers'} 
+  { category: 'Alcholic Beverages', value: '6' , itemname:'glass-cheers'},
+  { category: 'Custom Prohibited Item', value: '7' , itemname:'ban'},
 ];
 
 const weight = [
@@ -59,8 +60,7 @@ function FacilityCategoryForm(props){
   const userData = props.extraData;
   const [tripData] = useState(props.tripInfo); 
   const [spinner, setSpinner] = useState(false) 
-  const tripInformation = props.route.params.otherParam;  
-  console.log(tripInformation)
+  const tripInformation = props.route.params.otherParam;   
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -92,14 +92,21 @@ function FacilityCategoryForm(props){
   const [isPHFocus, setIsPHFocus] = useState(false);
   const [isEdit] = useState(props.tripInfo === undefined ? false : true);
 
-  function addList(){
-    setCategoryLists(countryList => [{ 
+  function addList(){ 
+    setCategoryLists(categoryList => [{ 
       category: category,
       item : categoryItem,
       weight: weightVal,
       price: priceVal,
       currency: currencyVal  
-    },...countryList]);
+    },...categoryList]);
+  }
+
+  function removeCategory(data){
+    const remainItem = categoryLists.filter(item => {
+      return item.category !== data.category 
+    }) 
+    setCategoryLists(remainItem);
   }
     
   function addProList(){
@@ -107,6 +114,13 @@ function FacilityCategoryForm(props){
       category: prohibitedName,
       item : prohibitedItem, 
     },...proLists]);
+  }
+
+  function removeProhabited(data){
+    const leftItem = prohibitedLists.filter(item => {
+      return item.category !== data.category 
+    }) 
+    setProLists(leftItem);
   }
  
   function goToTrips(){ 
@@ -175,7 +189,12 @@ function FacilityCategoryForm(props){
                 {categoryLists.map((data, index ) => (
                   <View style={styles.itembox} key={index}>
                     <Text style={styles.itemlabel}> <FontAwesome5 style={styles.item} name={data.item} size={16} />  {data.category}</Text> 
-                    <Text style={styles.itemlabel}>{data.price} {data.currency} / {data.weight}</Text>  
+                    <View style={{flexDirection: "row"}}>
+                      <Text style={styles.itemlabel}>{data.price} {data.currency} / {data.weight} </Text>
+                      <TouchableOpacity onPress={() => removeCategory(data)}> 
+                        <FontAwesome5 style={[styles.item,{paddingLeft: 5}]} name={"minus"} size={16}/>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                  ))}
             </ScrollView>  
@@ -199,7 +218,7 @@ function FacilityCategoryForm(props){
             onBlur={() => setIsFocus(false)}
             onChange={item => {
               setValue(item.value);
-              setCategory(item.category)
+              setCategory(item.category !== "Custom Category" ? item.category : "")
               setCategoryItem(item.itemname)
               setIsFocus(false);
             }}
@@ -306,6 +325,9 @@ function FacilityCategoryForm(props){
                 {prohibitedLists.map((data , index) => (
                   <View style={styles.itembox} key={index}>
                     <Text style={styles.itemlabel}> <FontAwesome5 style={styles.item} name={data.item} size={16} />  {data.category}</Text>  
+                    <TouchableOpacity onPress={() => removeProhabited(data)}> 
+                      <FontAwesome5 style={[styles.item,{paddingLeft: 5}]} name={"minus"} size={16}/>
+                    </TouchableOpacity>
                   </View>
                  ))}
             </ScrollView>  
@@ -329,7 +351,7 @@ function FacilityCategoryForm(props){
             onBlur={() => setIsPHFocus(false)}
             onChange={item => {
               setprohibitedVal(item.value);
-              setprohibitedName(item.category)
+              setprohibitedName(item.category !== "Custom Prohibited Item" ? item.category : "")
               setProhibitedItem(item.itemname)
               setIsPHFocus(false);
             }}
@@ -352,7 +374,7 @@ function FacilityCategoryForm(props){
         /> 
         <View style={{ flex: 1 }}> 
           <Text style={styles.inputLabel}>Prohitbited item</Text>
-          <TextInput style={styles.input} value={prohibitedName} placeholderTextColor="#D9D9D9" placeholder="Custom Prohitbited Item"/>
+          <TextInput style={styles.input} value={prohibitedName} onChangeText={setprohibitedName} placeholderTextColor="#D9D9D9" placeholder="Custom Prohitbited Item"/>
         </View>   
         <TouchableOpacity style={styles.dateList} onPress={addProList} > 
           <FontAwesome style={styles.icon} name="plus-circle" size={23} />
