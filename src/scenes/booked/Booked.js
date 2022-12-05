@@ -134,7 +134,7 @@ export default function Booked({route, navigation}) {
   const showDialog = () => { 
     setVisible(true) 
     setShowInput(false)
-    {tripData.trackingStatus === "Arrive" ? (
+    {tripData.trackingStatus === "arrive" ? (
       setdialogTitle("The package has been picked up!") 
     ): (
       setdialogTitle("Are you sure to refuse the trip reservation?")
@@ -208,7 +208,7 @@ export default function Booked({route, navigation}) {
       getUuid = generateUuid.replaceAll('-', '');
     } 
     const updatePackages = { 
-      trackingStatus : "Checkout"
+      trackingStatus : "checkout"
     } 
     const getPackages = firebase.firestore().collection('packages').doc(packageData.id);
     getPackages.update(updatePackages);
@@ -262,7 +262,7 @@ export default function Booked({route, navigation}) {
         console.log(allEqual(dataArr))
         if(allEqual(dataArr) === true){
           const updateTrip = { 
-            trackingStatus : "Checkout"
+            trackingStatus : "checkout"
           }  
           const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
           getTrip.update(updateTrip)
@@ -428,7 +428,7 @@ export default function Booked({route, navigation}) {
         </View>     
       </KeyboardAvoidingView> 
 
-      {tripData.trackingStatus === "Arrive" && (
+      {tripData.trackingStatus === "arrive" && (
           <View  style={{marginBottom: "5%"}}>
             <Button title={"Check Out"} children={'caret-square-right'} onPress={showDialog}/> 
           </View> 
@@ -464,7 +464,7 @@ export default function Booked({route, navigation}) {
         </Dialog.Container>
       ): (
         <> 
-          {tripData.trackingStatus === "Arrive" ? ( 
+          {tripData.trackingStatus === "arrive" ? ( 
             <Dialog.Container visible={visible}>
                 <Dialog.Title>{dialogTitle}</Dialog.Title> 
                 <Dialog.Button label="Ok" onPress={checkOut} />

@@ -24,7 +24,7 @@ export default function UserHome(props) {
     setSpinner(true);
     firebase.firestore()
     .collection('trips') 
-    .where('trackingStatus', '!=', "Arrive") 
+    .where('trackingStatus', '!=', "arrive") 
     .get() 
     .then((querySnapshot) => {
       const dataArr = [];

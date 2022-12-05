@@ -105,13 +105,13 @@ export default function Package(props) {
                           <Text style={[styles.statusText, {color: "#ffffff"}]}> On Route </Text> 
                         </View> 
                       )}
-                      {item.trackingStatus === "Arrive" && ( 
+                      {item.trackingStatus === "arrive" && ( 
                        <View style={[styles.statusBtn ,styles.arrive]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText, {color: "#ffffff"}]}> Arrive</Text> 
                         </View> 
                       )}
-                      {item.trackingStatus === "Checkout" && ( 
+                      {item.trackingStatus === "checkout" && ( 
                        <View style={[styles.statusBtn ,styles.arrive]}> 
                         <Image source={require('../../../assets/images/tracking.png')} style={{ marginTop: "3%"  }}/> 
                           <Text style={[styles.statusText, {color: "#ffffff"}]}> Check Out</Text> 

@@ -39,7 +39,7 @@ export default function AmountDue(props) {
           dataArr.push(data);   
         })  
         console.log(tripData)
-        let finishedTrip = tripData.filter((trip) => trip.trackingStatus === "Checkout");
+        let finishedTrip = tripData.filter((trip) => trip.trackingStatus === "checkout");
         console.log(finishedTrip)
         let convertTotal = 0;
         finishedTrip.forEach((trip,index) => { 
@@ -84,7 +84,7 @@ export default function AmountDue(props) {
           <Text style={styles.title}> FINISHED TRIPS </Text>
           <Text style={styles.title}> REVENUE </Text>
         </View> 
-        {tripData.filter((data) => data.trackingStatus === "Checkout").map((trip, index) => (
+        {tripData.filter((data) => data.trackingStatus === "checkout").map((trip, index) => (
             // <Lists data={trip} key={index} showStatus={false}/> 
             <View style={styles.item} key={index}>
               <Text style={styles.title}>TRIP - {trip.tripId.slice(0,8)}</Text>

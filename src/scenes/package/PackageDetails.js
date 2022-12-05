@@ -208,7 +208,7 @@ export default function PackageDetails({ route, navigation }) {
                 <Image source={require('../../../assets/images/Line.png')} style={{ width: 2,resizeMode: 'center', height: 28, marginLeft: 23}}/> 
               </View>
               <View style={{ flex: 4}}> 
-                  {packageData.trackingStatus === "Arrive" ? (
+                  {packageData.trackingStatus === "arrive" ? (
                     <Text style={styles.statusTitle}>Package has arrived at destination facility</Text>
                   ) : (
                     <Text style={styles.itemlabel}>Package has arrived at destination facility</Text> 
@@ -220,7 +220,7 @@ export default function PackageDetails({ route, navigation }) {
                 <Image source={require('../../../assets/images/package-pickup.png')} style={{ marginLeft: 10}}/> 
               </View>
               <View style={{ flex: 4}}> 
-                  {packageData.trackingStatus === "Checkout" ? (
+                  {packageData.trackingStatus === "checkout" ? (
                     <Text style={styles.statusTitle}>Package has been picked up</Text>
                   ) : (
                     <Text style={styles.itemlabel}>Package has been picked up</Text> 

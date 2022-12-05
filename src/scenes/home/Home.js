@@ -72,7 +72,7 @@ export default function Home(props) {
         let newMarkDate = {}
         querySnapshot.forEach(doc => { 
           const data = doc.data();
-          if(data.trackingStatus === "Checkout"){
+          if(data.trackingStatus === "checkout"){
             finishedArr.push(data);    
           }else{
             dataArr.push(data); 

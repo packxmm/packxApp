@@ -52,7 +52,7 @@ export default function History({ route, navigation }) {
           console.log("Error getting document:", error);
       });   
       packageRef
-      .where('trackingStatus', '==', "Checkout") 
+      .where('trackingStatus', '==', "checkout") 
       .get().then((querySnapshot) => {
         const packDataArr = [];
         querySnapshot.forEach(doc => { 

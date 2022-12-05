@@ -30,7 +30,8 @@ export default function TripDetails({ route, navigation }) {
       )
     });
   }, [navigation]);
-    
+  
+
   useEffect(() => {    
     setSpinner(true);  
       const packageRef = firebase.firestore().collection('packages')
@@ -96,7 +97,9 @@ export default function TripDetails({ route, navigation }) {
     ): ( 
       setdialogTitle("All packages must be packed and ready to be shipped off ")
     )}
-  }
+  } 
+
+  console.log(tripData)
   
   const handleCancel = () => {
     setVisible(false)
@@ -128,7 +131,7 @@ export default function TripDetails({ route, navigation }) {
     setVisible(false)
     setSpinner(true);  
     const updateTrip = { 
-      trackingStatus : "Arrive"
+      trackingStatus : "arrive"
     }  
     const getTrip = firebase.firestore().collection('trips').doc(tripData.tripId);
     getTrip.update(updateTrip).then(() => {
@@ -140,7 +143,7 @@ export default function TripDetails({ route, navigation }) {
       setTimeout(function(){
         setTripData(prevState => ({
             ...prevState,
-            trackingStatus : "Arrive",
+            trackingStatus : "arrive",
         }))
         setSpinner(false);
       }, 1000)
@@ -219,8 +222,7 @@ export default function TripDetails({ route, navigation }) {
             ))} 
           </View>
       ))} 
-
-      {tripData.trackingStatus === "Reserved" && (
+      {tripData.trackingStatus === "reserved" && (
         <Button title={"Ship"} children={'plane-departure'}  onPress={showDialog}/> 
       )}
       {tripData.trackingStatus === "On Route" && (
