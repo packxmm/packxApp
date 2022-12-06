@@ -6,6 +6,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import moment from "moment";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Dialog from "react-native-dialog"; 
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Trips(props) {
   const userData = props.extraData  
@@ -15,21 +16,14 @@ export default function Trips(props) {
   const [visible, setVisible] = useState(false);
   const [delTripId, setTripId] = useState("");
 
-  React.useEffect(() => {
-    getData(); 
-    const reloadPage = props.navigation.addListener('focus', () => {
-      getData();  
-    }); 
-    return reloadPage;
-}, []);
+  useFocusEffect(
+    React.useCallback(() => { 
+      getData();
+    }, [])
+  );
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    try {  
-      getData();  
-    } catch (error) {
-      console.error(error);
-    }
+  React.useEffect(() => {
+     getData();  
   }, []);
 
   const getData = () => {  
@@ -71,7 +65,7 @@ export default function Trips(props) {
  
   return ( 
     <SafeAreaView style={styles.container}>
-    <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}> 
+    <ScrollView style={styles.scrollView}> 
     <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
         <View style={styles.header}>
           <Text style={styles.mainText}> My Trips </Text>

@@ -7,6 +7,7 @@ export default StyleSheet.create({
   },
   scrollView:{
     marginHorizontal: "3%",
+    paddingBottom: "10%"
   },
   input: { 
     fontFamily: 'Ubuntu',

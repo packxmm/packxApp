@@ -6,16 +6,26 @@ import { firebase } from '../../firebase/config'
 import Spinner from 'react-native-loading-spinner-overlay'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from "moment";
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Package(props) {
   const userData = props.extraData
   const scheme = useColorScheme()
   const [spinner, setSpinner] = useState(false); 
   const [packageData, setPackageData] = useState([]) 
-  const [tripData, setTripData] = useState([]) 
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [tripData, setTripData] = useState([])  
+
+  useFocusEffect(
+    React.useCallback(() => { 
+      getPackageData();
+    }, [])
+  );
 
   useEffect(() => {   
+    getPackageData(); 
+  }, []);
+
+  const getPackageData = () => {
     setSpinner(true);
     firebase.firestore()
       .collection('packages') 
@@ -32,25 +42,7 @@ export default function Package(props) {
     }).catch((error) => {
         console.log("Error getting document:", error);
     });  
-  }, []);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true); 
-    firebase.firestore()
-      .collection('packages') 
-      .where('userId', '==', userData.id) 
-      .get().then((querySnapshot) => {
-        const dataArr = [];
-        querySnapshot.forEach(doc => { 
-          const data = doc.data();
-          dataArr.push(data);   
-        })  
-        setPackageData(dataArr); 
-        setRefreshing(false);
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
-  }, []);
+  }
 
   const getData = async () => {
     try {
@@ -65,7 +57,7 @@ export default function Package(props) {
   // console.log(packageData);
   return (   
     <SafeAreaView style={styles.container}>
-    <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}> 
+    <ScrollView style={styles.scrollView}> 
     <StatusBar animated={true} backgroundColor="#FAFAFA" barStyle="dark-content"/>
         <View style={styles.header}>
           <Text style={styles.mainText}> My Package </Text> 

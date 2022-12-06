@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   header: { 
     flexDirection: 'column',
-    paddingBottom: 10
+    paddingVertical: 10
   },
   mainText: {
     fontSize: 25,

@@ -136,10 +136,8 @@ export default function Detail({ route, navigation }) {
             <Text>{progress}</Text> 
           </View> 
           <View style={{flex: 8}}>
-              <Text style={styles.inputLabel}>First Name</Text>
-              <TextInput style={styles.input}  
-              placeholder={fullName}
-              onChangeText={(text) => setFullName(text)}
+              <Text style={styles.inputLabel}>Full Name</Text>
+              <TextInput style={styles.input} placeholder={fullName} onChangeText={(text) => setFullName(text)}
               value={fullName}
               underlineColorAndroid="transparent"
               autoCapitalize="none"/>

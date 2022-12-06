@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View,SafeAreaView, Text, Image , StatusBar, TouchableOpacity, ScrollView, TextInput, useColorScheme, RefreshControl } from 'react-native'; 
@@ -16,12 +16,14 @@ export default function UserHome(props) {
   const [refreshing, setRefreshing] = useState(false);
   const [searchData, setsearchResult] = useState([]) 
 
+  useFocusEffect(
+    React.useCallback(() => { 
+      getData();
+    }, [])
+  );
+
   useEffect(() => {  
     getData();
-    const reloadPage = props.navigation.addListener('focus', () => {
-      getData();  
-    }); 
-    return reloadPage;
   }, []);
 
   const getData = () => { 

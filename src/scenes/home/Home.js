@@ -16,8 +16,7 @@ export default function Home(props) {
   const [finishedtripsData, setFinishedTripsData] = useState([]);  
   const [totalAmount, setTotalAmount] = useState(0.00);
   const [token, setToken] = useState('')
-  const [refreshing, setRefreshing] = useState(false);
-  const scheme = useColorScheme()
+  const [refreshing, setRefreshing] = useState(false); 
   const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString("en-US"));
   const [newDate, setNewDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [spinner, setSpinner] = useState(true);
