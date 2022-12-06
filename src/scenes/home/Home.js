@@ -7,6 +7,7 @@ import { Calendar } from 'react-native-calendars';
 import Lists from '../../components/Lists'
 import Spinner from 'react-native-loading-spinner-overlay' 
 import moment from "moment";
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Home(props) {
   // console.log(props.route)
@@ -24,9 +25,19 @@ export default function Home(props) {
   const bluedot = {key: 'bluedot', color: 'blue', selectedDotColor: 'blue'};
   const greendot = {key: 'greendot', color: 'green'};
   const reddot = {key: 'reddot', color: 'red'};
+
+  useFocusEffect(
+    React.useCallback(() => { 
+      getData(); 
+    }, [])
+  );
   
   useEffect(() => {
     getData();
+    const reloadPage = props.navigation.addListener('focus', () => {
+      getData();  
+    }); 
+    return reloadPage;
   }, []);
   
   const onRefresh = React.useCallback(() => {

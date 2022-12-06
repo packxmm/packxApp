@@ -15,44 +15,41 @@ export default function Trips(props) {
   const [visible, setVisible] = useState(false);
   const [delTripId, setTripId] = useState("");
 
-  useEffect(() => {  
-    firebase.firestore()
-      .collection('trips') 
-      .where('facilityId', '==', userData.id) 
-      .get().then((querySnapshot) => {
-        const dataArr = [];
-        querySnapshot.forEach(doc => { 
-          const data = doc.data();
-          dataArr.push(data);   
-        })  
-        setTripData(dataArr); 
-        setSpinner(false);
-      }).catch((error) => {
-          console.log("Error getting document:", error);
-      });  
-  }, []);
+  React.useEffect(() => {
+    getData(); 
+    const reloadPage = props.navigation.addListener('focus', () => {
+      getData();  
+    }); 
+    return reloadPage;
+}, []);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     try {  
-      firebase.firestore()
-      .collection('trips') 
-      .where('facilityId', '==', userData.id)   
-      .get().then((querySnapshot) => {
-        const dataArr = [];
-        querySnapshot.forEach(doc => { 
-          const data = doc.data();
-          dataArr.push(data);   
-        })  
-        setTripData(dataArr); 
-        setRefreshing(false);
-      }).catch((error) => {
-          console.log("Error getting document:", error);
-      });  
+      getData();  
     } catch (error) {
       console.error(error);
     }
   }, []);
+
+  const getData = () => {  
+    setSpinner(true);
+    firebase.firestore()
+    .collection('trips') 
+    .where('facilityId', '==', userData.id)   
+    .get().then((querySnapshot) => {
+      const dataArr = [];
+      querySnapshot.forEach(doc => { 
+        const data = doc.data();
+        dataArr.push(data);   
+      })  
+      setTripData(dataArr); 
+      setRefreshing(false);
+      setSpinner(false);
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });  
+  }
 
   const deleteTrip = () => { 
     try {  

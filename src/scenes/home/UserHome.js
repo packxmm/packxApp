@@ -18,6 +18,10 @@ export default function UserHome(props) {
 
   useEffect(() => {  
     getData();
+    const reloadPage = props.navigation.addListener('focus', () => {
+      getData();  
+    }); 
+    return reloadPage;
   }, []);
 
   const getData = () => { 
